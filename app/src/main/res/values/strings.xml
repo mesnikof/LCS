@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">LCS</string>
+    <string name="main_page_label">LCS - Main Page</string>
+    <string name="login_page_label">LCS - Login Page</string>
+    <string name="admin_page_label">LCS - Admin Page</string>
+
+    <string name="hello_world">Hello World!</string>
+    <string name="login_world">Hello Login...</string>
+    <string name="admin_world">Hello Admin...</string>
+    <string name="main_world">Hello Main...</string>
+
+    <string name="username_title">Username</string>
+    <string name="username_hint">Username or Email Address</string>
+    <string name="login_page_title">LCS Login</string>
+    <string name="password_title">Password</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button_label">Login</string>
+    <string name="clear_button_label">Clear</string>
+    <string name="create_button_label">Create</string>
+    <string name="linkedin_button_label">Login with LinkedIn</string>
+    <string name="first_time_user">First time user...</string>
+    <string name="preference_deleted">Preference deleted.</string>
+    <string name="no_preference_removed">No preference removed.</string>
+    <string name="users_db_closed">Users database closed.</string>
+    <string name="items_db_closed">Items database closed.</string>
+    <string name="error">Error:</string>
+    <string name="db_active">database active.</string>
+    <string name="db_open">database open.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="input_item_frag">inputProductFragment</string>
+    <string name="input_user_frag">inputUserFragment</string>
+    <string name="u_incorrect">Username not found</string>
+    <string name="p_incorrect">Password not correct</string>
+    <string name="u_p_correct">Username/Password correct</string>
+    <string name="u_p_not_blank">Username/Password cannot be blank</string>
+    <string name="admin_selected">Admin Selected...</string>
+    <string name="item_added">Item record added.</string>
+    <string name="db_insert_error">Database insert failed, Record not added.</string>
+    <string name="re_login">Re-Login</string>
+    <string name="input_user">Users</string>
+    <string name="input_item">Items</string>
+    <string name="input_user_fragment_label">LCS - Input User Fragment</string>
+    <string name="product_fragment_label">LCS - Input Product Fragment</string>
+    <string name="lcs_input_item_button_label">LCS - Input Item</string>
+    <string name="lcs_input_user_button_label">LCS - Input User</string>
+    <string name="lcs_input_item_label">LCS - Input Item</string>
+    <string name="lcs_input_user_label">LCS - Input User</string>
+    <string name="add_item_button_label">Add Item</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
