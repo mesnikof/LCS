@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <EditText
+        android:layout_width="40dp"
+        android:ems="10"
+        android:hint="__"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="14sp" />
+
+</selector>
