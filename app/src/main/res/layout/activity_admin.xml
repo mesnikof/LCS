@@ -80,7 +80,7 @@
                 android:name="com.cs360.michaelmesnikoff.lcs.BlankFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0"></fragment>
+                android:layout_weight="0" />
         </FrameLayout>
 
         <FrameLayout
@@ -94,7 +94,7 @@
                 android:name="com.cs360.michaelmesnikoff.lcs.UsersFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"></fragment>
+                android:layout_weight="1" />
         </FrameLayout>
 
         <FrameLayout
@@ -108,7 +108,7 @@
                 android:name="com.cs360.michaelmesnikoff.lcs.ItemsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"></fragment>
+                android:layout_weight="1" />
         </FrameLayout>
 
     </FrameLayout>
