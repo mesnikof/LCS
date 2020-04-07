@@ -1,6 +1,8 @@
 package com.cs360.michaelmesnikoff.lcs;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -10,6 +12,7 @@ import android.support.v7.app.ActionBar;
 
 import android.view.View;
 import android.text.TextUtils;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ImageButton;
@@ -17,7 +20,15 @@ import android.widget.Toast;
 
 import android.database.Cursor;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+
 import java.util.ArrayList;
+
+//import static com.shobhitpuri.custombuttons.util.Constants.BUTTON_TEXT_SIZE;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -52,6 +63,11 @@ public class LoginActivity extends AppCompatActivity {
     private static ImageButton login_button;
     private static TextView textDisplay;
 
+    private static final String TAG = "AndroidClarified";
+    //private static ImageButton googleSignInButton;
+    private SignInButton googleSignInButton;
+    private GoogleSignInClient googleSignInClient;
+
     /*
      * Also a widget variable, this one for keeping count of login attempts.
      */
@@ -65,6 +81,66 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        /*
+         * Initialize a reference to the Google Signin button.
+         */
+        //googleSignInButton = findViewById(R.id.button_loginGoogle);
+        googleSignInButton = findViewById(R.id.sign_in_button);
+
+        /*
+         * Now create a TextView instance that will be placed into the SignInButton to customize
+         * the look.  The functionality will remain the same.  All these commands in the following
+         * {} block set up the parameters for the TextView that "sort of" overwrites the default
+         * look of the SignInButton, the final .setLayoutParams places the TextView into the
+         * SignInButton layout resource.
+         */
+        View v = googleSignInButton.getChildAt(0);
+        if (v instanceof TextView) {
+            TextView tv = (TextView) v;
+            tv.setTextSize(18);
+            tv.setTypeface(null, Typeface.NORMAL);
+            tv.setText("Sign-In with Google");
+            tv.setTextColor(Color.parseColor("#FFFFFF"));
+            tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.google_signin));
+            tv.setSingleLine(true);
+            tv.setPadding(2, 2, 2, 2);
+            ViewGroup.LayoutParams params = tv.getLayoutParams();
+            /*
+             * Using -1 here represents "FILL_PARENT".
+             */
+            params.width = -1;
+            params.height = -1;
+            tv.setLayoutParams(params);
+        }
+
+        /*
+         * Now crete the OnClickListener to setup and call the SignIn intent to allow the user to
+         * log in via their Google account
+         */
+        googleSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signInIntent = googleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, 101);
+            }
+        });
+
+        /*
+         * Configure sign-in to request the user's ID, email address, and basic
+         * profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+         *
+         * Note: The requestIdToken was generated from the Google developer site previously.
+         */
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("287582727787-0p75sg16alt0nmu4jpdoco8tomogli2f.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+
+        /*
+         * Create a Google sign-in client using the parameters/options created above.
+         */
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
 
         /*
          * Set the ActionBar to show the LCS icon.
