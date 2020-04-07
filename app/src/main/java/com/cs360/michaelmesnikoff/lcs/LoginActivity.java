@@ -10,6 +10,7 @@ import android.content.Intent;
 
 import android.support.v7.app.ActionBar;
 
+import android.util.Log;
 import android.view.View;
 import android.text.TextUtils;
 import android.view.ViewGroup;
@@ -21,13 +22,14 @@ import android.widget.Toast;
 import android.database.Cursor;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
-
-//import static com.shobhitpuri.custombuttons.util.Constants.BUTTON_TEXT_SIZE;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -64,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
     private static TextView textDisplay;
 
     private static final String TAG = "AndroidClarified";
-    //private static ImageButton googleSignInButton;
     private SignInButton googleSignInButton;
     private GoogleSignInClient googleSignInClient;
 
@@ -85,62 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         /*
          * Initialize a reference to the Google Signin button.
          */
-        //googleSignInButton = findViewById(R.id.button_loginGoogle);
-        googleSignInButton = findViewById(R.id.sign_in_button);
-
-        /*
-         * Now create a TextView instance that will be placed into the SignInButton to customize
-         * the look.  The functionality will remain the same.  All these commands in the following
-         * {} block set up the parameters for the TextView that "sort of" overwrites the default
-         * look of the SignInButton, the final .setLayoutParams places the TextView into the
-         * SignInButton layout resource.
-         */
-        View v = googleSignInButton.getChildAt(0);
-        if (v instanceof TextView) {
-            TextView tv = (TextView) v;
-            tv.setTextSize(18);
-            tv.setTypeface(null, Typeface.NORMAL);
-            tv.setText("Sign-In with Google");
-            tv.setTextColor(Color.parseColor("#FFFFFF"));
-            tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.google_signin));
-            tv.setSingleLine(true);
-            tv.setPadding(2, 2, 2, 2);
-            ViewGroup.LayoutParams params = tv.getLayoutParams();
-            /*
-             * Using -1 here represents "FILL_PARENT".
-             */
-            params.width = -1;
-            params.height = -1;
-            tv.setLayoutParams(params);
-        }
-
-        /*
-         * Now crete the OnClickListener to setup and call the SignIn intent to allow the user to
-         * log in via their Google account
-         */
-        googleSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signInIntent = googleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, 101);
-            }
-        });
-
-        /*
-         * Configure sign-in to request the user's ID, email address, and basic
-         * profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-         *
-         * Note: The requestIdToken was generated from the Google developer site previously.
-         */
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("287582727787-0p75sg16alt0nmu4jpdoco8tomogli2f.apps.googleusercontent.com")
-                .requestEmail()
-                .build();
-
-        /*
-         * Create a Google sign-in client using the parameters/options created above.
-         */
-        googleSignInClient = GoogleSignIn.getClient(this, gso);
+        googleSignInButton = findViewById(R.id.g_sign_in_button);
 
         /*
          * Set the ActionBar to show the LCS icon.
@@ -182,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
             textDisplayString += ", ";
             textDisplayString += cursor.getString(cursor.getColumnIndex("email"));
             textDisplayString += "\n";
-        } while(cursor.moveToNext());
+        } while (cursor.moveToNext());
         textDisplay.setText(textDisplayString);
 
         /*
@@ -201,10 +147,65 @@ public class LoginActivity extends AppCompatActivity {
 
         if (!TextUtils.isEmpty(stringUsername)) {
             login_usernameET.setText(stringUsername);
+        } else {
+            Toast.makeText(LoginActivity.this, "No saved user...", Toast.LENGTH_LONG).show();
         }
-        else {
-            Toast.makeText(LoginActivity.this, R.string.first_time_user, Toast.LENGTH_LONG).show();
+
+        /*
+         * Now create a TextView instance that will be placed into the SignInButton to customize
+         * the look.  The functionality will remain the same.  All these commands in the following
+         * {} block set up the parameters for the TextView that "sort of" overwrites the default
+         * look of the SignInButton, the final .setLayoutParams places the TextView into the
+         * SignInButton layout resource.
+         */
+        View v = googleSignInButton.getChildAt(0);
+        if (v instanceof TextView) {
+            TextView tv = (TextView) v;
+            tv.setTextSize(18);
+            tv.setTypeface(null, Typeface.NORMAL);
+            tv.setText("Sign-In with Google");
+            tv.setTextColor(Color.parseColor("#FFFFFF"));
+            tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.google_signin));
+            tv.setSingleLine(true);
+            tv.setPadding(2, 2, 2, 2);
+            ViewGroup.LayoutParams params = tv.getLayoutParams();
+            /*
+             * Using -1 here represents "FILL_PARENT".
+             */
+            params.width = -1;
+            params.height = -1;
+            tv.setLayoutParams(params);
         }
+
+        /*
+         * Configure sign-in to request the user's ID, email address, and basic
+         * profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+         *
+         * Note: The requestIdToken was generated from the Google developer site previously.
+         */
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("287582727787-0p75sg16alt0nmu4jpdoco8tomogli2f.apps.googleusercontent.com")
+                .requestEmail()
+                .requestId()
+                .requestProfile()
+                .build();
+
+        /*
+         * Create a Google sign-in client using the parameters/options created above.
+         */
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        /*
+         * Now create the OnClickListener to setup and call the SignIn intent to allow the user to
+         * log in via their Google account
+         */
+        googleSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signInIntent = googleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, 101);
+            }
+        });
 
         /*
          * Now call the method to listen for activity on the login button.
@@ -235,16 +236,15 @@ public class LoginActivity extends AppCompatActivity {
             login_myEditor.clear();
             login_myEditor.apply();
             login_usernameET.setText("");
-            Toast.makeText(LoginActivity.this, R.string.preference_deleted, Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(LoginActivity.this, R.string.no_preference_removed, Toast.LENGTH_LONG).show();
+            //Toast.makeText(LoginActivity.this, R.string.preference_deleted, Toast.LENGTH_LONG).show();
+        } else {
+            //Toast.makeText(LoginActivity.this, R.string.no_preference_removed, Toast.LENGTH_LONG).show();
         }
     }
 
 
     /*
-     * This is the method that listens for login activity.
+     * This is the method that listens for non-social-media (local app) login activity.
      *
      * It checks username/password info for validity.  It also counts the number of login
      * attempts, and exits on too mainy failures
@@ -311,7 +311,7 @@ public class LoginActivity extends AppCompatActivity {
                          * We loop through all of them, setting a flag as required.
                          * This is not the most efficient way to do this, but suffices for this app.
                          */
-                        for (String uname: sUnames) {
+                        for (String uname : sUnames) {
                             /*
                              * If the entered username is found in the database...
                              */
@@ -356,14 +356,12 @@ public class LoginActivity extends AppCompatActivity {
                                 // Start the admin activity if we are logged in as admin.
                                 Intent intent = new Intent("com.cs360.michaelmesnikoff.lcs.AdminActivity");
                                 startActivity(intent);
-                            }
-                            else {
+                            } else {
                                 // Start the user activity for everyone else.
                                 Intent intent = new Intent("com.cs360.michaelmesnikoff.lcs.MainActivity");
                                 startActivity(intent);
                             }
-                        }
-                        else if (passCounter == -2) {
+                        } else if (passCounter == -2) {
                             /*
                              * Valid username, invalid password
                              *
@@ -373,8 +371,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, R.string.p_incorrect, Toast.LENGTH_SHORT).show();
                             attempt_counter--;
                             textViewAttempts.setText(Integer.toString(attempt_counter));
-                        }
-                        else {
+                        } else {
                             /*
                              * Valid username, invalid password
                              *
@@ -390,4 +387,61 @@ public class LoginActivity extends AppCompatActivity {
         );
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        GoogleSignInAccount theAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if (theAccount != null) {
+            /*
+             * Sign-out is initiated by simply calling the googleSignInClient.signOut API. We add a
+             * listener which will be invoked once the sign out is the successful
+             */
+            googleSignInClient.signOut();
+            Log.d(TAG, "Logged client out");
+        }
+        else {
+            Log.d(TAG, "Not logged in");
+        }
+    }
+
+
+    /*
+     * This method is called after the return from the Google Sign-In button click and intent action.
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            // Signed in successfully, show authenticated UI.
+            Toast.makeText(LoginActivity.this, account.getEmail(), Toast.LENGTH_LONG).show();
+            login_usernameET.setText(account.getEmail());
+            editTextPassword.setText(account.getId());
+            //updateUI(account);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            //updateUI(null);
+        }
+    }
+
+
+    private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
+        //Intent intent = new Intent(this, ProfileActivity.class);
+        //intent.putExtra(ProfileActivity.GOOGLE_ACCOUNT, googleSignInAccount);
+
+        //startActivity(intent);
+        finish();
+    }
 }
