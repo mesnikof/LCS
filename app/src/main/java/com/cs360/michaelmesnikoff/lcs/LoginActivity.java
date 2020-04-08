@@ -426,8 +426,15 @@ public class LoginActivity extends AppCompatActivity {
             // Signed in successfully, show authenticated UI.
             Toast.makeText(LoginActivity.this, account.getEmail(), Toast.LENGTH_LONG).show();
             login_usernameET.setText(account.getEmail());
-            editTextPassword.setText(account.getId());
-            //updateUI(account);
+
+            // Put the returned ID info into the shared preference LOGIN_USERNAME_KEY.
+            login_myEditor.putString(LOGIN_USERNAME_KEY, account.getId());
+            login_myEditor.apply();
+
+            // Start the user activity for everyone else.
+            Intent intent = new Intent("com.cs360.michaelmesnikoff.lcs.MainActivity");
+            startActivity(intent);
+
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
