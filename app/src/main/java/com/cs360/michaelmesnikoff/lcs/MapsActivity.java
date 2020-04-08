@@ -166,20 +166,23 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     public void onMapReady(GoogleMap googleMap) {
         myMap = googleMap;
 
-        myMap.addMarker(markerOrig);
+        //myMap.addMarker(markerOrig);
         myMap.addMarker(markerDest);
 
         /*
          * Now set the zoom level of the map to something usefull.
          */
-        float zoomLevel = 10.0f; // This goes up to 21
+        //float zoomLevel = 10.0f; // This goes up to 21
+        float zoomLevel = 8.0f; // This goes up to 21
 
         /*
          * Finally, place the view over our current location.
          */
-        myMap.animateCamera(CameraUpdateFactory.newLatLng(currentPos));
+        myMap.animateCamera(CameraUpdateFactory.newLatLng(LCSflagship));
+        //myMap.animateCamera(CameraUpdateFactory.newLatLng(currentPos));
         //myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentPos, 5));
-        myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentPos, zoomLevel));
+        myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LCSflagship, zoomLevel));
+        //myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentPos, zoomLevel));
         //myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPos, zoomLevel));
 
         /*
