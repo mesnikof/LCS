@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    android:backgroundTint="#F8F8F8"
     tools:context="com.cs360.michaelmesnikoff.lcs.LoginActivity">
 
     <TextView
@@ -118,10 +120,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="clearLoginPreferences"
             android:text="@string/clear_button_label"
             android:textColor="#FF0000"
-            android:textSize="18sp"
-            android:onClick="clearLoginPreferences"/>
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/button_create"
@@ -145,26 +147,25 @@
 
         <ImageButton
             android:id="@+id/button_loginTwitter"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scaleType="fitXY"
-            android:src="@drawable/twitter_signin"
-            android:text="Google Login"
-            android:textAllCaps="false"
-            android:textColor="#00f"
-            android:textSize="18sp" />
-
-        <!-- <com.shobhitpuri.custombuttons.GoogleSignInButton -->
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/g_sign_in_button"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="3dp"
+            android:layout_margin="0dp"
             android:layout_weight="1"
-            android:text="test"
-            android:textSize="18sp"></com.google.android.gms.common.SignInButton>
+            android:cropToPadding="false"
+            android:padding="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/twitter_signin"></ImageButton>
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/button_loginGoogle"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_vertical|fill_horizontal|center"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:cropToPadding="false"
+            android:padding="0dp"
+            android:scaleType="fitXY"></com.google.android.gms.common.SignInButton>
 
     </LinearLayout>
 

@@ -90,20 +90,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewFirstSep" />
 
-    <ImageButton
-        android:id="@+id/button_Map"
-        android:layout_width="155dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="onMapClick"
-        android:scaleType="fitXY"
-        android:src="@drawable/google_maps"
-        android:text="Find Us - Map"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="18sp"
+    <FrameLayout
+        android:layout_width="190dp"
+        android:layout_height="60dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_AboutUs" />
+        app:layout_constraintTop_toBottomOf="@+id/button_AboutUs" >
+        <ImageButton
+            android:id="@+id/button_Map"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:onClick="onMapClick"
+            android:scaleType="fitXY"
+            android:src="@drawable/google_maps"
+            android:background="@null"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_vertical|center"
+            android:background="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:clickable="false"
+            android:text="FInd Us / Map"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+            android:textColor="#000000"
+            android:textSize="18sp"></TextView>
+    </FrameLayout>
 
     <Button
         android:id="@+id/button_Social"
