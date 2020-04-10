@@ -154,7 +154,7 @@
             android:cropToPadding="false"
             android:padding="0dp"
             android:scaleType="fitXY"
-            android:src="@drawable/twitter_signin"></ImageButton>
+            android:src="@drawable/twitter_signin" />
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/button_loginGoogle"
@@ -165,7 +165,7 @@
             android:layout_weight="1"
             android:cropToPadding="false"
             android:padding="0dp"
-            android:scaleType="fitXY"></com.google.android.gms.common.SignInButton>
+            android:scaleType="fitXY" />
 
     </LinearLayout>
 
