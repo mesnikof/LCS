@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.cs360.michaelmesnikoff.lcs"
+        applicationId 'com.cs360.michaelmesnikoff.lcs'
         minSdkVersion 23
         targetSdkVersion 26
         versionCode 1
@@ -20,6 +20,12 @@ android {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:support-annotations:26.1.0'
+    }
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -27,14 +33,21 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:12.0.1'
     implementation 'com.google.android.gms:play-services-location:12.0.1'
     implementation 'com.google.android.gms:play-services-auth:12.0.1'
+    implementation 'com.google.firebase:firebase-auth:12.0.1'
+
+    implementation 'com.google.android.gms:play-services-drive:12.0.1'
+    implementation 'com.google.android.gms:play-services-auth:12.0.1'
+    //compile 'com.google.android.gms:play-services-auth:11.8.0'
+    implementation 'com.google.android.gms:play-services:12.0.1'
+    // Include all the Twitter APIs
+    implementation 'com.twitter.sdk.android:twitter:3.1.1'
+    implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    // (Optional) Monetize using mopub
+    //compile 'com.twitter.sdk.android:twitter-mopub:3.1.1'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
-    compile 'com.google.android.gms:play-services-drive:12.0.1'
-    compile 'com.google.android.gms:play-services-auth:12.0.1'
-    //compile 'com.google.android.gms:play-services-auth:11.8.0'
-    compile 'com.google.android.gms:play-services:12.0.1'
 }
 
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
