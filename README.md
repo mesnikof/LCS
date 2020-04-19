@@ -13,9 +13,9 @@ tools available to allow the end-user to find the LCS location.
 
 **Built-In Username/Password Pairs:**
 
- -admin/admin     (Accesses administration activity page)\n
- -user/user       (Accesses standard user main activity page)\n
- -michael/michael (Access standard user main activity page)\n
+ -admin/admin     (Accesses administration activity page)<BR>
+ -user/user       (Accesses standard user main activity page)<BR>
+ -michael/michael (Access standard user main activity page)<BR>
 
 
 
@@ -56,7 +56,7 @@ tools available to allow the end-user to find the LCS location.
 
 **Rate-Us / Social-Media Pop-Up Fragment**
  -Rate-Us connectivity (Icon Button spawns the connection to theGoogle Play Store)\n
- -Tweet connectivity\n
+ -Tweet connectivity
 
 
 
@@ -64,7 +64,7 @@ tools available to allow the end-user to find the LCS location.
 
 Clean up all the "Toast" messages ued for tesst purposes.
 
-Set up the "Create New User/Accountnt" functionality on the Login Activity page.
+Set up the "Create New User/Account" functionality on the Login Activity page.
 
 Set up the Order Entry functionality for the user.
 
