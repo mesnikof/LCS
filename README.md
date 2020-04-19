@@ -1,4 +1,4 @@
-****SNHU CS-360 Final Project****
+<H1>****SNHU CS-360 Final Project****</H1>
 
 This is a project to create a simple Local Coffee Shop app to run on Android.  The minimum
 required Android version is 7.0 (Nougat).  This app has both end-user and admin functionality
@@ -8,10 +8,10 @@ tools available to allow the end-user to find the LCS location.
 
 
 
-**Implementation Notes:**
+<H2>**Implementation Notes:**</H2>
 
 
-**Built-In Username/Password Pairs:**
+**Built-In Username/Password Pairs:**<BR>
  -admin/admin     (Accesses administration activity page)<BR>
  -user/user       (Accesses standard user main activity page)<BR>
  -michael/michael (Access standard user main activity page)<BR>
@@ -22,17 +22,17 @@ tools available to allow the end-user to find the LCS location.
 
 **Splash Screen**
 
-**Login Activity Page**
+**Login Activity Page**<BR>
  -Standard local login text fields and button.<BR>
  -Clear Button<BR>
  -Twitter Login Button<BR>
  -Google Login Button
 
-**Admin Activity Page**
+**Admin Activity Page**<BR>
  -All fields and buttons<BR>
  -(Note: Not all database fields are currently in use)
 
-**Main (User) Activity Page**
+**Main (User) Activity Page**<BR>
  -Logout Button<BR>
  -About-Us Button<BR>
  -Find-Us/Map Button<BR>
@@ -41,19 +41,19 @@ tools available to allow the end-user to find the LCS location.
  -Items Scrolling Selector Field<BR>
  -(Note: Selection and ordering is not currently supported)
 
-**Map Activity Fragment**
+**Map Activity Fragment**<BR>
  -All features and buttons
 
-**About-Us Pop-Up Fragment**
+**About-Us Pop-Up Fragment**<BR>
  -Email-Us Button<BR>
  -Call-Us Button<BR>
  -Return Button
 
-**Contact-Us Pop-Up Fragment**
+**Contact-Us Pop-Up Fragment**<BR>
  -Email-Us connectivity (Icon, Label, and Address all spawn the email tool)<BR>
  -Call-Us connectivity (Icon, Label, and Number all spawn the dialer tool)
 
-**Rate-Us / Social-Media Pop-Up Fragment**
+**Rate-Us / Social-Media Pop-Up Fragment**<BR>
  -Rate-Us connectivity (Icon Button spawns the connection to theGoogle Play Store)<BR>
  -Tweet connectivity
 

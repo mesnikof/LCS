@@ -54,6 +54,12 @@
         We have created this app in answer to a perceived CS-360 need.\n\n
         Use the buttons below to email or voice-call us, if you dare...\n\n
         And we would like to thank you for your support,
-        especially our family and friends and, of course, our professor.\n\n
+        especially our family and friends and, of course, our professor.
+    </string>
+
+    <string name="rate_us_description">Use this page to let the world know about us.\n\n
+        If you like us, please rate us well.\n\n
+        You can also use this page to let your friends on Twitter know about us.\n\n
+        Thank you
     </string>
 </resources>

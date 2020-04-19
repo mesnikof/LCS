@@ -1,6 +1,7 @@
 package com.cs360.michaelmesnikoff.lcs;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.Context;
@@ -63,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
     private String stringUsername;
     private static final String LOGIN_PREFS = "My_Login_Prefs";
     private static final String LOGIN_USERNAME_KEY = "login_username_key";
-    public static final String LOGIN_USERID_KEY = "login_userid_key";
-    public static final String LOGIN_EMAIL_KEY = "login_email_key";
-    public static final String LOGIN_TOKEN_KEY = "login_token_key";
-    public static final String LOGIN_SECRET_KEY = "login_secret_key";
+    private static final String LOGIN_USERID_KEY = "login_userid_key";
+    private static final String LOGIN_EMAIL_KEY = "login_email_key";
+    private static final String LOGIN_TOKEN_KEY = "login_token_key";
+    private static final String LOGIN_SECRET_KEY = "login_secret_key";
     SharedPreferences.Editor sharedPref_myEditor;
 
     public static final String TWITTER_PREFS = "com.twitter.sdk.android:twitter-core:session_store";
@@ -75,13 +76,14 @@ public class MainActivity extends AppCompatActivity {
     /*
      * Create several class variables for referencing layout objects.
      */
-    private static LinearLayout linearLayout;
     private static int scrollerWidth;
-    private static TableRow rowHeader;
-    private static TextView textViewWelcomeTitle;
-    private static ImageButton button_Logoff;
-    private static ImageButton button_ContactUs;
-    private static Button login_button;
+    private LinearLayout linearLayout;
+    private TableRow rowHeader;
+    private TextView textViewWelcomeTitle;
+    private ImageButton button_Logoff;
+    private ImageButton button_ContactUs;
+    private ImageButton button_RateUs;
+    private Button login_button;
 
     /*
      * A logging string.
@@ -117,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setIcon(R.mipmap.ic_launcher_round);
 
         /*
-         * Create a Shared Preferance instance for maintaining persistent data.
+         * Create a Shared Preference instance for maintaining persistent data.
          * Also create the variables and method to hold and access/update the data.
          */
         SharedPreferences login_usernamePref = getSharedPreferences(MainActivity.LOGIN_PREFS, MODE_PRIVATE);
@@ -143,17 +145,16 @@ public class MainActivity extends AppCompatActivity {
          * Now display the welcome message including the user's name in that object,
          * If the username is not found in the persistent data show an appropriate "Toast" message.
          */
-        if(!TextUtils.isEmpty(stringUsername)) {
+        if (!TextUtils.isEmpty(stringUsername)) {
             textViewWelcomeTitle.setText("Welcome: " + stringUsername);
-        }
-        else {
+        } else {
             Toast.makeText(MainActivity.this, "Error: username not passed in.", Toast.LENGTH_LONG).show();
         }
 
         /*
          * A variable and OnClickListener callback method for this activity's "Logoff" button object.
          */
-        button_Logoff = (ImageButton) findViewById(R.id.button_Logoff);
+        button_Logoff = findViewById(R.id.button_Logoff);
         button_Logoff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,38 +162,80 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/* Contact Us section */
+
         /*
          * A variable and OnClickListener callback method for this activity's "Contact Us" button object.
          */
-        button_ContactUs = (ImageButton) findViewById(R.id.button_Contact);
-        // add button listener
+        button_ContactUs = findViewById(R.id.button_Contact);
+        // Add button listener.
         button_ContactUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // custom dialog
+                // Custom dialog.
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.contact_us);
-                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-                // if button is clicked, close the custom dialog
+                Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
+                // If button is clicked, close the custom dialog.
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
-                        Toast.makeText(getApplicationContext(),"Dismissed..!!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Dismissed..!!", Toast.LENGTH_SHORT).show();
                     }
                 });
                 dialog.show();
             }
         });
 
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/* Rate Us section */
+
+        /*
+         * A variable and OnClickListener callback method for this activity's "Rate Us" button object.
+         */
+        button_RateUs = findViewById(R.id.button_RateUs);
+        // Add button listener.
+        button_RateUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                // Custom dialog
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.rate_us);
+                Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
+                // If button is clicked, close the custom dialog.
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Dismissed..!!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.show();
+            }
+        });
+
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/* Setup the Ordering Menu section */
+
         /*
          * Reference to the Outer LinearLayout.
          * Set the scrollerWidth variable via ...getWidth().
          * Reset the reference to the Inner LinearLayout.
          */
-        linearLayout = (LinearLayout) findViewById(R.id.scrollOuterLinearLayout);
+        linearLayout = findViewById(R.id.scrollOuterLinearLayout);
         scrollerWidth = linearLayout.getWidth();
-        linearLayout = (LinearLayout) findViewById(R.id.scrollInnerLinearLayout);
+        linearLayout = findViewById(R.id.scrollInnerLinearLayout);
 
         /*
          * Access the LCS database to get the username/password info.
@@ -205,10 +248,9 @@ public class MainActivity extends AppCompatActivity {
          * If the database query did not return the needed data show an appropriate "Toast" message.
          * Otherwise create the selectable TableRow objects.
          */
-        if(cursor.getCount() == 0) {
+        if (cursor.getCount() == 0) {
             Toast.makeText(MainActivity.this, "ITEMS database returned no data.", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             /*
              * Iterate through the returned database item information.
              * Perform the operations as documented below.
@@ -225,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
                 final String stringItemPrice = Float.toString(floatItemPrice);
                 String stringItemImageFile;
                 stringItemImageFile = cursor.getString(cursor.getColumnIndex("item_image_file"));
-                if(stringItemImageFile == null) {
+                if (stringItemImageFile == null) {
                     stringItemImageFile = "lcs_image";
                 }
 
@@ -248,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
                 EditText itemQuantity = new EditText(context);
                 itemQuantity.setMinimumWidth(scrollerWidth);
                 itemQuantity.setWidth(750);
-                itemQuantity.setPadding(0,40,0,0);
+                itemQuantity.setPadding(0, 40, 0, 0);
                 itemQuantity.setHint("Quantity?");
                 itemQuantity.setPaintFlags(android.graphics.Paint.UNDERLINE_TEXT_FLAG);
                 itemQuantity.setTextSize(22);
@@ -264,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
                 itemName.setText(" " + stringItemName);
                 itemName.setMinimumWidth(scrollerWidth);
                 itemName.setWidth(750);
-                itemName.setPadding(0,40,0,0);
+                itemName.setPadding(0, 40, 0, 0);
                 itemName.setBackgroundResource(R.drawable.item_name_style);
                 itemName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 itemName.setTextColor(Color.BLUE);
@@ -277,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
                 itemPrice.setText(stringItemPrice);
                 itemPrice.setMinimumWidth(scrollerWidth);
                 itemPrice.setWidth(750);
-                itemPrice.setPadding(0,40,0,0);
+                itemPrice.setPadding(0, 40, 0, 0);
                 itemPrice.setBackgroundResource(R.drawable.item_price_style);
                 itemPrice.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 itemPrice.setTextColor(Color.BLACK);
@@ -287,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
                  * Now the item image (if it exists) from the database and the drawable resources.
                  */
                 ImageView itemImage = new ImageView(context);
-                String uri = "@drawable/"+ stringItemImageFile;
+                String uri = "@drawable/" + stringItemImageFile;
                 int imageResource = getResources().getIdentifier(uri, null, getPackageName());
                 Drawable resImage = getResources().getDrawable(imageResource);
                 itemImage.setImageDrawable(resImage);
@@ -328,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
              * Lastly, increment the counter used for the loop.
              */
                 counter++;
-            } while(cursor.moveToNext());
+            } while (cursor.moveToNext());
 
             /*
              * Close the database.
@@ -401,12 +443,10 @@ public class MainActivity extends AppCompatActivity {
             sharedPref_myEditor.putString(LOGIN_USERNAME_KEY, "Twitter Logout");
             sharedPref_myEditor.commit();
             Log.d(TAG, "Logged Twitter client out");
-        }
-        else {
+        } else {
             Log.d(TAG, "No Social Media logged in");
         }
     }
-
 
 
     public void onMapClick(View v) {
@@ -416,7 +456,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+    /*************************************************************************************************************/
+/* About Us section */
     public void onAboutUsClick(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         // Set the Alert Dialog title.
@@ -434,7 +478,7 @@ public class MainActivity extends AppCompatActivity {
          * As this is a "standard" Alert Dialog, we make use of the setPositive and
          * setNegative options, rather than creating a custom Alert Dialog.  Positive
          * will be "Email Us" and Negative will be "Call Us".  Cancel will simply exit
-         * the ALert Dialog with no other action, taking us back to the Main (User) Activity
+         * the Alert Dialog with no other action, taking us back to the Main (User) Activity
          * page.
          */
         alertDialogBuilder.setPositiveButton("Email Us", new DialogInterface.OnClickListener() {
@@ -442,7 +486,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface arg0, int arg1) {
                 // Email placeholder
                 button_ContactUs.callOnClick();
-                Toast.makeText(MainActivity.this,"You clicked over Email Us",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "You clicked over Email Us", Toast.LENGTH_SHORT).show();
                 return;
             }
         });
@@ -452,7 +496,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 // Call placeholder
                 button_ContactUs.callOnClick();
-                Toast.makeText(MainActivity.this,"You clicked over Call Us",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "You clicked over Call Us", Toast.LENGTH_SHORT).show();
                 return;
             }
         });
@@ -460,7 +504,7 @@ public class MainActivity extends AppCompatActivity {
         alertDialogBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(),"You clicked on OK",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -470,57 +514,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void onContactUsClick(View view) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        // Set the Alert Dialog title.
-        alertDialogBuilder.setTitle("Contact Us...");
-        // Set the Alert Dialog icon.
-        alertDialogBuilder.setIcon(R.drawable.about_us_icon);
-        // Set the Alert Dialog message.
-        alertDialogBuilder.setMessage(R.string.about_us_popup);
-        alertDialogBuilder.setCancelable(false);
-
-        /*
-         * Now, define the action to perform depending on which of the Alert Dialog
-         * buttons the user selects.
-         *
-         * As this is a "standard" Alert Dialog, we make use of the setPositive and
-         * setNegative options, rather than creating a custom Alert Dialog.  Positive
-         * will be "Email Us" and Negative will be "Call Us".  Cancel will simply exit
-         * the ALert Dialog with no other action, taking us back to the Main (User) Activity
-         * page.
-         */
-        alertDialogBuilder.setPositiveButton("Email Us", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                // Email placeholder
-                Toast.makeText(MainActivity.this,"You clicked over Email Us",Toast.LENGTH_SHORT).show();
-                return;
-            }
-        });
-
-        alertDialogBuilder.setNegativeButton("Call Us", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Call placeholder
-                Toast.makeText(MainActivity.this,"You clicked over Call Us",Toast.LENGTH_SHORT).show();
-                return;
-            }
-        });
-
-        alertDialogBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(),"You clicked on OK",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-
-
-
+    /*
+     * Start a Mailer activity when the "Email Us" button is clicked.
+     *
+     * This is "hardwired" to "lcs@lcs.com" (not a real email address).
+     */
     public void onEmailClick(View view) {
         startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:lcs@lcs.com")));
         return;
@@ -528,9 +526,32 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    /*
+     * Start a Dialer activity when the "Call Us" button is clicked.
+     *
+     * This is hardcoded to "1-603-555-1212" (not a real telephone number).
+     */
     public void onTelephoneClick(View view) {
         Intent surf = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:16035551212"));
         startActivity(surf);
         return;
+    }
+
+
+
+    /*
+     * Action performed when a "Rate Us" click is encountered.
+     *
+     * Starts a "market" URI intent activity, catches lack of Play Store cleanly.
+     */
+    public void onRateClick(View view) {
+        try{
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id="+getPackageName())));
+        }
+        catch (ActivityNotFoundException e){
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id="+getPackageName())));
+        }
     }
 }

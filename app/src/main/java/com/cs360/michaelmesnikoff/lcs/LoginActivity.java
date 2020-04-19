@@ -133,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
 /*************************************************************************************************************/
 /*************************************************************************************************************/
 /*************************************************************************************************************/
-/* Standard Sign-In section usin the internal app database */
+/* Standard Sign-In section using the internal app database */
 
         /*
          * Access the LCS database to get the username/password info.
