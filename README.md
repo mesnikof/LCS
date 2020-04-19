@@ -30,29 +30,29 @@ tools available to allow the end-user to find the LCS location.
 -Google Login Button
 
 **Admin Activity Page**
-    All fields and buttons
-    (Note: Not all database fields are currently in use)
+-All fields and buttons
+-(Note: Not all database fields are currently in use)
 
 **Main (User) Activity Page**
-    Logout Button
-    About-Us Button
-    Find-Us/Map Button
-    Contact-Us Button
-    Social Media/rate-Us Button
-    Items Scrolling Selector Field
-    (Note: Selection and ordering is not currently supported)
+-Logout Button
+-About-Us Button
+-Find-Us/Map Button
+-Contact-Us Button
+-Social Media/rate-Us Button
+-Items Scrolling Selector Field
+-(Note: Selection and ordering is not currently supported)
 
 **Map Activity Fragment**
-    All features and buttons
+-All features and buttons
 
 **About-Us Pop-Up Fragment**
-    Email-Us Button
-    Call-Us Button
-    Return Button
+-Email-Us Button
+-Call-Us Button
+-Return Button
 
 **Contact-Us Pop-Up Fragment**
-    Email-Us connectivity (Icon, Label, and Address all spawn the email tool)
-    Call-Us connectivity (Icon, Label, and Number all spawn the dialer tool)
+-Email-Us connectivity (Icon, Label, and Address all spawn the email tool)
+-Call-Us connectivity (Icon, Label, and Number all spawn the dialer tool)
 
 
 
