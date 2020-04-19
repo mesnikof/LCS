@@ -56,7 +56,7 @@ tools available to allow the end-user to find the LCS location.
 
 **Rate-Us / Social-Media Pop-Up Fragment**
  -Rate-Us connectivity (Icon Button spawns the connection to theGoogle Play Store)\n
- -Tweet connectivity
+ -Tweet connectivity\n
 
 
 
