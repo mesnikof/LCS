@@ -1,4 +1,4 @@
-**SNHU CS-360 Final Project**
+****SNHU CS-360 Final Project****
 
 This is a project to create a simple Local Coffee Shop app to run on Android.  The minimum
 required Android version is 7.0 (Nougat).  This app has both end-user and admin functionality
@@ -8,7 +8,7 @@ tools available to allow the end-user to find the LCS location.
 
 
 
-**Implementation Notes**
+**Implementation Notes:**
 
 
 **Built-In Username/Password Pairs:**
@@ -19,7 +19,7 @@ tools available to allow the end-user to find the LCS location.
 
 
 
-###**Working Modules:**###
+**Working Modules:**
 
 **Splash Screen**
 
@@ -56,7 +56,7 @@ tools available to allow the end-user to find the LCS location.
 
 
 
-###**To Do:**###
+**To Do:**
 
 Clean up all the "Toast" messages ued for tesst purposes.
 
