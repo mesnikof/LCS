@@ -202,7 +202,7 @@ public class UsersFragment extends Fragment {
 
                 /*
                  * Show an appropriate "Toast" message for either failure or success.
-                 * If success, clear the data from the view objects.
+                 * If success, clear_icon the data from the view objects.
                  */
                 if(queryResult == 0) {
                     Toast.makeText(context, "User Add Failed", Toast.LENGTH_SHORT).show();
@@ -263,7 +263,7 @@ public class UsersFragment extends Fragment {
 
                 /*
                  * Show an appropriate "Toast" message for either failure or success.
-                 * If success, clear the data from the view objects.
+                 * If success, clear_icon the data from the view objects.
                  */
                 if(queryResult == 0) {
                     Toast.makeText(context, "User Update Failed", Toast.LENGTH_SHORT).show();
@@ -317,7 +317,7 @@ public class UsersFragment extends Fragment {
 
                 /*
                  * Show an appropriate "Toast" message for either failure or success.
-                 * If success, clear the data from the view objects.
+                 * If success, clear_icon the data from the view objects.
                  */
                 if(queryResult == 0) {
                     Toast.makeText(context, "User Delete Failed", Toast.LENGTH_SHORT).show();

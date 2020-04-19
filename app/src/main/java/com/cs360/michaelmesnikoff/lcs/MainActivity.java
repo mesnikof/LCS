@@ -1,8 +1,12 @@
 package com.cs360.michaelmesnikoff.lcs;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -11,8 +15,11 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.text.TextUtils;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +32,17 @@ import android.widget.Toast;
 import android.graphics.drawable.Drawable;
 
 import android.database.Cursor;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.SessionManager;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterCore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +63,14 @@ public class MainActivity extends AppCompatActivity {
     private String stringUsername;
     private static final String LOGIN_PREFS = "My_Login_Prefs";
     private static final String LOGIN_USERNAME_KEY = "login_username_key";
-    SharedPreferences.Editor login_myEditor;
+    public static final String LOGIN_USERID_KEY = "login_userid_key";
+    public static final String LOGIN_EMAIL_KEY = "login_email_key";
+    public static final String LOGIN_TOKEN_KEY = "login_token_key";
+    public static final String LOGIN_SECRET_KEY = "login_secret_key";
+    SharedPreferences.Editor sharedPref_myEditor;
+
+    public static final String TWITTER_PREFS = "com.twitter.sdk.android:twitter-core:session_store";
+    SharedPreferences.Editor twitterPref_myEditor;
 
     /*
      * Create several class variables for referencing layout objects.
@@ -54,8 +79,14 @@ public class MainActivity extends AppCompatActivity {
     private static int scrollerWidth;
     private static TableRow rowHeader;
     private static TextView textViewWelcomeTitle;
-    private static ImageButton button_logoff;
+    private static ImageButton button_Logoff;
+    private static ImageButton button_ContactUs;
     private static Button login_button;
+
+    /*
+     * A logging string.
+     */
+    private static final String TAG = "AndroidClarified";
 
     /*
      * This is the basic onCreate method.  For the Main Activity this sets up
@@ -91,7 +122,17 @@ public class MainActivity extends AppCompatActivity {
          */
         SharedPreferences login_usernamePref = getSharedPreferences(MainActivity.LOGIN_PREFS, MODE_PRIVATE);
         stringUsername = login_usernamePref.getString(LOGIN_USERNAME_KEY, null);
-        login_myEditor = getSharedPreferences(LOGIN_PREFS, MODE_PRIVATE).edit();
+        sharedPref_myEditor = getSharedPreferences(LOGIN_PREFS, MODE_PRIVATE).edit();
+
+        /*
+         * Initialize the Twitter API tools.
+         */
+        TwitterConfig config = new TwitterConfig.Builder(this)
+                .logger(new DefaultLogger(Log.DEBUG))
+                .twitterAuthConfig(new TwitterAuthConfig(getResources().getString(R.string.com_twitter_sdk_android_CONSUMER_KEY), getResources().getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET)))
+                .debug(true)
+                .build();
+        Twitter.initialize(config);
 
         /*
          * A variable pointing to this actvity's welcome TextView layout object.
@@ -112,11 +153,35 @@ public class MainActivity extends AppCompatActivity {
         /*
          * A variable and OnClickListener callback method for this activity's "Logoff" button object.
          */
-        button_logoff = (ImageButton) findViewById(R.id.button_Logoff);
-        button_logoff.setOnClickListener(new View.OnClickListener() {
+        button_Logoff = (ImageButton) findViewById(R.id.button_Logoff);
+        button_Logoff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        /*
+         * A variable and OnClickListener callback method for this activity's "Contact Us" button object.
+         */
+        button_ContactUs = (ImageButton) findViewById(R.id.button_Contact);
+        // add button listener
+        button_ContactUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                // custom dialog
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.contact_us);
+                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"Dismissed..!!",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.show();
             }
         });
 
@@ -274,9 +339,198 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+    /*
+     * The onPause method.
+     * Write out the Shared Preferences information.
+     */
+    protected void onPause() {
+        super.onPause();
+
+        // Check for a Twitter session.
+        SessionManager theAccountT;
+        theAccountT = TwitterCore.getInstance().getSessionManager();
+
+        // Check for a Google session
+        GoogleSignInAccount theAccountG = GoogleSignIn.getLastSignedInAccount(this);
+
+        // Clear the existing Google session, if it exists
+        if (theAccountG != null) {
+            /*
+             * Sign-out is initiated by simply calling the googleSignInClient.signOut API.
+             */
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getResources().getString(R.string.google_signin_key))
+                    .build();
+
+            /*
+             * Create a Google sign-in client using the parameters/options created above.
+             */
+            GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
+            googleSignInClient.signOut();
+
+            /*
+             * Clear the Google and Username Shared Preference data, then set the "Google Logout"
+             * Shared Preference flag.
+             */
+            sharedPref_myEditor.clear();
+            sharedPref_myEditor.commit();
+            sharedPref_myEditor.putString(LOGIN_USERNAME_KEY, "Google Logout");
+            sharedPref_myEditor.commit();
+            Log.d(TAG, "Logged Google client out");
+        }
+
+        // Clear the existing Twitter session, if it exists
+        else if (theAccountT.getActiveSession() != null) {
+            sharedPref_myEditor = getSharedPreferences(LOGIN_PREFS, MODE_PRIVATE).edit();
+            twitterPref_myEditor = getSharedPreferences(TWITTER_PREFS, MODE_PRIVATE).edit();
+
+            CookieSyncManager.createInstance(this);
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.removeSessionCookie();
+            theAccountT.clearActiveSession();
+
+            /*
+             * Clear the Twitter and Username Shared Preference data, then set the "Twitter Logout"
+             * Shared Preference flag.
+             */
+            twitterPref_myEditor.clear();
+            twitterPref_myEditor.commit();
+            sharedPref_myEditor.clear();
+            sharedPref_myEditor.commit();
+            sharedPref_myEditor.putString(LOGIN_USERNAME_KEY, "Twitter Logout");
+            sharedPref_myEditor.commit();
+            Log.d(TAG, "Logged Twitter client out");
+        }
+        else {
+            Log.d(TAG, "No Social Media logged in");
+        }
+    }
+
+
+
     public void onMapClick(View v) {
         // Start the maps activity when the "Find Us - Map" button is clicked.
         Intent intent = new Intent("com.cs360.michaelmesnikoff.lcs.MapsActivity");
         startActivity(intent);
+    }
+
+
+
+    public void onAboutUsClick(View view) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        // Set the Alert Dialog title.
+        alertDialogBuilder.setTitle("About Us...");
+        // Set the Alert Dialog icon.
+        alertDialogBuilder.setIcon(R.drawable.about_us_icon);
+        // Set the Alert Dialog message.
+        alertDialogBuilder.setMessage(R.string.about_us_popup);
+        alertDialogBuilder.setCancelable(false);
+
+        /*
+         * Now, define the action to perform depending on which of the Alert Dialog
+         * buttons the user selects.
+         *
+         * As this is a "standard" Alert Dialog, we make use of the setPositive and
+         * setNegative options, rather than creating a custom Alert Dialog.  Positive
+         * will be "Email Us" and Negative will be "Call Us".  Cancel will simply exit
+         * the ALert Dialog with no other action, taking us back to the Main (User) Activity
+         * page.
+         */
+        alertDialogBuilder.setPositiveButton("Email Us", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                // Email placeholder
+                button_ContactUs.callOnClick();
+                Toast.makeText(MainActivity.this,"You clicked over Email Us",Toast.LENGTH_SHORT).show();
+                return;
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("Call Us", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Call placeholder
+                button_ContactUs.callOnClick();
+                Toast.makeText(MainActivity.this,"You clicked over Call Us",Toast.LENGTH_SHORT).show();
+                return;
+            }
+        });
+
+        alertDialogBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(),"You clicked on OK",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+
+
+    public void onContactUsClick(View view) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        // Set the Alert Dialog title.
+        alertDialogBuilder.setTitle("Contact Us...");
+        // Set the Alert Dialog icon.
+        alertDialogBuilder.setIcon(R.drawable.about_us_icon);
+        // Set the Alert Dialog message.
+        alertDialogBuilder.setMessage(R.string.about_us_popup);
+        alertDialogBuilder.setCancelable(false);
+
+        /*
+         * Now, define the action to perform depending on which of the Alert Dialog
+         * buttons the user selects.
+         *
+         * As this is a "standard" Alert Dialog, we make use of the setPositive and
+         * setNegative options, rather than creating a custom Alert Dialog.  Positive
+         * will be "Email Us" and Negative will be "Call Us".  Cancel will simply exit
+         * the ALert Dialog with no other action, taking us back to the Main (User) Activity
+         * page.
+         */
+        alertDialogBuilder.setPositiveButton("Email Us", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                // Email placeholder
+                Toast.makeText(MainActivity.this,"You clicked over Email Us",Toast.LENGTH_SHORT).show();
+                return;
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("Call Us", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Call placeholder
+                Toast.makeText(MainActivity.this,"You clicked over Call Us",Toast.LENGTH_SHORT).show();
+                return;
+            }
+        });
+
+        alertDialogBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(),"You clicked on OK",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+
+
+    public void onEmailClick(View view) {
+        startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:lcs@lcs.com")));
+        return;
+    }
+
+
+
+    public void onTelephoneClick(View view) {
+        Intent surf = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:16035551212"));
+        startActivity(surf);
+        return;
     }
 }

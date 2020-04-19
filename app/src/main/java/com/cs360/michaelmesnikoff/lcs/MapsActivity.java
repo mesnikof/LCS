@@ -23,9 +23,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import android.location.Location;
 
@@ -207,9 +205,9 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
             public void onMapLongClick(LatLng latLng) {
 
                 /*
-                 * If there are already two points in the list, clear them.
+                 * If there are already two points in the list, clear_icon them.
                  *
-                 * Also, for normal operation, we would probably want to clear all the markers points
+                 * Also, for normal operation, we would probably want to clear_icon all the markers points
                  * off of the map.  As such, we will do that here.  Then we will reload the LCS
                  * location marker, assuming that is where we want to get directions to.
                  */

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "287582727787",
+    "firebase_url": "https://lcs-snhu-1586134563416.firebaseio.com",
+    "project_id": "lcs-snhu-1586134563416",
+    "storage_bucket": "lcs-snhu-1586134563416.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:287582727787:android:99d4029f5a275647900b2e",
+        "android_client_info": {
+          "package_name": "com.cs360.michaelmesnikoff.lcs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "287582727787-7kot886lqov56id4fjhorpt9htk3le07.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cs360.michaelmesnikoff.lcs",
+            "certificate_hash": "00739d8184b25a0da1ed8446ef5828996f85e4fd"
+          }
+        },
+        {
+          "client_id": "287582727787-kk25rh8mqffo4358720mvt9sj7am2hju.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9WYKY06BmLs07l3I8CMKXKwsjQhhDR1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "287582727787-kk25rh8mqffo4358720mvt9sj7am2hju.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

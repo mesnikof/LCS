@@ -4,7 +4,6 @@ package com.cs360.michaelmesnikoff.lcs;
  * Created by mp on 3/5/20.
  */
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;

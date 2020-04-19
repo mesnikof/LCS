@@ -27,7 +27,6 @@
     <string name="db_active">database active.</string>
     <string name="db_open">database open.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="input_item_frag">inputProductFragment</string>
     <string name="input_user_frag">inputUserFragment</string>
@@ -49,4 +48,12 @@
     <string name="lcs_input_user_label">LCS - Input User</string>
     <string name="add_item_button_label">Add Item</string>
     <string name="title_activity_maps">Map</string>
+
+    <string name="about_us_popup">Welcome to your Local Coffee Shop app\n\n
+        We are a small group of coffee and Android programming fanatics.\n\n
+        We have created this app in answer to a perceived CS-360 need.\n\n
+        Use the buttons below to email or voice-call us, if you dare...\n\n
+        And we would like to thank you for your support,
+        especially our family and friends and, of course, our professor.\n\n
+    </string>
 </resources>

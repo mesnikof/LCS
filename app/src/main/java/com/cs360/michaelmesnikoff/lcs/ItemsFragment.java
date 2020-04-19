@@ -193,7 +193,7 @@ public class ItemsFragment extends Fragment {
 
                 /*
                  * Show an appropriate "Toast" message for either failure or success.
-                 * If success, clear the data from the view objects.
+                 * If success, clear_icon the data from the view objects.
                  */
                 if(queryResult == 0) {
                     Toast.makeText(context, "Item Add Failed", Toast.LENGTH_SHORT).show();
@@ -250,7 +250,7 @@ public class ItemsFragment extends Fragment {
 
                 /*
                  * Show an appropriate "Toast" message for either failure or success.
-                 * If success, clear the data from the view objects.
+                 * If success, clear_icon the data from the view objects.
                  */
                 if(queryResult == 0) {
                     Toast.makeText(context, "Item Update Failed", Toast.LENGTH_SHORT).show();
@@ -302,7 +302,7 @@ public class ItemsFragment extends Fragment {
 
                 /*
                  * Show an appropriate "Toast" message for either failure or success.
-                 * If success, clear the data from the view objects.
+                 * If success, clear_icon the data from the view objects.
                  */
                 if(queryResult == 0) {
                     Toast.makeText(context, "Item Delete Failed", Toast.LENGTH_SHORT).show();

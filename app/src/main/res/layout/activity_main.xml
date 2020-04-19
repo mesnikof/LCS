@@ -67,26 +67,36 @@
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/logoff_icon" />
 
-    <Button
+    <ImageButton
         android:id="@+id/button_AboutUs"
+        style="@android:style/Widget.Holo.Light.ImageButton"
         android:layout_width="156dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:radius="20dp"
-        android:text="About Us"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:onClick="onAboutUsClick"
+        android:scaleType="centerCrop"
+        android:src="@drawable/about_us_button"
+        android:background="#FAFAFA"
+        android:backgroundTint="#FAFAFA"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewFirstSep" />
 
-    <Button
+    <ImageButton
         android:id="@+id/button_Contact"
+        style="@android:style/Widget.Holo.Light.ImageButton"
         android:layout_width="151dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginEnd="8dp"
-        android:text="Contact Us"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/contact_us"
+        android:background="#FAFAFA"
+        android:backgroundTint="#FAFAFA"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewFirstSep" />
 
@@ -114,11 +124,11 @@
             android:background="#FFFFFF"
             android:backgroundTint="#FFFFFF"
             android:clickable="false"
-            android:text="FInd Us / Map"
+            android:text="Find Us / Map"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             android:textColor="#000000"
-            android:textSize="18sp"></TextView>
+            android:textSize="18sp" />
     </FrameLayout>
 
     <Button
