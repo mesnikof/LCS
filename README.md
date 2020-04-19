@@ -13,9 +13,9 @@ tools available to allow the end-user to find the LCS location.
 
 **Built-In Username/Password Pairs:**
 
-....admin/admin     (Accesses administration activity page)
-....user/user       (Accesses standard user main activity page)
-....michael/michael (Access standard user main activity page)
+-admin/admin     (Accesses administration activity page)
+-user/user       (Accesses standard user main activity page)
+-michael/michael (Access standard user main activity page)
 
 
 
@@ -24,10 +24,10 @@ tools available to allow the end-user to find the LCS location.
 **Splash Screen**
 
 **Login Activity Page**
-....Standard local login text fields and button.
-....Clear Button
-....Twitter Login Button
-....Google Login Button
+-Standard local login text fields and button.
+-Clear Button
+-Twitter Login Button
+-Google Login Button
 
 **Admin Activity Page**
     All fields and buttons
