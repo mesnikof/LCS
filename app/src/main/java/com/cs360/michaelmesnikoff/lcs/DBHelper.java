@@ -13,27 +13,33 @@ public class DBHelper extends SQLiteOpenHelper {
     /*
      * Create the table names for later.
      */
-    public static final String USERS_TABLE_NAME = "USERS";
-    public static final String ITEMS_TABLE_NAME = "ITEMS";
+    protected static final String USERS_TABLE_NAME = "USERS";
+    protected static final String CARDS_TABLE_NAME = "CARDS";
+    protected static final String ITEMS_TABLE_NAME = "ITEMS";
 
     /*
      * Create the table columns for later.
      */
-    public static final String COLUMN_ID = "_id";
-    public static final String ID_INFO = " INTEGER PRIMARY KEY AUTOINCREMENT";
-    public static final String COLUMN_USERNAME = "username";
-    public static final String COLUMN_PASSWORD = "password";
-    public static final String COLUMN_EMAIL = "email";
-    public static final String COLUMN_FAV_ORDER = "fav_order";
-    public static final String COLUMN_ITEM_NAME = "item_name";
-    public static final String COLUMN_ITEM_PRICE = "item_price";
-    public static final String COLUMN_ITEM_IMAGE_FILE = "item_image_file";
-    public static final String COLUMN_ITEM_IMAGE = "item_image";
-    public static final String TEXT_TYPE = " TEXT";
-    public static final String REAL_TYPE = " REAL";
-    public static final String BLOB_TYPE = " BLOB";
-    public static final String NOT_NULL = " NOT NULL";
-    public static final String COMMA_SEPARATOR = ", ";
+    protected static final String COLUMN_ID = "_id";
+    private static final String ID_INFO = " INTEGER PRIMARY KEY AUTOINCREMENT";
+    private static final String COLUMN_USERNAME = "username";
+    private static final String COLUMN_PASSWORD = "password";
+    private static final String COLUMN_EMAIL = "email";
+    private static final String COLUMN_FAV_ORDER = "fav_order";
+    private static final String COLUMN_CARD = "card";
+    private static final String COLUMN_EXPIRE = "expire";
+    private static final String COLUMN_CVV = "cvv";
+    private static final String COLUMN_ITEM_NAME = "item_name";
+    private static final String COLUMN_ITEM_PRICE = "item_price";
+    private static final String COLUMN_ITEM_IMAGE_FILE = "item_image_file";
+    private static final String COLUMN_ITEM_IMAGE = "item_image";
+    private static final String TEXT_TYPE = " TEXT";
+    private static final String UINT_TYPE = " UNSIGNED BIG INT";
+    private static final String INT_TYPE = " INT";
+    private static final String REAL_TYPE = " REAL";
+    private static final String BLOB_TYPE = " BLOB";
+    private static final String NOT_NULL = " NOT NULL";
+    private static final String COMMA_SEPARATOR = ", ";
 
     /*
      * Database name information.
@@ -55,7 +61,18 @@ public class DBHelper extends SQLiteOpenHelper {
             COLUMN_PASSWORD + TEXT_TYPE + NOT_NULL + COMMA_SEPARATOR +
             COLUMN_EMAIL + TEXT_TYPE + NOT_NULL + COMMA_SEPARATOR +
             COLUMN_FAV_ORDER + TEXT_TYPE + COMMA_SEPARATOR +
-            "UNIQUE(username, email))";
+            COLUMN_CARD + UINT_TYPE + NOT_NULL + COMMA_SEPARATOR +
+            COLUMN_EXPIRE + TEXT_TYPE + NOT_NULL + COMMA_SEPARATOR +
+            COLUMN_CVV + INT_TYPE + NOT_NULL + COMMA_SEPARATOR +
+            "UNIQUE(username, email, card))";
+
+    private static final String CREATE_CARDS_TABLE = "CREATE TABLE IF NOT EXISTS " +
+            CARDS_TABLE_NAME + "(" +
+            COLUMN_ID + ID_INFO + COMMA_SEPARATOR +
+            COLUMN_CARD + UINT_TYPE + NOT_NULL + COMMA_SEPARATOR +
+            COLUMN_EXPIRE + TEXT_TYPE + NOT_NULL + COMMA_SEPARATOR +
+            COLUMN_CVV + INT_TYPE + NOT_NULL + COMMA_SEPARATOR +
+            "UNIQUE(card))";
 
     private static final String CREATE_ITEMS_TABLE = "CREATE TABLE IF NOT EXISTS " +
             ITEMS_TABLE_NAME + "(" +
@@ -88,6 +105,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USERS_TABLE);
+        db.execSQL(CREATE_CARDS_TABLE);
         db.execSQL(CREATE_ITEMS_TABLE);
     }
 
@@ -109,6 +127,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + USERS_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CARDS_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ITEMS_TABLE_NAME);
         onCreate(db);
     }

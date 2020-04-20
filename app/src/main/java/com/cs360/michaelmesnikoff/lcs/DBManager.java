@@ -89,10 +89,20 @@ public class DBManager {
          * values, respectively.
          */
         String[] initUserStrings = {
-                "username:user,password:user,email:user@lcs.com",
-                "username:admin,password:admin,email:admin@lcs.com",
-                "username:michael,password:michael,email:michael@lcs.com"
+                "username:user,password:user,email:user@lcs.com,card:333388888899999,expire:01/23,cvv:1234",
+                "username:admin,password:admin,email:admin@lcs.com,card:0000000000000000,expire:00/00,cvv:000",
+                "username:michael,password:michael,email:michael@lcs.com,card:4444777788889999,expire:12/24,cvv:765"
         };
+
+        /*
+         * Future use, separation of user and card info.
+         *
+        String[] initCardStrings = {
+                "username:user,password:user,email:user@lcs.com,card:333388888899999,expire:01/23,cvv:1234",
+                "username:admin,password:admin,email:admin@lcs.com,card:0000000000000000,expire:00/00,cvv:000",
+                "username:michael,password:michael,email:michael@lcs.com,card:4444777788889999,expire:12/24,cvv:765"
+        };
+        */
 
         String[] initItemStrings = {
                 "item_name:Small Coffee,item_price:1.99,item_image_file:small_coffee",
@@ -117,6 +127,14 @@ public class DBManager {
         for(String insertString: initUserStrings) {
             queryResult = this.insert(DBHelper.USERS_TABLE_NAME, insertString);
         }
+
+        /*
+         * Future use, separation of user and card info.
+         *
+        for(String insertString: initCardStrings) {
+            queryResult = this.insert(DBHelper.CARDS_TABLE_NAME, insertString);
+        }
+        */
 
         for(String insertString: initItemStrings) {
             queryResult = this.insert(DBHelper.ITEMS_TABLE_NAME, insertString);

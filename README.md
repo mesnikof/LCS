@@ -18,7 +18,7 @@ tools available to allow the end-user to find the LCS location.
 
 
 
-**Working Modules:**
+<H3>**Working Modules:**</H3>
 
 **Splash Screen**
 
@@ -59,7 +59,7 @@ tools available to allow the end-user to find the LCS location.
 
 
 
-**To Do:**
+<H3>**To Do:**</H3>
 
 Clean up all the "Toast" messages ued for tesst purposes.
 

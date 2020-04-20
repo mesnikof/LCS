@@ -38,12 +38,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.SessionManager;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+import com.twitter.sdk.android.tweetui.TweetUi;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,8 +78,21 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOGIN_SECRET_KEY = "login_secret_key";
     SharedPreferences.Editor sharedPref_myEditor;
 
+    private TwitterAuthClient twitterAuthClient;
+    private TwitterLoginButton twitterLoginButton;
+    private TwitterSession twitterSession;
+    private String twitterToken;
+    private String twitterSecret;
+    private String twitterEmail;
+    private String twitterUsername;
+    private long twitterUserID;
     public static final String TWITTER_PREFS = "com.twitter.sdk.android:twitter-core:session_store";
     SharedPreferences.Editor twitterPref_myEditor;
+
+    /*
+     * A database Cursor object.
+     */
+    Cursor cursor;
 
     /*
      * Create several class variables for referencing layout objects.
@@ -117,6 +138,17 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.mipmap.ic_launcher_round);
+
+        /*
+         * Access the LCS database to get the username/password info.
+         */
+        dbManager = new DBManager(MainActivity.this);
+        dbManager.open_read();
+        cursor = dbManager.fetch(DBHelper.USERS_TABLE_NAME);
+
+        if (cursor.getCount() == 0) {
+            Toast.makeText(MainActivity.this, "USERS database returned no data.", Toast.LENGTH_LONG).show();
+        }
 
         /*
          * Create a Shared Preference instance for maintaining persistent data.
@@ -179,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 // Custom dialog.
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.contact_us);
-                Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
+                ImageButton dialogButton = dialog.findViewById(R.id.dialogImageButtonOK);
                 // If button is clicked, close the custom dialog.
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -209,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                 // Custom dialog
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.rate_us);
-                Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
+                ImageButton dialogButton = dialog.findViewById(R.id.dialogImageButtonOK);
                 // If button is clicked, close the custom dialog.
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -242,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
          */
         dbManager = new DBManager(MainActivity.this);
         dbManager.open_read();
-        Cursor cursor = dbManager.fetch(DBHelper.ITEMS_TABLE_NAME);
+        cursor = dbManager.fetch(DBHelper.ITEMS_TABLE_NAME);
 
         /*
          * If the database query did not return the needed data show an appropriate "Toast" message.
@@ -553,5 +585,84 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("https://play.google.com/store/apps/details?id="+getPackageName())));
         }
+    }
+
+
+
+    public void shareOnTwitter(View view) {
+        /*
+         * Other button onClick ->
+         * check for logged in ->
+         * if not ->
+         *   use callOnClick for  twitterLoginButton
+         * then do the tweet
+         */
+
+        /*
+         * Set up a reference to the ImageButton.
+         */
+        ImageButton button_ShareOnTwitter = findViewById(R.id.dialogImageButton_TwitterShare);
+
+        /*
+         * Initialize the Twitter API tools.
+         */
+        TwitterConfig config = new TwitterConfig.Builder(this)
+                .logger(new DefaultLogger(Log.DEBUG))
+                .twitterAuthConfig(new TwitterAuthConfig(getResources().getString(R.string.com_twitter_sdk_android_CONSUMER_KEY), getResources().getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET)))
+                .debug(true)
+                .build();
+        Twitter.initialize(config);
+
+        /*
+         * Now set up the Twitter user login actions.
+         */
+        twitterAuthClient = new TwitterAuthClient();
+        TwitterCore twitterCore = TwitterCore.getInstance();
+        TweetUi tweetUI = TweetUi.getInstance();
+        TweetComposer tweetComposer = TweetComposer.getInstance();
+
+        TwitterLoginButton twitterLoginButton = findViewById(R.id.button_loginTwitter);
+        twitterLoginButton.setClickable(true);
+        twitterLoginButton.setEnabled(true);
+        twitterLoginButton.callOnClick();
+
+        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+                // Do something with result, which provides a TwitterSession for making API calls
+
+                Toast.makeText(MainActivity.this, "Twitter Login Working...", Toast.LENGTH_LONG).show();
+
+                twitterSession = result.data;
+                twitterUsername = twitterSession.getUserName();
+                twitterUserID = twitterSession.getUserId();
+
+                twitterAuthClient.requestEmail(twitterSession, new Callback<String>() {
+                    @Override
+                    public void success(Result<String> resultE) {
+                        // Extract the email address from the result data.
+                        twitterEmail = resultE.data;
+                    }
+
+                    @Override
+                    public void failure(TwitterException exception) {
+                        Toast.makeText(MainActivity.this, "Failed to authenticate. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                /*
+                 * Finally (for Twitter), start the user activity for non-Admin users.
+                 */
+                Intent intent = new Intent("com.cs360.michaelmesnikoff.lcs.MainActivity");
+                startActivity(intent);
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                // Do something on failure
+                Toast.makeText(MainActivity.this, "Twitter Login Failed...", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 }

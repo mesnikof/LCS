@@ -84,11 +84,11 @@ public class LoginActivity extends AppCompatActivity {
      */
     EditText login_usernameET;
     EditText login_passwordET;
-    private static EditText editTextUsername;
-    private static EditText editTextPassword;
-    private static TextView textViewAttempts;
-    private static ImageButton login_button;
-    private static TextView textDisplay;
+    private EditText editTextUsername;
+    private EditText editTextPassword;
+    private TextView textViewAttempts;
+    private TextView textDisplay;
+    private ImageButton login_button;
 
     private static final String TAG = "AndroidClarified";
     private SignInButton googleSignInButton;
