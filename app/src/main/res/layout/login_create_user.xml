@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,118 +13,86 @@
         android:background="#CCCCFF"
         tools:context="com.cs360.michaelmesnikoff.lcs.AdminActivity">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/input_user_fragment_label"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp"
-            android:visibility="invisible" />
-
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/linearLayout_buttonBar"
-                android:layout_width="match_parent"
-                android:layout_height="51dp"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <Button
-                    android:id="@+id/button_Add"
-                    style="@android:style/Widget.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/button_label_add"
-                    android:textAppearance="@android:style/TextAppearance.Small.Inverse"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/button_Update"
-                    style="@android:style/Widget.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/button_label_update"
-                    android:textAppearance="@android:style/TextAppearance.Small.Inverse"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/button_Delete"
-                    style="@android:style/Widget.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/button_label_delete"
-                    android:textAppearance="@android:style/TextAppearance.Small.Inverse"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/button_Back"
-                    style="@android:style/Widget.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="returnFromFragment"
-                    android:text="@string/button_label_back"
-                    android:textAppearance="@android:style/TextAppearance.Small.Inverse"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
             <TextView
-                android:id="@+id/textView_username_prompt"
+                android:id="@+id/cu_dlg_textView_username_prompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:text="@string/prompt_username"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout_buttonBar" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/editText_username"
+                android:id="@+id/cu_dlg_editText_username"
                 android:layout_width="240dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
                 android:background="#FFFFFF"
                 android:ems="10"
                 android:hint="@string/prompt_enter_username"
                 android:inputType="textPersonName"
-                android:paddingStart="5dp"
                 android:paddingEnd="5dp"
+                android:paddingStart="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout_buttonBar" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView_password_prompt"
+                android:id="@+id/cu_dlg_textView_password_prompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/prompt_password"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_username_prompt" />
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_textView_username_prompt" />
 
             <EditText
-                android:id="@+id/editText_password"
+                android:id="@+id/cu_dlg_editText_password"
+                android:layout_width="200dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="56dp"
+                android:layout_marginTop="24dp"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:hint="@string/prompt_enter_password"
+                android:inputType="text"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_editText_username"
+                tools:ignore="TextFields" />
+
+            <TextView
+                android:id="@+id/cu_dlg_textView_password2_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/prompt_confirm"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_textView_password_prompt" />
+
+            <EditText
+                android:id="@+id/cu_dlg_editText_password2"
                 android:layout_width="200dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="56dp"
@@ -132,28 +101,29 @@
                 android:ems="10"
                 android:hint="@string/prompt_enter_password"
                 android:inputType="text"
-                android:paddingStart="5dp"
                 android:paddingEnd="5dp"
+                android:paddingStart="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_username"
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_editText_password"
                 tools:ignore="TextFields" />
 
             <TextView
-                android:id="@+id/textView_email_prompt"
+                android:id="@+id/cu_dlg_textView_email_prompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="14dp"
                 android:text="@string/prompt_email_addr"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_password_prompt" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_textView_password2_prompt" />
 
             <EditText
-                android:id="@+id/editText_email"
+                android:id="@+id/cu_dlg_editText_email"
                 android:layout_width="240dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="16dp"
@@ -166,22 +136,52 @@
                 android:inputType="textEmailAddress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_password" />
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_editText_password2" />
 
             <TextView
-                android:id="@+id/textView_card_prompt"
+                android:id="@+id/cu_dlg_textView_email_prompt2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="18dp"
+                android:text="@string/prompt_confirm"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_textView_email_prompt" />
+
+            <EditText
+                android:id="@+id/cu_dlg_editText_email2"
+                android:layout_width="240dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="12dp"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:hint="@string/prompt_enter_email_addr"
+                android:inputType="textEmailAddress"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_editText_email" />
+
+            <TextView
+                android:id="@+id/cu_dlg_textView_card_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
                 android:text="@string/prompt_cc_number"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_email_prompt" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_textView_email_prompt2" />
 
             <EditText
-                android:id="@+id/editText_card"
+                android:id="@+id/cu_dlg_editText_card"
                 android:layout_width="240dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="16dp"
@@ -195,22 +195,51 @@
                 android:paddingEnd="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_email" />
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_editText_email2" />
 
             <TextView
-                android:id="@+id/textView_cvv_prompt"
+                android:id="@+id/cu_dlg_textView_card_prompt2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="18dp"
+                android:text="@string/prompt_confirm"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_textView_card_prompt" />
+
+            <EditText
+                android:id="@+id/cu_dlg_editText_card2"
+                android:layout_width="240dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="12dp"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:hint="@string/prompt_enter_cc_number"
+                android:inputType="number"
+                android:maxLength="16"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_editText_card" />
+
+            <TextView
+                android:id="@+id/cu_dlg_textView_cvv_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
                 android:text="@string/prompt_cvv_number"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_card_prompt" />
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_textView_card_prompt2" />
 
             <EditText
-                android:id="@+id/editText_cvv"
+                android:id="@+id/cu_dlg_editText_cvv"
                 android:layout_width="100dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="156dp"
@@ -225,22 +254,52 @@
                 android:paddingEnd="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_card" />
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_editText_card2" />
 
             <TextView
-                android:id="@+id/textView_expire_prompt"
+                android:id="@+id/cu_dlg_textView_cvv_prompt2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="18dp"
+                android:text="@string/prompt_confirm"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_textView_cvv_prompt" />
+
+            <EditText
+                android:id="@+id/cu_dlg_editText_cvv2"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="156dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:hint="@string/prompt_enter_cvv_number"
+                android:inputType="number"
+                android:maxLength="4"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_editText_cvv" />
+
+            <TextView
+                android:id="@+id/cu_dlg_textView_expire_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
                 android:text="@string/prompt_expire"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_cvv_prompt" />
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_textView_cvv_prompt2" />
 
             <EditText
-                android:id="@+id/editText_expire"
+                android:id="@+id/cu_dlg_editText_expire"
                 android:layout_width="100dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="156dp"
@@ -254,81 +313,84 @@
                 android:paddingStart="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_cvv" />
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_editText_cvv2" />
+
+            <TextView
+                android:id="@+id/cu_dlg_textView_expire_prompt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="18dp"
+                android:text="@string/prompt_confirm"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_textView_expire_prompt" />
 
             <EditText
-                android:id="@+id/editText_userID"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginEnd="8dp"
+                android:id="@+id/cu_dlg_editText_expire2"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="156dp"
+                android:layout_marginTop="12dp"
+                android:background="#FFFFFF"
                 android:ems="10"
-                android:textSize="8sp"
-                android:visibility="invisible"
+                android:hint="@string/prompt_enter_expire"
+                android:inputType="date"
+                android:maxLength="5"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_username"
-                tools:ignore="LabelFor,SmallSp,TextFields" />
-
-            <EditText
-                android:id="@+id/editText_fav_order"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginEnd="8dp"
-                android:ems="10"
-                android:textSize="8sp"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_username"
-                tools:ignore="LabelFor,SmallSp,TextFields" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cu_dlg_editText_expire" />
 
             <LinearLayout
-                android:id="@+id/linearLayout_tableWrapper"
+                android:id="@+id/cu_dlg_linearLayout_buttonBar"
                 android:layout_width="match_parent"
-                android:layout_height="210dp"
-                android:layout_marginTop="296dp"
+                android:layout_height="51dp"
+                android:layout_marginBottom="8dp"
                 android:orientation="horizontal"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ScrollView
-                    android:layout_width="250dp"
-                    android:layout_height="250dp">
-
-                    <TableLayout
-                        android:id="@+id/tableLayout_Users"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        tools:ignore="ScrollViewSize">
-                    </TableLayout>
-                </ScrollView>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <Button
-                    android:id="@+id/button_Clear"
-                    style="@style/Widget.AppCompat.Button"
+                    android:id="@+id/cu_dlg_button_Add"
+                    style="@android:style/Widget.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/button_label_clear"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:text="@string/button_label_add"
+                    android:textAppearance="@android:style/TextAppearance.Small.Inverse"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/testBut"
-                    style="@android:style/Widget.Button.Small"
-                    android:layout_width="31dp"
-                    android:layout_height="24dp"
+                    android:id="@+id/cu_dlg_button_Delete"
+                    style="@android:style/Widget.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#FFFFFF"
-                    android:onClick="returnFromFragment"
-                    android:text="@string/button_label_button"
-                    android:textAlignment="textStart"
+                    android:text="@string/button_label_delete"
+                    android:textAppearance="@android:style/TextAppearance.Small.Inverse"
                     android:textColor="#000000"
-                    android:visibility="invisible" />
-            </LinearLayout>
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
+                <Button
+                    android:id="@+id/cu_dlg_button_Back"
+                    style="@android:style/Widget.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="returnFromFragment"
+                    android:text="@string/button_label_back"
+                    android:textAppearance="@android:style/TextAppearance.Small.Inverse"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </android.support.constraint.ConstraintLayout>
 
     </FrameLayout>
