@@ -21,7 +21,6 @@
     <string name="first_time_user">First time user&#8230;</string>
     <string name="preference_deleted">Preference deleted.</string>
     <string name="no_preference_removed">No preference removed.</string>
-    <string name="label_login_trys">Login Trys</string>
 
     <string name="users_db_closed">Users database closed.</string>
     <string name="items_db_closed">Items database closed.</string>
@@ -74,6 +73,10 @@
     <string name="button_label_get_directions">Get Directions</string>
     <string name="button_label_driving">Driving</string>
     <string name="button_label_walking">Walking</string>
+    <string name="button_label_find_us_map">Find Us / Map</string>
+    <string name="button_label_save_favorite">Save Favorite</string>
+    <string name="button_label_place_order">Place Order</string>
+    <string name="button_label_favorite_order">Favorite Order</string>
 
     <string name="prompt_password">Password</string>
     <string name="prompt_enter_password">Enter Password</string>
@@ -95,4 +98,8 @@
     <string name="label_send_us_email2">LCS@lcs.com</string>
     <string name="label_call_us1">Or else give us a ring at:</string>
     <string name="label_call_us2">800&#8211;555&#8211;1212</string>
+    <string name="label_placeholder">Placeholder</string>
+    <string name="label_login_trys">Login Trys</string>
+
+    <string name="separator_line">-------------------------------------------------------------------------------------------------------------------------------------------------------------------</string>
 </resources>
