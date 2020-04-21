@@ -134,7 +134,7 @@
             android:layout_weight="1"
             android:background="#FAFAFA"
             android:backgroundTint="#FAFAFA"
-            android:onClick="clearLoginPreferences"
+            android:onClick="onCreateNewAccountClick"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/new_user_icon"
             tools:ignore="ContentDescription" />
