@@ -69,6 +69,9 @@
     <string name="button_label_back">Back</string>
     <string name="button_label_clear">Clear</string>
     <string name="button_label_button">Button</string>
+    <string name="button_label_get_directions">Get Directions</string>
+    <string name="button_label_driving">Driving</string>
+    <string name="button_label_walking">Walking</string>
 
     <string name="prompt_password">Password</string>
     <string name="prompt_enter_password">Enter Password</string>
