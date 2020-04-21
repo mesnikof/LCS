@@ -295,7 +295,7 @@ public class LoginActivity extends AppCompatActivity {
         TweetUi tweetUI = TweetUi.getInstance();
         TweetComposer tweetComposer = TweetComposer.getInstance();
 
-        twitterLoginButton = (TwitterLoginButton) findViewById(R.id.button_loginTwitter);
+        twitterLoginButton = findViewById(R.id.button_loginTwitter);
         twitterLoginButton.setClickable(true);
         twitterLoginButton.setEnabled(true);
         twitterLoginButton.setCallback(new Callback<TwitterSession>() {
@@ -433,7 +433,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     /*
-     * This method is called after the return from the Google Sign-In button click and intent action.
+     * This method is called after the return from the Google or Twitter Sign-In button
+     * click and intent action.
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

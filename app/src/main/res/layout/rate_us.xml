@@ -57,7 +57,6 @@
         android:layout_marginBottom="8dp"
         android:background="#FFFFCF"
         android:backgroundTint="#FFFFCF"
-        android:onClick="shareOnTwitter"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/dialogImageButtonOK"
         app:layout_constraintHorizontal_bias="0.512"

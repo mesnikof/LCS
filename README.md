@@ -55,7 +55,10 @@ tools available to allow the end-user to find the LCS location.
 
 **Rate-Us / Social-Media Pop-Up Fragment**<BR>
  -Rate-Us connectivity (Icon Button spawns the connection to theGoogle Play Store)<BR>
- -Tweet connectivity
+ -Tweet connectivity<BR>
+ --Note: To Do: There is an issue with the Twitter API kit that is currently preventing this app
+ from internally sending tweets/shares.  Currently this is requiring app users to re-login to
+ Twitter to allow these tweets to be sent.  This is being researched.
 
 
 

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,23 +39,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.SessionManager;
-import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
-import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
-import com.twitter.sdk.android.tweetui.TweetUi;
+
+import java.io.File;
+
 
 public class MainActivity extends AppCompatActivity {
-
     /*
      * Create DBManager and DBHelper instances to access the LCS database for username/password info.
      */
@@ -79,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor sharedPref_myEditor;
 
     private TwitterAuthClient twitterAuthClient;
-    private TwitterLoginButton twitterLoginButton;
+    //private TwitterLoginButton twitterLoginButton;
+    private ImageButton twitterLoginButton;
     private TwitterSession twitterSession;
     private String twitterToken;
     private String twitterSecret;
@@ -159,16 +156,6 @@ public class MainActivity extends AppCompatActivity {
         sharedPref_myEditor = getSharedPreferences(LOGIN_PREFS, MODE_PRIVATE).edit();
 
         /*
-         * Initialize the Twitter API tools.
-         */
-        TwitterConfig config = new TwitterConfig.Builder(this)
-                .logger(new DefaultLogger(Log.DEBUG))
-                .twitterAuthConfig(new TwitterAuthConfig(getResources().getString(R.string.com_twitter_sdk_android_CONSUMER_KEY), getResources().getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET)))
-                .debug(true)
-                .build();
-        Twitter.initialize(config);
-
-        /*
          * A variable pointing to this actvity's welcome TextView layout object.
          */
         textViewWelcomeTitle = findViewById(R.id.textViewWelcomeTitle);
@@ -236,16 +223,68 @@ public class MainActivity extends AppCompatActivity {
         button_RateUs = findViewById(R.id.button_RateUs);
         // Add button listener.
         button_RateUs.setOnClickListener(new View.OnClickListener() {
+            SharedPreferences dialog_usernamePref;
+            String dialogUsername;
+            SharedPreferences.Editor dialogPref_myEditor;
+
             @Override
-            public void onClick(View arg0) {
-                // Custom dialog
+            public void onClick(View view) {
+                /*
+                 * Set up the custom Rate Us dialog.
+                 */
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.rate_us);
+
+                /*
+                 * Store the Shared Preference username to restore, if necessary, when this
+                 * dialog exits.
+                 */
+                dialog_usernamePref = getSharedPreferences(LoginActivity.LOGIN_PREFS, MODE_PRIVATE);
+                dialogUsername = dialog_usernamePref.getString(LOGIN_USERNAME_KEY, null);
+                dialogPref_myEditor = getSharedPreferences(LOGIN_PREFS, MODE_PRIVATE).edit();
+
+                /*
+                 * Set up the Twitter Auth for the Share on Twitter capability.
+                 */
+                twitterAuthClient = new TwitterAuthClient();
+                twitterLoginButton = dialog.findViewById(R.id.dialogImageButton_TwitterShare);
+                twitterLoginButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        twitterAuthClient.authorize(MainActivity.this, new com.twitter.sdk.android.core.Callback<TwitterSession>() {
+                            @Override
+                            public void success(Result<TwitterSession> twitterSessionResult) {
+                                // Success
+                                Toast.makeText(getApplicationContext(), "Twitter Login worked..!!", Toast.LENGTH_SHORT).show();
+
+                                //Uri imageUri = FileProvider.getUriForFile(MainActivity.this,
+                                //        BuildConfig.APPLICATION_ID + ".file_provider",
+                                //        new File("/path/to/image"));
+
+                                TweetComposer.Builder builder = new TweetComposer.Builder(context)
+                                        .text("just setting up my Twitter Kit.");
+                                        //.image(imageUri);
+                                builder.show();
+                            }
+                            @Override
+                            public void failure(TwitterException e) {
+                                Toast.makeText(getApplicationContext(), "Twitter Login failed..!!", Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+                });
+
+                /*
+                 * Set up a "Back" button and listener.
+                 */
                 ImageButton dialogButton = dialog.findViewById(R.id.dialogImageButtonOK);
                 // If button is clicked, close the custom dialog.
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dialogPref_myEditor.putString(LOGIN_USERNAME_KEY, dialogUsername);
+                        dialogPref_myEditor.commit();
                         dialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Dismissed..!!", Toast.LENGTH_SHORT).show();
                     }
@@ -491,7 +530,7 @@ public class MainActivity extends AppCompatActivity {
 /*************************************************************************************************************/
 /*************************************************************************************************************/
 /*************************************************************************************************************/
-    /*************************************************************************************************************/
+/*************************************************************************************************************/
 /* About Us section */
     public void onAboutUsClick(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -589,80 +628,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void shareOnTwitter(View view) {
-        /*
-         * Other button onClick ->
-         * check for logged in ->
-         * if not ->
-         *   use callOnClick for  twitterLoginButton
-         * then do the tweet
-         */
-
-        /*
-         * Set up a reference to the ImageButton.
-         */
-        ImageButton button_ShareOnTwitter = findViewById(R.id.dialogImageButton_TwitterShare);
-
-        /*
-         * Initialize the Twitter API tools.
-         */
-        TwitterConfig config = new TwitterConfig.Builder(this)
-                .logger(new DefaultLogger(Log.DEBUG))
-                .twitterAuthConfig(new TwitterAuthConfig(getResources().getString(R.string.com_twitter_sdk_android_CONSUMER_KEY), getResources().getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET)))
-                .debug(true)
-                .build();
-        Twitter.initialize(config);
-
-        /*
-         * Now set up the Twitter user login actions.
-         */
-        twitterAuthClient = new TwitterAuthClient();
-        TwitterCore twitterCore = TwitterCore.getInstance();
-        TweetUi tweetUI = TweetUi.getInstance();
-        TweetComposer tweetComposer = TweetComposer.getInstance();
-
-        TwitterLoginButton twitterLoginButton = findViewById(R.id.button_loginTwitter);
-        twitterLoginButton.setClickable(true);
-        twitterLoginButton.setEnabled(true);
-        twitterLoginButton.callOnClick();
-
-        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
-            @Override
-            public void success(Result<TwitterSession> result) {
-                // Do something with result, which provides a TwitterSession for making API calls
-
-                Toast.makeText(MainActivity.this, "Twitter Login Working...", Toast.LENGTH_LONG).show();
-
-                twitterSession = result.data;
-                twitterUsername = twitterSession.getUserName();
-                twitterUserID = twitterSession.getUserId();
-
-                twitterAuthClient.requestEmail(twitterSession, new Callback<String>() {
-                    @Override
-                    public void success(Result<String> resultE) {
-                        // Extract the email address from the result data.
-                        twitterEmail = resultE.data;
-                    }
-
-                    @Override
-                    public void failure(TwitterException exception) {
-                        Toast.makeText(MainActivity.this, "Failed to authenticate. Please try again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                /*
-                 * Finally (for Twitter), start the user activity for non-Admin users.
-                 */
-                Intent intent = new Intent("com.cs360.michaelmesnikoff.lcs.MainActivity");
-                startActivity(intent);
-            }
-
-            @Override
-            public void failure(TwitterException exception) {
-                // Do something on failure
-                Toast.makeText(MainActivity.this, "Twitter Login Failed...", Toast.LENGTH_LONG).show();
-            }
-        });
-
+    @Override
+    protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
+        twitterAuthClient.onActivityResult(requestCode, responseCode, intent);
     }
 }
