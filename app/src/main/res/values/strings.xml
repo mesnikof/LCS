@@ -1,26 +1,26 @@
 <resources>
     <string name="app_name">LCS</string>
+
     <string name="main_page_label">LCS - Main Page</string>
     <string name="login_page_label">LCS - Login Page</string>
     <string name="admin_page_label">LCS - Admin Page</string>
 
     <string name="hello_world">Hello World!</string>
-    <string name="login_world">Hello Login...</string>
-    <string name="admin_world">Hello Admin...</string>
-    <string name="main_world">Hello Main...</string>
+    <string name="login_world">Hello Login&#8230;</string>
+    <string name="admin_world">Hello Admin&#8230;</string>
+    <string name="main_world">Hello Main&#8230;</string>
 
     <string name="username_title">Username</string>
     <string name="username_hint">Username or Email Address</string>
     <string name="login_page_title">LCS Login</string>
     <string name="password_title">Password</string>
     <string name="password_hint">Password</string>
-    <string name="login_button_label">Login</string>
-    <string name="clear_button_label">Clear</string>
-    <string name="create_button_label">Create</string>
     <string name="linkedin_button_label">Login with LinkedIn</string>
-    <string name="first_time_user">First time user...</string>
+    <string name="first_time_user">First time user&#8230;</string>
     <string name="preference_deleted">Preference deleted.</string>
     <string name="no_preference_removed">No preference removed.</string>
+    <string name="label_login_trys">Login Trys</string>
+
     <string name="users_db_closed">Users database closed.</string>
     <string name="items_db_closed">Items database closed.</string>
     <string name="error">Error:</string>
@@ -34,7 +34,7 @@
     <string name="p_incorrect">Password not correct</string>
     <string name="u_p_correct">Username/Password correct</string>
     <string name="u_p_not_blank">Username/Password cannot be blank</string>
-    <string name="admin_selected">Admin Selected...</string>
+    <string name="admin_selected">Admin Selected&#8230;</string>
     <string name="item_added">Item record added.</string>
     <string name="db_insert_error">Database insert failed, Record not added.</string>
     <string name="re_login">Re-Login</string>
@@ -52,7 +52,7 @@
     <string name="about_us_popup">Welcome to your Local Coffee Shop app\n\n
         We are a small group of coffee and Android programming fanatics.\n\n
         We have created this app in answer to a perceived CS-360 need.\n\n
-        Use the buttons below to email or voice-call us, if you dare...\n\n
+        Use the buttons below to email or voice-call us, if you dare&#8230;\n\n
         And we would like to thank you for your support,
         especially our family and friends and, of course, our professor.
     </string>
@@ -62,4 +62,22 @@
         You can also use this page to let your friends on Twitter know about us.\n\n
         Thank you
     </string>
+
+    <string name="button_label_add">Add</string>
+    <string name="button_label_update">Update</string>
+    <string name="button_label_delete">Delete</string>
+    <string name="button_label_back">Back</string>
+    <string name="button_label_clear">Clear</string>
+    <string name="button_label_button">Button</string>
+
+    <string name="prompt_password">Password</string>
+    <string name="prompt_enter_password">Enter Password</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_enter_username">Enter Userame</string>
+    <string name="prompt_email_addr">Email Addr</string>
+    <string name="prompt_enter_email_addr">user@domain.ext</string>
+    <string name="prompt_cc_number">CC Number</string>
+    <string name="prompt_enter_cc_number">15 or 16 digits, no dashes</string>
+    <string name="prompt_cvv_number">CVV Number</string>
+    <string name="prompt_enter_cvv_number">3 or 4 digits</string>
 </resources>

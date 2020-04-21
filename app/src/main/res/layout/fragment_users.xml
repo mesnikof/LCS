@@ -35,7 +35,7 @@
                 style="@android:style/Widget.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add"
+                android:text="@string/button_label_add"
                 android:textAppearance="@android:style/TextAppearance.Small.Inverse"
                 android:textColor="#000"
                 android:textSize="18sp"
@@ -46,7 +46,7 @@
                 style="@android:style/Widget.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Update"
+                android:text="@string/button_label_update"
                 android:textAppearance="@android:style/TextAppearance.Small.Inverse"
                 android:textColor="#000"
                 android:textSize="18sp"
@@ -57,7 +57,7 @@
                 style="@android:style/Widget.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete"
+                android:text="@string/button_label_delete"
                 android:textAppearance="@android:style/TextAppearance.Small.Inverse"
                 android:textColor="#000"
                 android:textSize="18sp"
@@ -69,22 +69,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="returnFromFragment"
-                android:text="Back"
+                android:text="@string/button_label_back"
                 android:textAppearance="@android:style/TextAppearance.Small.Inverse"
                 android:textColor="#000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
         <TextView
             android:id="@+id/textView_username_prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_weight="1"
-            android:text="Username"
+            android:text="@string/prompt_username"
             android:textColor="#000"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -96,12 +94,12 @@
             android:layout_width="240dp"
             android:layout_height="25dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:background="#FFF"
             android:ems="10"
-            android:hint="Item Name"
+            android:hint="@string/prompt_enter_username"
             android:inputType="textPersonName"
-            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout_buttonBar" />
@@ -110,9 +108,9 @@
             android:id="@+id/textView_password_prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
-            android:text="Password"
+            android:text="@string/prompt_password"
             android:textColor="#000"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -121,18 +119,106 @@
 
         <EditText
             android:id="@+id/editText_password"
-            android:layout_width="132dp"
+            android:layout_width="200dp"
             android:layout_height="25dp"
-            android:layout_marginEnd="124dp"
+            android:layout_marginEnd="56dp"
             android:layout_marginTop="12dp"
             android:background="#FFF"
             android:ems="10"
-            android:hint="Password"
-            android:paddingLeft="5dp"
+            android:hint="@string/prompt_enter_password"
+            android:inputType="text"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_username" />
+            app:layout_constraintTop_toBottomOf="@+id/editText_username"
+            tools:ignore="TextFields" />
+
+        <TextView
+            android:id="@+id/textView_email_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/prompt_email_addr"
+            android:textColor="#000"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_password_prompt" />
+
+        <EditText
+            android:id="@+id/editText_email"
+            android:layout_width="240dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="12dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:background="#FFF"
+            android:ems="10"
+            android:hint="@string/prompt_enter_email_addr"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_password" />
+
+        <TextView
+            android:id="@+id/textView_card_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/prompt_cc_number"
+            android:textColor="#000"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_email_prompt" />
+
+        <EditText
+            android:id="@+id/editText_card"
+            android:layout_width="240dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="12dp"
+            android:background="#FFF"
+            android:ems="10"
+            android:hint="@string/prompt_enter_cc_number"
+            android:inputType="number"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_email" />
+
+        <TextView
+            android:id="@+id/textView_cvv_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/prompt_cvv_number"
+            android:textColor="#000"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_card_prompt" />
+
+        <EditText
+            android:id="@+id/editText_cvv"
+            android:layout_width="100dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="156dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:background="#FFF"
+            android:ems="10"
+            android:hint="@string/prompt_enter_cvv_number"
+            android:inputType="number"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_card" />
 
         <EditText
             android:id="@+id/editText_userID"
@@ -143,7 +229,8 @@
             android:textSize="8sp"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_username" />
+            app:layout_constraintTop_toBottomOf="@+id/editText_username"
+            tools:ignore="LabelFor,SmallSp,TextFields" />
 
         <EditText
             android:id="@+id/editText_fav_order"
@@ -154,41 +241,14 @@
             android:textSize="8sp"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_username" />
-
-        <TextView
-            android:id="@+id/textView_email_prompt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="12dp"
-            android:text="Email Addr"
-            android:textColor="#000"
-            android:textSize="18sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_password_prompt" />
-
-        <EditText
-            android:id="@+id/editText_email"
-            android:layout_width="240dp"
-            android:layout_height="35dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
-            android:paddingLeft="5dp"
-            android:background="#FFF"
-            android:ems="10"
-            android:hint="user@domain.ext"
-            android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_password" />
+            app:layout_constraintTop_toBottomOf="@+id/editText_username"
+            tools:ignore="LabelFor,SmallSp,TextFields" />
 
         <LinearLayout
             android:id="@+id/linearLayout_tableWrapper"
             android:layout_width="match_parent"
-            android:layout_height="260dp"
-            android:layout_marginTop="175dp"
+            android:layout_height="210dp"
+            android:layout_marginTop="296dp"
             android:orientation="horizontal"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -202,10 +262,9 @@
                 <TableLayout
                     android:id="@+id/tableLayout_Users"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
+                    android:layout_height="match_parent"
+                    tools:ignore="ScrollViewSize">
                 </TableLayout>
-
             </ScrollView>
 
             <Button
@@ -214,7 +273,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Clear"
+                android:text="@string/button_label_clear"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="#000"
                 android:textSize="18sp"
@@ -228,11 +287,10 @@
                 android:layout_weight="1"
                 android:background="#FFF"
                 android:onClick="returnFromFragment"
-                android:text="Button"
+                android:text="@string/button_label_button"
                 android:textAlignment="textStart"
                 android:textColor="#000"
                 android:visibility="invisible" />
-
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
