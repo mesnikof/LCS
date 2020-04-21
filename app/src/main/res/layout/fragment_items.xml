@@ -35,7 +35,7 @@
                 style="@android:style/Widget.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add"
+                android:text="@string/button_label_add"
                 android:textAppearance="@android:style/TextAppearance.Small.Inverse"
                 android:textColor="#000"
                 android:textSize="18sp"
@@ -46,7 +46,7 @@
                 style="@android:style/Widget.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Update"
+                android:text="@string/button_label_update"
                 android:textAppearance="@android:style/TextAppearance.Small.Inverse"
                 android:textColor="#000"
                 android:textSize="18sp"
@@ -57,7 +57,7 @@
                 style="@android:style/Widget.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete"
+                android:text="@string/button_label_delete"
                 android:textAppearance="@android:style/TextAppearance.Small.Inverse"
                 android:textColor="#000"
                 android:textSize="18sp"
@@ -69,22 +69,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="returnFromFragment"
-                android:text="Back"
+                android:text="@string/button_label_back"
                 android:textAppearance="@android:style/TextAppearance.Small.Inverse"
                 android:textColor="#000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
         <TextView
             android:id="@+id/textView_username_prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_weight="1"
-            android:text="Item Name"
+            android:text="@string/prompt_item_name"
             android:textColor="#000"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -96,12 +94,12 @@
             android:layout_width="240dp"
             android:layout_height="25dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:background="#FFF"
             android:ems="10"
-            android:hint="Item Name"
+            android:hint="@string/prompt_enter_item_name"
             android:inputType="textPersonName"
-            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout_buttonBar" />
@@ -110,9 +108,9 @@
             android:id="@+id/textView_itemPrice_prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
-            android:text="Item Price"
+            android:text="@string/prompt_item_price"
             android:textColor="#000"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -127,9 +125,10 @@
             android:layout_marginTop="12dp"
             android:background="#FFF"
             android:ems="10"
-            android:hint="Item Price"
+            android:hint="@string/prompt_enter_item_price"
             android:inputType="numberDecimal"
-            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -144,7 +143,8 @@
             android:textSize="8sp"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_username" />
+            app:layout_constraintTop_toBottomOf="@+id/editText_username"
+            tools:ignore="LabelFor,SmallSp,TextFields" />
 
         <LinearLayout
             android:id="@+id/linearLayout_tableWrapper"
@@ -164,10 +164,9 @@
                 <TableLayout
                     android:id="@+id/tableLayout_Items"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
+                    android:layout_height="match_parent"
+                    tools:ignore="ScrollViewSize">
                 </TableLayout>
-
             </ScrollView>
 
             <Button
@@ -176,7 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Clear"
+                android:text="@string/button_label_clear"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="#000"
                 android:textSize="18sp"
@@ -190,11 +189,10 @@
                 android:layout_weight="1"
                 android:background="#FFF"
                 android:onClick="returnFromFragment"
-                android:text="Button"
+                android:text="@string/button_label_button"
                 android:textAlignment="textStart"
                 android:textColor="#000"
                 android:visibility="invisible" />
-
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
