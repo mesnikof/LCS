@@ -1,5 +1,6 @@
 package com.cs360.michaelmesnikoff.lcs;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -31,8 +32,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import android.graphics.drawable.Drawable;
-
 import android.database.Cursor;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -48,6 +47,8 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.io.File;
+
+import static java.lang.Integer.*;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -65,24 +66,24 @@ public class MainActivity extends AppCompatActivity {
     /*
      * Create and instantiate the variables used for utilizing the Shared Preference persistent data.
      */
-    private String stringUsername;
-    private static final String LOGIN_PREFS = "My_Login_Prefs";
-    private static final String LOGIN_USERNAME_KEY = "login_username_key";
-    private static final String LOGIN_USERID_KEY = "login_userid_key";
-    private static final String LOGIN_EMAIL_KEY = "login_email_key";
-    private static final String LOGIN_TOKEN_KEY = "login_token_key";
-    private static final String LOGIN_SECRET_KEY = "login_secret_key";
+    protected String stringUsername;
+    protected static final String LOGIN_PREFS = "My_Login_Prefs";
+    protected static final String LOGIN_USERNAME_KEY = "login_username_key";
+    protected static final String LOGIN_USERID_KEY = "login_userid_key";
+    protected static final String LOGIN_EMAIL_KEY = "login_email_key";
+    protected static final String LOGIN_TOKEN_KEY = "login_token_key";
+    protected static final String LOGIN_SECRET_KEY = "login_secret_key";
     SharedPreferences.Editor sharedPref_myEditor;
 
-    private TwitterAuthClient twitterAuthClient;
-    //private TwitterLoginButton twitterLoginButton;
-    private ImageButton twitterLoginButton;
-    private TwitterSession twitterSession;
-    private String twitterToken;
-    private String twitterSecret;
-    private String twitterEmail;
-    private String twitterUsername;
-    private long twitterUserID;
+    protected TwitterAuthClient twitterAuthClient;
+    //protected TwitterLoginButton twitterLoginButton;
+    protected ImageButton twitterLoginButton;
+    protected TwitterSession twitterSession;
+    protected String twitterToken;
+    protected String twitterSecret;
+    protected String twitterEmail;
+    protected String twitterUsername;
+    protected long twitterUserID;
     public static final String TWITTER_PREFS = "com.twitter.sdk.android:twitter-core:session_store";
     SharedPreferences.Editor twitterPref_myEditor;
 
@@ -94,19 +95,19 @@ public class MainActivity extends AppCompatActivity {
     /*
      * Create several class variables for referencing layout objects.
      */
-    private static int scrollerWidth;
-    private LinearLayout linearLayout;
-    private TableRow rowHeader;
-    private TextView textViewWelcomeTitle;
-    private ImageButton button_Logoff;
-    private ImageButton button_ContactUs;
-    private ImageButton button_RateUs;
-    private Button login_button;
+    protected static int scrollerWidth;
+    protected LinearLayout linearLayout;
+    protected TableRow rowHeader;
+    protected TextView textViewWelcomeTitle;
+    protected ImageButton button_Logoff;
+    protected ImageButton button_ContactUs;
+    protected ImageButton button_RateUs;
+    protected Button login_button;
 
     /*
      * A logging string.
      */
-    private static final String TAG = "AndroidClarified";
+    protected static final String TAG = "AndroidClarified";
 
     /*
      * This is the basic onCreate method.  For the Main Activity this sets up
@@ -114,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
      * Layout, such as the available items from the ITEMS database, the button
      * listeners, etc.
      */
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,8 +135,10 @@ public class MainActivity extends AppCompatActivity {
          * Set up the Action Bar to display the app's name and icon.
          */
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(R.mipmap.ic_launcher_round);
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setIcon(R.mipmap.ic_launcher_round);
+        }
 
         /*
          * Access the LCS database to get the username/password info.
@@ -164,9 +168,11 @@ public class MainActivity extends AppCompatActivity {
          * Now display the welcome message including the user's name in that object,
          * If the username is not found in the persistent data show an appropriate "Toast" message.
          */
+        textViewWelcomeTitle.setText(getString(R.string.string_welcome_prefix));
         if (!TextUtils.isEmpty(stringUsername)) {
-            textViewWelcomeTitle.setText("Welcome: " + stringUsername);
+            textViewWelcomeTitle.append(stringUsername);
         } else {
+            textViewWelcomeTitle.append(getString(R.string.string_unknown_user));
             Toast.makeText(MainActivity.this, "Error: username not passed in.", Toast.LENGTH_LONG).show();
         }
 
@@ -374,7 +380,8 @@ public class MainActivity extends AppCompatActivity {
                  * Now the item name from the database.
                  */
                 TextView itemName = new TextView(context);
-                itemName.setText(" " + stringItemName);
+                itemName.setText(" ");
+                itemName.append(stringItemName);
                 itemName.setMinimumWidth(scrollerWidth);
                 itemName.setWidth(750);
                 itemName.setPadding(0, 40, 0, 0);
@@ -402,8 +409,8 @@ public class MainActivity extends AppCompatActivity {
                 ImageView itemImage = new ImageView(context);
                 String uri = "@drawable/" + stringItemImageFile;
                 int imageResource = getResources().getIdentifier(uri, null, getPackageName());
-                Drawable resImage = getResources().getDrawable(imageResource);
-                itemImage.setImageDrawable(resImage);
+                itemImage.setBackgroundColor(0xFAFAFA);
+                itemImage.setImageResource(imageResource);
 
                 /*
                  * Set the ID value for the created quantity selector for later use.
@@ -457,6 +464,7 @@ public class MainActivity extends AppCompatActivity {
      * The onPause method.
      * Write out the Shared Preferences information.
      */
+    @SuppressLint("ApplySharedPref")
     protected void onPause() {
         super.onPause();
 
