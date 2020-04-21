@@ -42,8 +42,10 @@ public class SplashScreenActivity extends AppCompatActivity {
          * with the app's icon.
          */
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(R.mipmap.ic_launcher_round);
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setIcon(R.mipmap.ic_launcher_round);
+        }
 
         /*
          * Run the first-time-app-use database initialization tasks.  This will run
