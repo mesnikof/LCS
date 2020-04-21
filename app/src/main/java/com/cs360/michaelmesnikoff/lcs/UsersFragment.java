@@ -43,11 +43,11 @@ public class UsersFragment extends Fragment {
     /*
      * Instances to represent the fragment layout objects.
      */
-    private Button button_Add;
-    private Button button_Update;
-    private Button button_Delete;
-    private Button button_Back;
-    private Button button_Clear;
+    protected Button button_Add;
+    protected Button button_Update;
+    protected Button button_Delete;
+    protected Button button_Back;
+    protected Button button_Clear;
 
 
     public UsersFragment() {
@@ -70,17 +70,20 @@ public class UsersFragment extends Fragment {
         /*
          * Create a series of variables, including several to represent layout items.
          */
-        button_Add = (Button) thisView.findViewById(R.id.button_Add);
-        button_Update = (Button) thisView.findViewById(R.id.button_Update);
-        button_Delete = (Button) thisView.findViewById(R.id.button_Delete);
-        button_Back = (Button) thisView.findViewById(R.id.button_Back);
-        button_Clear = (Button) thisView.findViewById(R.id.button_Clear);
+        button_Add = thisView.findViewById(R.id.button_Add);
+        button_Update = thisView.findViewById(R.id.button_Update);
+        button_Delete = thisView.findViewById(R.id.button_Delete);
+        button_Back = thisView.findViewById(R.id.button_Back);
+        button_Clear = thisView.findViewById(R.id.button_Clear);
 
-        final EditText etUsername = (EditText) thisView.findViewById(R.id.editText_username);
-        final EditText etPassword = (EditText) thisView.findViewById(R.id.editText_password);
-        final EditText etEmail = (EditText) thisView.findViewById(R.id.editText_email);
-        final EditText etUserID = (EditText) thisView.findViewById(R.id.editText_userID);
-        final EditText etFavOrder = (EditText) thisView.findViewById(R.id.editText_fav_order);
+        final EditText etUsername = thisView.findViewById(R.id.editText_username);
+        final EditText etPassword = thisView.findViewById(R.id.editText_password);
+        final EditText etEmail = thisView.findViewById(R.id.editText_email);
+        final EditText etCard = thisView.findViewById(R.id.editText_card);
+        final EditText etCvv = thisView.findViewById(R.id.editText_cvv);
+        final EditText etExpire = thisView.findViewById(R.id.editText_expire);
+        final EditText etUserID = thisView.findViewById(R.id.editText_userID);
+        final EditText etFavOrder = thisView.findViewById(R.id.editText_fav_order);
 
         int counter = 0;
 
@@ -95,7 +98,7 @@ public class UsersFragment extends Fragment {
          * Create a TableLayout instance to represent the table on the view that contains
          * the items info for selection.
          */
-        TableLayout usersTable = (TableLayout) thisView.findViewById(R.id.tableLayout_Users);
+        TableLayout usersTable = thisView.findViewById(R.id.tableLayout_Users);
 
         /*
          * Iterate through the returned database item information.
@@ -119,6 +122,9 @@ public class UsersFragment extends Fragment {
              */
             final String stringPassword = cursor.getString(cursor.getColumnIndex("password"));
             final String stringEmail = cursor.getString(cursor.getColumnIndex("email"));
+            final String stringCard = cursor.getString(cursor.getColumnIndex("card"));
+            final String stringCvv = cursor.getString(cursor.getColumnIndex("cvv"));
+            final String stringExpire = cursor.getString(cursor.getColumnIndex("expire"));
             final String stringFavOrder = cursor.getString(cursor.getColumnIndex("fav_order"));
 
             /*
@@ -147,6 +153,9 @@ public class UsersFragment extends Fragment {
                     etUsername.setText(stringUsername);
                     etPassword.setText(stringPassword);
                     etEmail.setText(stringEmail);
+                    etCard.setText(stringCard);
+                    etCvv.setText(stringCvv);
+                    etExpire.setText(stringExpire);
                     etUserID.setText(stringUserID);
                     etFavOrder.setText(stringFavOrder);
                     Toast.makeText(context, "Selected", Toast.LENGTH_SHORT).show();
@@ -188,6 +197,12 @@ public class UsersFragment extends Fragment {
                 insertString += etPassword.getText();
                 insertString += ",email:";
                 insertString += etEmail.getText();
+                insertString += ",card:";
+                insertString += etCard.getText();
+                insertString += ",cvv:";
+                insertString += etCvv.getText();
+                insertString += ",expire:";
+                insertString += etExpire.getText();
 
                 /*
                  * Open a DBmanager instance on the database.
@@ -214,6 +229,9 @@ public class UsersFragment extends Fragment {
                     etEmail.setText("");
                     etFavOrder.setText("");
                     etUserID.setText("");
+                    etCard.setText("");
+                    etCvv.setText("");
+                    etExpire.setText("");
                 }
 
                 /*
@@ -275,6 +293,9 @@ public class UsersFragment extends Fragment {
                     etEmail.setText("");
                     etFavOrder.setText("");
                     etUserID.setText("");
+                    etCard.setText("");
+                    etCvv.setText("");
+                    etExpire.setText("");
                 }
 
                 /*
@@ -329,6 +350,9 @@ public class UsersFragment extends Fragment {
                     etEmail.setText("");
                     etFavOrder.setText("");
                     etUserID.setText("");
+                    etCard.setText("");
+                    etCvv.setText("");
+                    etExpire.setText("");
                 }
 
                 /*
@@ -350,6 +374,9 @@ public class UsersFragment extends Fragment {
                 etEmail.setText("");
                 etFavOrder.setText("");
                 etUserID.setText("");
+                etCard.setText("");
+                etCvv.setText("");
+                etExpire.setText("");
                 Toast.makeText(context, "Cleared", Toast.LENGTH_SHORT).show();
             }
         });
