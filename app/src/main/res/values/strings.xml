@@ -10,9 +10,11 @@
     <string name="admin_world">Hello Admin&#8230;</string>
     <string name="main_world">Hello Main&#8230;</string>
 
+    <string name="title_login_page">LCS Login</string>
+    <string name="title_rate_us_dialog">Rate Us&#8230;</string>
+
     <string name="username_title">Username</string>
     <string name="username_hint">Username or Email Address</string>
-    <string name="login_page_title">LCS Login</string>
     <string name="password_title">Password</string>
     <string name="password_hint">Password</string>
     <string name="linkedin_button_label">Login with LinkedIn</string>
