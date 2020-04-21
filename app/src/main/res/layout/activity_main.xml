@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FAFAFA"
     tools:context="com.cs360.michaelmesnikoff.lcs.MainActivity">
 
     <TextView
@@ -64,9 +64,9 @@
         android:backgroundTint="#FAFAFA"
         android:radius="10dp"
         android:scaleType="fitCenter"
+        android:src="@drawable/logoff_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/logoff_icon"
         tools:ignore="ContentDescription" />
 
     <ImageButton
@@ -76,12 +76,12 @@
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:adjustViewBounds="true"
+        android:background="#FAFAFA"
+        android:backgroundTint="#FAFAFA"
         android:cropToPadding="true"
         android:onClick="onAboutUsClick"
         android:scaleType="centerCrop"
         android:src="@drawable/about_us_button"
-        android:background="#FAFAFA"
-        android:backgroundTint="#FAFAFA"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewFirstSep"
         tools:ignore="ContentDescription" />
@@ -93,11 +93,11 @@
         android:layout_height="50dp"
         android:layout_marginEnd="8dp"
         android:adjustViewBounds="true"
+        android:background="#FAFAFA"
+        android:backgroundTint="#FAFAFA"
         android:cropToPadding="true"
         android:scaleType="centerCrop"
         android:src="@drawable/contact_us"
-        android:background="#FAFAFA"
-        android:backgroundTint="#FAFAFA"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewFirstSep"
         tools:ignore="ContentDescription" />
@@ -114,10 +114,10 @@
             android:layout_height="fill_parent"
             android:layout_marginStart="2dp"
             android:layout_marginTop="2dp"
+            android:background="@null"
             android:onClick="onMapClick"
             android:scaleType="fitXY"
             android:src="@drawable/google_maps"
-            android:background="@null"
             tools:ignore="ContentDescription" />
 
         <TextView
@@ -238,9 +238,9 @@
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbarSize="50dip"
             android:fadeScrollbars="false"
             android:scrollbarFadeDuration="0"
+            android:scrollbarSize="50dip"
             tools:ignore="UselessParent">
 
             <LinearLayout
