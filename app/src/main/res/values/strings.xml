@@ -83,4 +83,10 @@
     <string name="prompt_enter_cc_number">15 or 16 digits, no dashes</string>
     <string name="prompt_cvv_number">CVV Number</string>
     <string name="prompt_enter_cvv_number">3 or 4 digits</string>
+
+    <string name="label_contact_us">Contact Us&#8230;</string>
+    <string name="label_send_us_email1">To send us an email, send it to:</string>
+    <string name="label_send_us_email2">LCS@lcs.com</string>
+    <string name="label_call_us1">Or else give us a ring at:</string>
+    <string name="label_call_us2">800&#8211;555&#8211;1212</string>
 </resources>
