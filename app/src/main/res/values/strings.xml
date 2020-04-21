@@ -89,4 +89,8 @@
     <string name="label_send_us_email2">LCS@lcs.com</string>
     <string name="label_call_us1">Or else give us a ring at:</string>
     <string name="label_call_us2">800&#8211;555&#8211;1212</string>
+    <string name="prompt_item_name">Item Name</string>
+    <string name="prompt_enter_item_name">Item Name</string>
+    <string name="prompt_item_price">Item Price</string>
+    <string name="prompt_enter_item_price">Item Price</string>
 </resources>
