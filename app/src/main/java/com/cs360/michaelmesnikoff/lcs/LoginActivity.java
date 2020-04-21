@@ -1,5 +1,6 @@
 package com.cs360.michaelmesnikoff.lcs;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -65,43 +66,43 @@ public class LoginActivity extends AppCompatActivity {
     /*
      * Create a series of variables for use later dealing with the shared preferences.
      */
-    public String stringUsername;
-    public static final String LOGIN_PREFS = "My_Login_Prefs";
-    public static final String LOGIN_USERNAME_KEY = "login_username_key";
-    public static final String LOGIN_USERID_KEY = "login_userid_key";
-    public static final String LOGIN_EMAIL_KEY = "login_email_key";
-    public static final String LOGIN_TOKEN_KEY = "login_token_key";
-    public static final String LOGIN_SECRET_KEY = "login_secret_key";
+    protected String stringUsername;
+    protected static final String LOGIN_PREFS = "My_Login_Prefs";
+    protected static final String LOGIN_USERNAME_KEY = "login_username_key";
+    protected static final String LOGIN_USERID_KEY = "login_userid_key";
+    protected static final String LOGIN_EMAIL_KEY = "login_email_key";
+    protected static final String LOGIN_TOKEN_KEY = "login_token_key";
+    protected static final String LOGIN_SECRET_KEY = "login_secret_key";
 
     SharedPreferences.Editor sharedPref_myEditor;
 
-    public static final String TWITTER_PREFS = "com.twitter.sdk.android_twitter-core_session_store";
-    public static final String TWITTER_GS0 = "guestsession0";
-    public static final String TWITTER_AGS = "active_guestsession";
+    protected static final String TWITTER_PREFS = "com.twitter.sdk.android_twitter-core_session_store";
+    protected static final String TWITTER_GS0 = "guestsession0";
+    protected static final String TWITTER_AGS = "active_guestsession";
 
     /*
      * Create a series of variables for representing widgets on the Login layout.
      */
     EditText login_usernameET;
     EditText login_passwordET;
-    private EditText editTextUsername;
-    private EditText editTextPassword;
-    private TextView textViewAttempts;
-    private TextView textDisplay;
-    private ImageButton login_button;
+    protected EditText editTextUsername;
+    protected EditText editTextPassword;
+    protected TextView textViewAttempts;
+    protected TextView textDisplay;
+    protected ImageButton login_button;
 
-    private static final String TAG = "AndroidClarified";
-    private SignInButton googleSignInButton;
-    private GoogleSignInClient googleSignInClient;
+    protected static final String TAG = "AndroidClarified";
+    protected SignInButton googleSignInButton;
+    protected GoogleSignInClient googleSignInClient;
 
-    private TwitterAuthClient twitterAuthClient;
-    private TwitterLoginButton twitterLoginButton;
-    private TwitterSession twitterSession;
-    private String twitterToken;
-    private String twitterSecret;
-    private String twitterEmail;
-    private String twitterUsername;
-    private long twitterUserID;
+    protected TwitterAuthClient twitterAuthClient;
+    protected TwitterLoginButton twitterLoginButton;
+    protected TwitterSession twitterSession;
+    protected String twitterToken;
+    protected String twitterSecret;
+    protected String twitterEmail;
+    protected String twitterUsername;
+    protected long twitterUserID;
 
     /*
      * Also a widget variable, this one for keeping count of login attempts.
@@ -125,8 +126,10 @@ public class LoginActivity extends AppCompatActivity {
          * Set the ActionBar to show the LCS icon.
          */
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(R.mipmap.ic_launcher_round);
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setIcon(R.mipmap.ic_launcher_round);
+        }
 
 
 /*************************************************************************************************************/
@@ -166,12 +169,12 @@ public class LoginActivity extends AppCompatActivity {
              * The textDisplaySring is for test purposes only.  This is left in for future
              * testing only.
              */
-            textDisplayString += cursor.getString(cursor.getColumnIndex("username"));
-            textDisplayString += ", ";
-            textDisplayString += cursor.getString(cursor.getColumnIndex("password"));
-            textDisplayString += ", ";
-            textDisplayString += cursor.getString(cursor.getColumnIndex("email"));
-            textDisplayString += "\n";
+            textDisplayString.concat(cursor.getString(cursor.getColumnIndex("username")));
+            textDisplayString.concat(", ");
+            textDisplayString.concat(cursor.getString(cursor.getColumnIndex("password")));
+            textDisplayString.concat(", ");
+            textDisplayString.concat(cursor.getString(cursor.getColumnIndex("email")));
+            textDisplayString.concat("\n");
         } while (cursor.moveToNext());
         /*
          * The textDisplaySring is for test purposes only.  Left in for future testing.
@@ -224,7 +227,7 @@ public class LoginActivity extends AppCompatActivity {
             TextView tv = (TextView) g;
             tv.setTextSize(18);
             tv.setTypeface(null, Typeface.NORMAL);
-            tv.setText("Sign-In with Google");
+            tv.setText(R.string.label_google_sign_in);
             tv.setTextColor(Color.parseColor("#FFFFFF"));
             tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.google_signin));
             tv.setSingleLine(true);
@@ -299,6 +302,7 @@ public class LoginActivity extends AppCompatActivity {
         twitterLoginButton.setClickable(true);
         twitterLoginButton.setEnabled(true);
         twitterLoginButton.setCallback(new Callback<TwitterSession>() {
+            @SuppressLint("ApplySharedPref")
             @Override
             public void success(Result<TwitterSession> result) {
                 // Do something with result, which provides a TwitterSession for making API calls
@@ -570,6 +574,7 @@ public class LoginActivity extends AppCompatActivity {
          */
         login_button.setOnClickListener(
                 new View.OnClickListener() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onClick(View view) {
                         /*
