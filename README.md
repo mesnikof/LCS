@@ -25,6 +25,7 @@ tools available to allow the end-user to find the LCS location.
 **Login Activity Page**<BR>
  -Standard local login text fields and button.<BR>
  -Clear Button<BR>
+ -Create New User/Account Button<BR>
  -Twitter Login Button<BR>
  -Google Login Button
 
@@ -64,9 +65,7 @@ tools available to allow the end-user to find the LCS location.
 
 <H3>**To Do:**</H3>
 
-Clean up all the "Toast" messages ued for tesst purposes.
-
-Set up the "Create New User/Account" functionality on the Login Activity page.
+Clean up all the "Toast" messages used for test purposes.
 
 Set up the Order Entry functionality for the user.
 
