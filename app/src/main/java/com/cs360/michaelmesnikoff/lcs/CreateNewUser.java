@@ -21,6 +21,17 @@ import android.widget.Toast;
  * clicks on the "Create New User/Account" icon/button.
  */
 public class CreateNewUser {
+    /*
+     * Create a class-global view instance.
+     */
+    View thisView;
+
+    /*
+     * Create class-global DBManager and DBhelper instances to access the LCS database
+     * for username/password info.
+     */
+    private DBManager dbManager;
+    private DBHelper dbHelper;
 
     /*
      * Create some "class-global" variables.
@@ -43,7 +54,6 @@ public class CreateNewUser {
      * This is the basic class constructor.  It takes a single context argument.
      */
     public CreateNewUser(Context c) {
-
         /*
          * Initialize the context variable with the calling context.
          */
@@ -52,7 +62,7 @@ public class CreateNewUser {
         /*
          * This "Toast" is for testing purposes to show entry into the constructor.
          */
-        Toast.makeText(context, "In the class...", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "In the class...", Toast.LENGTH_LONG).show();
 
         /*
          * Load and display the custom dialog.
@@ -156,9 +166,9 @@ public class CreateNewUser {
             return;
         }
 
-        intA = Integer.parseInt(cardET.getText().toString());
-        intB = Integer.parseInt(cardConfET.getText().toString());
-        result = ComparePairs(intA, intB);
+        strA = cardET.getText().toString();
+        strB = cardConfET.getText().toString();
+        result = ComparePairs(strA, strB);
         if (result == 0) {
             Toast.makeText(context, "CC Numbers must match.", Toast.LENGTH_LONG).show();
             cardET.setFocusableInTouchMode(true);
@@ -166,9 +176,9 @@ public class CreateNewUser {
             return;
         }
 
-        intA = Integer.parseInt(cvvET.getText().toString());
-        intB = Integer.parseInt(cvvConfET.getText().toString());
-        result = ComparePairs(intA, intB);
+        strA = cvvET.getText().toString();
+        strB = cvvConfET.getText().toString();
+        result = ComparePairs(strA, strB);
         if (result == 0) {
             Toast.makeText(context, "CVV Numbers must match.", Toast.LENGTH_LONG).show();
             cvvET.setFocusableInTouchMode(true);
@@ -189,10 +199,61 @@ public class CreateNewUser {
         /*
          * If we got to here all the data integrity checks were valid.  Now do the actual
          * database insertion.
+         *
+         * First, create a long variable to hold the insert results.
          */
+        long queryResult = 0;
 
-        Toast.makeText(context, "Create Method..!!", Toast.LENGTH_LONG).show();
+        /*
+         * Now, a String variable to hold the data to be inserted.
+         * Load it with the data.
+         */
+        String insertString = "username:";
+        insertString += usernameET.getText().toString();
+        insertString += ",password:";
+        insertString += passwordET.getText().toString();
+        insertString += ",email:";
+        insertString += emailET.getText().toString();
+        insertString += ",card:";
+        insertString += cardET.getText().toString();
+        insertString += ",cvv:";
+        insertString += cvvET.getText().toString();
+        insertString += ",expire:";
+        insertString += expireET.getText().toString();
+
+        /*
+         * Open a DBmanager instance on the database.
+         */
+        dbManager = new DBManager(context);
+        dbManager.open_write();
+
+        /*
+         * Run the query, get the result for testing.
+         */
+        queryResult = dbManager.insert(DBHelper.USERS_TABLE_NAME, insertString);
+
+        /*
+         * Show an appropriate "Toast" message for either failure or success.
+         * If success, clear_icon the data from the view objects.
+         */
+        if(queryResult == 0) {
+            Toast.makeText(context, "User Add Failed", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            String tString = "User: ";
+            tString += usernameET.getText().toString();
+            tString += " added...";
+            Toast.makeText(context, tString, Toast.LENGTH_SHORT).show();
+        }
+
+        /*
+         * Close the databae for cleanliness.
+         */
+        dbManager.close();
+        return;
     }
+
+
 
     /*
      * This method performs the comparison between two strings (i.e. passowrds).
