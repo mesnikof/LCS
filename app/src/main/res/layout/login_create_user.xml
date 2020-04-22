@@ -376,47 +376,48 @@
         android:id="@+id/cu_dlg_linearLayout_buttonBar"
         android:layout_width="match_parent"
         android:layout_height="51dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="32dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/cu_dlg_button_Add"
-            style="@android:style/Widget.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_label_add"
-            android:textAppearance="@android:style/TextAppearance.Small.Inverse"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/cu_dlg_button_Delete"
-            style="@android:style/Widget.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_label_delete"
-            android:textAppearance="@android:style/TextAppearance.Small.Inverse"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <Button
+        <ImageButton
             android:id="@+id/cu_dlg_button_Back"
-            style="@android:style/Widget.Button"
-            android:layout_width="wrap_content"
+            style="@android:style/Widget.Holo.Light.ImageButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_label_back"
-            android:textAppearance="@android:style/TextAppearance.Small.Inverse"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:background="#CFFFCF"
+            android:backgroundTint="#CFFFCF"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/logon_icon"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/cu_dlg_button_Clear"
+            style="@android:style/Widget.Holo.Light.ImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#CFFFCF"
+            android:backgroundTint="#CFFFCF"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/clear_icon"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/cu_dlg_button_Add"
+            style="@android:style/Widget.Holo.Light.ImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#CFFFCF"
+            android:backgroundTint="#CFFFCF"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/new_user_icon"
+            tools:ignore="ContentDescription" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
