@@ -79,19 +79,22 @@
     <string name="button_label_favorite_order">Favorite Order</string>
 
     <string name="prompt_password">Password</string>
-    <string name="prompt_enter_password">Enter Password</string>
+    <string name="prompt_enter_password"><font size="10">Enter Password</font></string>
     <string name="prompt_username">Username</string>
-    <string name="prompt_enter_username">Enter Userame</string>
+    <string name="prompt_enter_username"><font size="10">Enter Username</font></string>
     <string name="prompt_email_addr">Email Addr</string>
-    <string name="prompt_enter_email_addr">user@domain.ext</string>
+    <string name="prompt_enter_email_addr"><font size="10">user@domain.ext</font></string>
     <string name="prompt_cc_number">CC Number</string>
-    <string name="prompt_enter_cc_number">15 or 16 digits, no dashes</string>
+    <string name="prompt_enter_cc_number"><font size="10">15 or 16 digits, no dashes</font></string>
     <string name="prompt_cvv_number">CVV Number</string>
-    <string name="prompt_enter_cvv_number">3 or 4 digits</string>
+    <string name="prompt_enter_cvv_number"><font size="10">3 or 4 digits</font></string>
+    <string name="prompt_expire">Expiration</string>
+    <string name="prompt_enter_expire"><font size="10">mm/yy</font></string>
     <string name="prompt_item_name">Item Name</string>
     <string name="prompt_enter_item_name">Item Name</string>
     <string name="prompt_item_price">Item Price</string>
     <string name="prompt_enter_item_price">Item Price</string>
+    <string name="prompt_confirm">Confirm</string>
 
     <string name="label_contact_us">Contact Us&#8230;</string>
     <string name="label_send_us_email1">To send us an email, send it to:</string>
@@ -100,6 +103,9 @@
     <string name="label_call_us2">800&#8211;555&#8211;1212</string>
     <string name="label_placeholder">Placeholder</string>
     <string name="label_login_trys">Login Trys</string>
+    <string name="label_google_sign_in">Sign-In with Google</string>
 
     <string name="separator_line">-------------------------------------------------------------------------------------------------------------------------------------------------------------------</string>
+    <string name="string_welcome_prefix">Welcome: </string>
+    <string name="string_unknown_user">Unknown User</string>
 </resources>
