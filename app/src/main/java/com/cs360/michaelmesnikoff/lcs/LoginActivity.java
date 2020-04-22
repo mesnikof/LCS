@@ -443,7 +443,7 @@ public class LoginActivity extends AppCompatActivity {
      * A "Toast" message is generated for either success or failure.
      */
     public void onCreateNewAccountClick(View view) {
-        Toast.makeText(LoginActivity.this, "Create New User/Account Method...", Toast.LENGTH_LONG).show();
+        //Toast.makeText(LoginActivity.this, "Create New User/Account Method...", Toast.LENGTH_LONG).show();
         CreateNewUser cnu = new CreateNewUser(this);
     }
 
