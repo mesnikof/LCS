@@ -437,6 +437,19 @@ public class LoginActivity extends AppCompatActivity {
 
 
     /*
+     * This method implements the Create New User/Account feature.  On button click it displays
+     * the appropriate dialog and calls the required method(s).
+     *
+     * A "Toast" message is generated for either success or failure.
+     */
+    public void onCreateNewAccountClick(View view) {
+        Toast.makeText(LoginActivity.this, "Create New User/Account Method...", Toast.LENGTH_LONG).show();
+        CreateNewUser cnu = new CreateNewUser(this);
+    }
+
+
+
+    /*
      * This method is called after the return from the Google or Twitter Sign-In button
      * click and intent action.
      */
