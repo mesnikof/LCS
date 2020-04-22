@@ -8,6 +8,19 @@
     android:background="#FAFAFA"
     tools:context="com.cs360.michaelmesnikoff.lcs.MainActivity">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="80dp"
+        android:layout_height="52dp"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="150dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/label_submit"
+        android:src="@drawable/lcs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewSecondSep" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,7 +56,7 @@
         android:layout_height="5sp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="54dp"
         android:background="#000000"
         android:text="@string/separator_line"
         android:textAlignment="center"
@@ -75,6 +88,7 @@
         android:layout_width="156dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:adjustViewBounds="true"
         android:background="#FAFAFA"
         android:backgroundTint="#FAFAFA"
@@ -92,6 +106,7 @@
         android:layout_width="151dp"
         android:layout_height="50dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
         android:adjustViewBounds="true"
         android:background="#FAFAFA"
         android:backgroundTint="#FAFAFA"
@@ -154,7 +169,7 @@
         android:id="@+id/textViewSecondSep"
         android:layout_width="wrap_content"
         android:layout_height="5sp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="170dp"
         android:background="#000"
         android:text="@string/separator_line"
         android:textAlignment="center"
@@ -168,89 +183,89 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SmallSp" />
 
-    <Button
-        android:id="@+id/button_SaveFav"
-        style="@android:style/Widget.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="2dp"
-        android:layout_marginTop="68dp"
-        android:background="@drawable/rounded_button_lite_blue_style"
-        android:text="@string/button_label_save_favorite"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="#f8f9f9"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSecondSep" />
-
-    <Button
-        android:id="@+id/button_Update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="2dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/button_label_clear"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_SaveFav" />
-
-    <Button
-        android:id="@+id/button_PlaceOrder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/button_label_place_order"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="#FF0000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_FavOrder" />
-
-    <Button
-        android:id="@+id/button_FavOrder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/rounded_button_yellow_style"
-        android:text="@string/button_label_favorite_order"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_Update" />
-
     <LinearLayout
         android:id="@+id/scrollOuterLinearLayout"
-        android:layout_width="264dp"
-        android:layout_height="327dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="350dp"
+        android:layout_height="275dp"
+        android:layout_margin="8dp"
+        android:gravity="center"
         android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/mainConstraintLayout"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewSecondSep">
 
+        <ImageButton
+            android:id="@+id/buttonLeft"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="start|end|center_vertical"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="0"
+            android:background="#FAFAFA"
+            android:onClick="onClickScrollLeft"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_left"
+            tools:ignore="ContentDescription" />
+
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0"
             android:fadeScrollbars="false"
+            android:fillViewport="false"
+            android:padding="4dp"
+            android:scrollbarAlwaysDrawHorizontalTrack="true"
             android:scrollbarFadeDuration="0"
-            android:scrollbarSize="50dip"
+            android:scrollbarSize="20dp"
             tools:ignore="UselessParent">
 
             <LinearLayout
                 android:id="@+id/scrollInnerLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="horizontal"
                 tools:ignore="ScrollViewSize">
             </LinearLayout>
         </HorizontalScrollView>
+
+        <ImageButton
+            android:id="@+id/buttonRight"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="0"
+            android:background="#FAFAFA"
+            android:gravity="start|end|center_horizontal"
+            android:onClick="onClickScrollRight"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_right"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <Button
+            android:id="@+id/buttonBottom"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:layout_weight="0"
+            android:text="Bottom Middle Bottom"
+            android:textSize="14sp"
+            tools:ignore="InefficientWeight" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

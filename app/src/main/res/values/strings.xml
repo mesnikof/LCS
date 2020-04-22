@@ -104,8 +104,11 @@
     <string name="label_placeholder">Placeholder</string>
     <string name="label_login_trys">Login Trys</string>
     <string name="label_google_sign_in">Sign-In with Google</string>
+    <string name="label_submit">Floting Submit</string>
 
     <string name="separator_line">-------------------------------------------------------------------------------------------------------------------------------------------------------------------</string>
-    <string name="string_welcome_prefix">Welcome: </string>
+    <string name="string_welcome_prefix">Welcome:</string>
     <string name="string_unknown_user">Unknown User</string>
+    <string name="toast_database_no_data">USERS database returned no data.</string>
+    <string name="prompt_quantity">Quantity?</string>
 </resources>

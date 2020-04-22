@@ -19,11 +19,13 @@ import android.support.v7.app.ActionBar;
 
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
      * Create several class variables for referencing layout objects.
      */
     protected static int scrollerWidth;
+    protected HorizontalScrollView hScrollView;
     protected LinearLayout linearLayout;
     protected TableRow rowHeader;
     protected TextView textViewWelcomeTitle;
@@ -148,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         cursor = dbManager.fetch(DBHelper.USERS_TABLE_NAME);
 
         if (cursor.getCount() == 0) {
-            Toast.makeText(MainActivity.this, "USERS database returned no data.", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, R.string.toast_database_no_data, Toast.LENGTH_LONG).show();
         }
 
         /*
@@ -170,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
          */
         textViewWelcomeTitle.setText(getString(R.string.string_welcome_prefix));
         if (!TextUtils.isEmpty(stringUsername)) {
+            textViewWelcomeTitle.append(" ");
             textViewWelcomeTitle.append(stringUsername);
         } else {
             textViewWelcomeTitle.append(getString(R.string.string_unknown_user));
@@ -314,6 +318,8 @@ public class MainActivity extends AppCompatActivity {
         scrollerWidth = linearLayout.getWidth();
         linearLayout = findViewById(R.id.scrollInnerLinearLayout);
 
+        hScrollView = findViewById(R.id.horizontalScrollView);
+
         /*
          * Access the LCS database to get the username/password info.
          */
@@ -366,11 +372,11 @@ public class MainActivity extends AppCompatActivity {
                  */
                 EditText itemQuantity = new EditText(context);
                 itemQuantity.setMinimumWidth(scrollerWidth);
-                itemQuantity.setWidth(750);
+                itemQuantity.setWidth(400);
                 itemQuantity.setPadding(0, 40, 0, 0);
-                itemQuantity.setHint("Quantity?");
+                itemQuantity.setHint(R.string.prompt_quantity);
                 itemQuantity.setPaintFlags(android.graphics.Paint.UNDERLINE_TEXT_FLAG);
-                itemQuantity.setTextSize(22);
+                itemQuantity.setTextSize(18);
                 itemQuantity.setInputType(InputType.TYPE_CLASS_NUMBER);
                 itemQuantity.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 itemQuantity.clearFocus();
@@ -383,12 +389,12 @@ public class MainActivity extends AppCompatActivity {
                 itemName.setText(" ");
                 itemName.append(stringItemName);
                 itemName.setMinimumWidth(scrollerWidth);
-                itemName.setWidth(750);
+                itemName.setWidth(400);
                 itemName.setPadding(0, 40, 0, 0);
                 itemName.setBackgroundResource(R.drawable.item_name_style);
                 itemName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 itemName.setTextColor(Color.BLUE);
-                itemName.setTextSize(22);
+                itemName.setTextSize(18);
 
                 /*
                  * Now the item price from the database.
@@ -396,12 +402,12 @@ public class MainActivity extends AppCompatActivity {
                 TextView itemPrice = new TextView(context);
                 itemPrice.setText(stringItemPrice);
                 itemPrice.setMinimumWidth(scrollerWidth);
-                itemPrice.setWidth(750);
+                itemPrice.setWidth(400);
                 itemPrice.setPadding(0, 40, 0, 0);
                 itemPrice.setBackgroundResource(R.drawable.item_price_style);
                 itemPrice.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 itemPrice.setTextColor(Color.BLACK);
-                itemPrice.setTextSize(22);
+                itemPrice.setTextSize(18);
 
                 /*
                  * Now the item image (if it exists) from the database and the drawable resources.
@@ -454,7 +460,6 @@ public class MainActivity extends AppCompatActivity {
              * Close the database.
              */
             dbManager.close();
-
         }
     }
 
@@ -589,6 +594,24 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+
+
+    /*
+     *
+     */
+    public void onClickScrollLeft(View view) {
+        hScrollView.smoothScrollBy(-400, 0);
+    }
+
+
+
+    /*
+     *
+     */
+    public void onClickScrollRight(View view) {
+        hScrollView.smoothScrollBy(400, 0);
     }
 
 
