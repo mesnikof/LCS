@@ -3,7 +3,6 @@ package com.cs360.michaelmesnikoff.lcs;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -70,10 +69,31 @@ public class CreateNewUser {
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.login_create_user);
 
-        Button cu_dlg_BackButton = dialog.findViewById(R.id.cu_dlg_button_Back);
-        Button cu_dlg_CreateButton = dialog.findViewById(R.id.cu_dlg_button_Add);
+        /*
+         * Create local instances of all the data fields.
+         */
+        usernameET = dialog.findViewById(R.id.cu_dlg_editText_username);
+        passwordET = dialog.findViewById(R.id.cu_dlg_editText_password);
+        passwordConfET = dialog.findViewById(R.id.cu_dlg_editText_password2);
+        emailET = dialog.findViewById(R.id.cu_dlg_editText_email);
+        emailConfET = dialog.findViewById(R.id.cu_dlg_editText_email2);
+        cardET = dialog.findViewById(R.id.cu_dlg_editText_card);
+        cardConfET = dialog.findViewById(R.id.cu_dlg_editText_card2);
+        cvvET = dialog.findViewById(R.id.cu_dlg_editText_cvv);
+        cvvConfET = dialog.findViewById(R.id.cu_dlg_editText_cvv2);
+        expireET = dialog.findViewById(R.id.cu_dlg_editText_expire);
+        expireConfET = dialog.findViewById(R.id.cu_dlg_editText_expire2);
 
-        // If button is clicked, close the custom dialog.
+        /*
+         * Create local instances of the dialog buttons.
+         */
+        ImageButton cu_dlg_BackButton = dialog.findViewById(R.id.cu_dlg_button_Back);
+        ImageButton cu_dlg_CreateButton = dialog.findViewById(R.id.cu_dlg_button_Add);
+        ImageButton cu_dlg_ClearButton = dialog.findViewById(R.id.cu_dlg_button_Clear);
+
+        /*
+         * If the "Back" button is clicked, just close the custom dialog.
+         */
         cu_dlg_BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,30 +102,47 @@ public class CreateNewUser {
             }
         });
 
-        // If button is clicked, close the custom dialog.
-        cu_dlg_CreateButton.setOnClickListener(new View.OnClickListener() {
+        /*
+         * If the "Clear" button is clicked, clear all the dialog EditText fields.
+         */
+        cu_dlg_ClearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*
                  * Create local instances of all the data fields.
                  */
-                usernameET = dialog.findViewById(R.id.cu_dlg_editText_username);
-                passwordET = dialog.findViewById(R.id.cu_dlg_editText_password);
-                passwordConfET = dialog.findViewById(R.id.cu_dlg_editText_password2);
-                emailET = dialog.findViewById(R.id.cu_dlg_editText_email);
-                emailConfET = dialog.findViewById(R.id.cu_dlg_editText_email2);
-                cardET = dialog.findViewById(R.id.cu_dlg_editText_card);
-                cardConfET = dialog.findViewById(R.id.cu_dlg_editText_card2);
-                cvvET = dialog.findViewById(R.id.cu_dlg_editText_cvv);
-                cvvConfET = dialog.findViewById(R.id.cu_dlg_editText_cvv2);
-                expireET = dialog.findViewById(R.id.cu_dlg_editText_expire);
-                expireConfET = dialog.findViewById(R.id.cu_dlg_editText_expire2);
+                usernameET.setText("");
+                passwordET.setText("");
+                passwordConfET.setText("");
+                emailET.setText("");
+                emailConfET.setText("");
+                cardET.setText("");
+                cardConfET.setText("");
+                cvvET.setText("");
+                cvvConfET.setText("");
+                expireET.setText("");
+                expireConfET.setText("");
 
-                OnCreateClick(v);
-                //dialog.dismiss();
+                Toast.makeText(context, "Cleared..!!", Toast.LENGTH_SHORT).show();
             }
         });
 
+        /*
+         * If the "Create" button is clicked, do the create tasks, and then close the
+         * custom dialog.
+         */
+        cu_dlg_CreateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OnCreateClick(v);
+                dialog.dismiss();
+                Toast.makeText(context, "Dismissed..!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        /*
+         * Now that the button listeners are ready to go, show the dialog.
+         */
         dialog.show();
     }
 
