@@ -6,8 +6,11 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +20,10 @@ import android.content.Intent;
 
 import android.support.v7.app.ActionBar;
 
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -57,13 +63,13 @@ public class MainActivity extends AppCompatActivity {
     /*
      * Create DBManager and DBHelper instances to access the LCS database for username/password info.
      */
-    private DBManager dbManager;
-    private DBHelper dbHelper;
+    DBManager dbManager;
+    DBHelper dbHelper;
 
     /*
      * Create a Context instance variable.
      */
-    public Context context;
+    Context context;
 
     /*
      * Create and instantiate the variables used for utilizing the Shared Preference persistent data.
@@ -113,11 +119,11 @@ public class MainActivity extends AppCompatActivity {
     protected static final String TAG = "AndroidClarified";
 
     /*
-     * This is the basic onCreate method.  For the Main Activity this sets up
-     * the ActionBar, as well as setting up all the basic items on the Main Activity
-     * Layout, such as the available items from the ITEMS database, the button
-     * listeners, etc.
-     */
+         * This is the basic onCreate method.  For the Main Activity this sets up
+         * the ActionBar, as well as setting up all the basic items on the Main Activity
+         * Layout, such as the available items from the ITEMS database, the button
+         * listeners, etc.
+         */
     @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -291,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
                 ImageButton dialogButton = dialog.findViewById(R.id.dialogImageButtonOK);
                 // If button is clicked, close the custom dialog.
                 dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("ApplySharedPref")
                     @Override
                     public void onClick(View v) {
                         dialogPref_myEditor.putString(LOGIN_USERNAME_KEY, dialogUsername);
@@ -372,14 +379,17 @@ public class MainActivity extends AppCompatActivity {
                  */
                 EditText itemQuantity = new EditText(context);
                 itemQuantity.setMinimumWidth(scrollerWidth);
-                itemQuantity.setWidth(400);
-                itemQuantity.setPadding(0, 40, 0, 0);
+                itemQuantity.setWidth(dpToPx(200));
+                itemQuantity.setPadding(0, 25, 0, 0);
                 itemQuantity.setHint(R.string.prompt_quantity);
                 itemQuantity.setPaintFlags(android.graphics.Paint.UNDERLINE_TEXT_FLAG);
                 itemQuantity.setTextSize(18);
                 itemQuantity.setInputType(InputType.TYPE_CLASS_NUMBER);
+                itemQuantity.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
                 itemQuantity.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 itemQuantity.clearFocus();
+                //itemQuantity.addTextChangedListener(textWatcher);
+                itemQuantity.setOnFocusChangeListener(fcl);
                 itemQuantity.setBackgroundResource(R.drawable.item_quantity_style);
 
                 /*
@@ -389,8 +399,8 @@ public class MainActivity extends AppCompatActivity {
                 itemName.setText(" ");
                 itemName.append(stringItemName);
                 itemName.setMinimumWidth(scrollerWidth);
-                itemName.setWidth(400);
-                itemName.setPadding(0, 40, 0, 0);
+                itemName.setWidth(dpToPx(200));
+                itemName.setPadding(0, 25, 0, 0);
                 itemName.setBackgroundResource(R.drawable.item_name_style);
                 itemName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 itemName.setTextColor(Color.BLUE);
@@ -402,8 +412,8 @@ public class MainActivity extends AppCompatActivity {
                 TextView itemPrice = new TextView(context);
                 itemPrice.setText(stringItemPrice);
                 itemPrice.setMinimumWidth(scrollerWidth);
-                itemPrice.setWidth(400);
-                itemPrice.setPadding(0, 40, 0, 0);
+                itemPrice.setWidth(dpToPx(200));
+                itemPrice.setPadding(0, 25, 0, 0);
                 itemPrice.setBackgroundResource(R.drawable.item_price_style);
                 itemPrice.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 itemPrice.setTextColor(Color.BLACK);
@@ -416,6 +426,7 @@ public class MainActivity extends AppCompatActivity {
                 String uri = "@drawable/" + stringItemImageFile;
                 int imageResource = getResources().getIdentifier(uri, null, getPackageName());
                 itemImage.setBackgroundColor(0xFAFAFA);
+                itemImage.setMaxWidth(dpToPx(200));
                 itemImage.setImageResource(imageResource);
 
                 /*
@@ -461,7 +472,22 @@ public class MainActivity extends AppCompatActivity {
              */
             dbManager.close();
         }
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
+
+/* End of the onCreate Constructor section */
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/*************************************************************************************************************/
 
 
 
@@ -545,6 +571,7 @@ public class MainActivity extends AppCompatActivity {
 /*************************************************************************************************************/
 /*************************************************************************************************************/
 /* About Us section */
+
     public void onAboutUsClick(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         // Set the Alert Dialog title.
@@ -599,19 +626,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     /*
-     *
+     * These two methods respond to left/right arrow clicks to scroll the "items" view.
      */
     public void onClickScrollLeft(View view) {
-        hScrollView.smoothScrollBy(-400, 0);
+        hScrollView.smoothScrollBy(dpToPx(-200), 0);
     }
 
-
-
-    /*
-     *
-     */
     public void onClickScrollRight(View view) {
-        hScrollView.smoothScrollBy(400, 0);
+        hScrollView.smoothScrollBy(dpToPx(200), 0);
     }
 
 
@@ -659,8 +681,61 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    /*
+     * This method simply returns the pass/fail from the Twitter authorization task.
+     */
     @Override
     protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
         twitterAuthClient.onActivityResult(requestCode, responseCode, intent);
     }
+
+
+
+    /*
+     * These methods convert to/from DPs/pixels for view element sizing.
+     */
+    public static int dpToPx(int dp)
+    {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    public static int pxToDp(int px)
+    {
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+    }
+
+
+
+    TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            //here, after we introduced something in the EditText we get the string from it
+            String answerString = editable.toString();
+
+            //and now we make a Toast
+            //modify "yourActivity.this" with your activity name .this
+            Toast.makeText(MainActivity.this,"The string from EditText is: "+answerString,Toast.LENGTH_SHORT).show();
+        }
+    };
+
+
+
+    View.OnFocusChangeListener fcl = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if(!hasFocus){
+                EditText txtUser=(EditText)v;
+                String userName=txtUser.getText().toString();
+                Toast.makeText(MainActivity.this,"The string from EditText is: "+userName,Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 }

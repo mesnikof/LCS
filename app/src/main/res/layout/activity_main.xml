@@ -14,10 +14,13 @@
         android:layout_height="52dp"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:layout_marginEnd="150dp"
+        android:layout_marginEnd="200dp"
         android:layout_marginTop="32dp"
         android:contentDescription="@string/label_submit"
         android:src="@drawable/lcs"
+        android:clickable="true"
+        android:focusable="true"
+        app:rippleColor="#66AAFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewSecondSep" />
 
