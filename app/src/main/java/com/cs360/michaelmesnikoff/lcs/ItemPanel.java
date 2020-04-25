@@ -1,7 +1,6 @@
 package com.cs360.michaelmesnikoff.lcs;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -11,7 +10,8 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import static android.view.View.generateViewId;
 
 /**
  * Created by mp on 4/24/20.
@@ -27,15 +27,10 @@ public class ItemPanel {
      */
     View thisView;
 
-    Helpers helpers;
-
     /*
-     * Create class-global DBManager and DBhelper instances to access the LCS database
-     * for username/password info.
+     * An instance of the Helpers class.
      */
-    private DBManager dbManager;
-    private DBHelper dbHelper;
-    private Cursor cursor;
+    Helpers helpers;
 
     /*
      * A class-global Context instance.
@@ -47,9 +42,8 @@ public class ItemPanel {
      */
 
     /*
-     * A couple of LinearLayout instances.
+     * A LinearLayout instances.
      */
-    protected LinearLayout linearLayout;
     protected LinearLayout panel;
 
     /*
@@ -63,18 +57,8 @@ public class ItemPanel {
     protected TextView TvItemId;
     protected EditText EtItemQuantity;
     protected TextView TvItemName;
-    protected TextView TvItemProce;
-    protected ImageView TvItemImage;
-
-    /*
-     * Finally, the internal variables holding the data.
-     */
-    private int intItemID;
-    private String stringItemID;
-    private String stringItemName;
-    private float floatItemPrice;
-    private String stringItemPrice;
-    private String stringItemImageFile;
+    protected TextView TvItemPrice;
+    protected ImageView IvItemImage;
 
     /*
      * The class constructor.
@@ -86,146 +70,57 @@ public class ItemPanel {
         context = c;
         helpers = new Helpers(context);
 
-        /*
-         * Access the LCS database to get the username/password info.
-         */
-        dbManager = new DBManager(context);
-        dbManager.open_read();
-        cursor = dbManager.fetch(DBHelper.ITEMS_TABLE_NAME);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        panel = new LinearLayout(context);
+        panel.setLayoutParams(lp);
+        panel.setOrientation(LinearLayout.VERTICAL);
 
-        /*
-         * If the database query did not return the needed data show an appropriate "Toast" message.
-         * Otherwise create the selectable TableRow objects.
-         */
-        if (cursor.getCount() == 0) {
-            Toast.makeText(context, "ITEMS database returned no data.", Toast.LENGTH_LONG).show();
-        }
-        else {
-            /*
-             * Iterate through the returned database item information.
-             * Perform the operations as documented below.
-             */
-            do {
-                /*
-                 * First, extract the _id, item_name, and item_price information.
-                 * Store separate strings for passing to the other tasks in this activity.
-                 */
-                intItemID = cursor.getInt(cursor.getColumnIndex("_id"));
-                stringItemID = Integer.toString(intItemID);
+        TvItemId = new TextView(context);
+        TvItemId.setVisibility(View.INVISIBLE);
 
-                stringItemName = cursor.getString(cursor.getColumnIndex("item_name"));
+        EtItemQuantity = new EditText(context);
+        EtItemQuantity.setId(generateViewId());
+        EtItemQuantity.setWidth(helpers.dpToPx(200));
+        EtItemQuantity.setPadding(0, 25, 0, 0);
+        EtItemQuantity.setHint(R.string.prompt_quantity);
+        EtItemQuantity.setPaintFlags(android.graphics.Paint.UNDERLINE_TEXT_FLAG);
+        EtItemQuantity.setTextSize(18);
+        EtItemQuantity.setInputType(InputType.TYPE_CLASS_NUMBER);
+        EtItemQuantity.setFilters(new InputFilter[]{new InputFilter.LengthFilter(2)});
+        EtItemQuantity.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        EtItemQuantity.clearFocus();
+        EtItemQuantity.setBackgroundResource(R.drawable.item_quantity_style);
+        //EtItemQuantity.addTextChangedListener(textWatcher);
+        //EtItemQuantity.setOnFocusChangeListener(fcl);
 
-                floatItemPrice = cursor.getFloat(cursor.getColumnIndex("item_price"));
-                stringItemPrice = Float.toString(floatItemPrice);
+        TvItemName = new TextView(context);
+        TvItemName.setId(generateViewId());
+        TvItemName.setMinimumWidth(helpers.dpToPx(200));
+        TvItemName.setWidth(helpers.dpToPx(200));
+        TvItemName.setPadding(0, 25, 0, 0);
+        TvItemName.setBackgroundResource(R.drawable.item_name_style);
+        TvItemName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        TvItemName.setTextColor(Color.BLUE);
+        TvItemName.setTextSize(18);
 
-                stringItemImageFile = cursor.getString(cursor.getColumnIndex("item_image_file"));
-                if (stringItemImageFile == null) {
-                    stringItemImageFile = "lcs_image";
-                }
+        TvItemPrice = new TextView(context);
+        TvItemPrice.setId(generateViewId());
+        TvItemPrice.setMinimumWidth(helpers.dpToPx(200));
+        TvItemPrice.setWidth(helpers.dpToPx(200));
+        TvItemPrice.setPadding(0, 25, 0, 0);
+        TvItemPrice.setBackgroundResource(R.drawable.item_price_style);
+        TvItemPrice.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        TvItemPrice.setTextColor(Color.BLACK);
+        TvItemPrice.setTextSize(18);
 
-                /*
-                 * Now, create the row to be inserted in the selection table.
-                 *
-                 * First, create a vertical linear layout to contain the "panel"
-                 */
-                LinearLayout panel = new LinearLayout(context);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                panel.setLayoutParams(lp);
-                panel.setOrientation(LinearLayout.VERTICAL);
+        IvItemImage = new ImageView(context);
+        IvItemImage.setBackgroundColor(0xFAFAFA);
+        IvItemImage.setMaxWidth(helpers.dpToPx(200));
 
-                /*
-                 * Now an EditText field to hold the user-entered quantity.
-                 *
-                 * Note: For this and all the fields in the "panel, all the extra lines of code
-                 * here are setting the various display parameters (text, size, input-type, etc).
-                 */
-                EditText itemQuantity = new EditText(context);
-                //itemQuantities.set(intItemID, new EditText(context));
-//                itemQuantity.setMinimumWidth(scrollerWidth);
-                itemQuantity.setWidth(helpers.dpToPx(200));
-                itemQuantity.setPadding(0, 25, 0, 0);
-                itemQuantity.setHint(R.string.prompt_quantity);
-                itemQuantity.setPaintFlags(android.graphics.Paint.UNDERLINE_TEXT_FLAG);
-                itemQuantity.setTextSize(18);
-                itemQuantity.setInputType(InputType.TYPE_CLASS_NUMBER);
-                itemQuantity.setFilters(new InputFilter[]{new InputFilter.LengthFilter(2)});
-                itemQuantity.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                itemQuantity.clearFocus();
-                //itemQuantity.addTextChangedListener(textWatcher);
-                //itemQuantity.setOnFocusChangeListener(fcl);
-                itemQuantity.setBackgroundResource(R.drawable.item_quantity_style);
-
-                /*
-                 * Now the item name from the database.
-                 */
-                TextView itemName = new TextView(context);
-                itemName.setText(" ");
-                itemName.append(stringItemName);
-//                itemName.setMinimumWidth(scrollerWidth);
-                itemName.setWidth(helpers.dpToPx(200));
-                itemName.setPadding(0, 25, 0, 0);
-                itemName.setBackgroundResource(R.drawable.item_name_style);
-                itemName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                itemName.setTextColor(Color.BLUE);
-                itemName.setTextSize(18);
-
-                /*
-                 * Now the item price from the database.
-                 */
-                TextView itemPrice = new TextView(context);
-                itemPrice.setText(stringItemPrice);
-//                itemPrice.setMinimumWidth(scrollerWidth);
-                itemPrice.setWidth(helpers.dpToPx(200));
-                itemPrice.setPadding(0, 25, 0, 0);
-                itemPrice.setBackgroundResource(R.drawable.item_price_style);
-                itemPrice.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                itemPrice.setTextColor(Color.BLACK);
-                itemPrice.setTextSize(18);
-
-                /*
-                 * Now the item image (if it exists) from the database and the drawable resources.
-                 */
-                ImageView itemImage = new ImageView(context);
-                String uri = "@drawable/" + stringItemImageFile;
-//                int imageResource = getResources().getIdentifier(uri, null, getPackageName());
-                itemImage.setBackgroundColor(0xFAFAFA);
-                itemImage.setMaxWidth(helpers.dpToPx(200));
-//                itemImage.setImageResource(imageResource);
-
-                /*
-                 * Set the ID value for the created quantity selector for later use.
-                 */
-//                itemQuantity.setId(counter);
-
-                /*
-                 * Now set the onClick tasks.  For these buttons we will just pass the info from the
-                 * selected item to the EditText items elsewhere in this view for acting on.
-                 * The "Toast" message is just for verification of activity purposes.
-                 */
-/*                itemButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        etUsername.setText(stringUsername);
-                        etPassword.setText(stringPassword);
-                        etEmail.setText(stringEmail);
-                        etUserID.setText(stringUserID);
-                        etFavOrder.setText(stringFavOrder);
-                        Toast.makeText(context, "Selected", Toast.LENGTH_SHORT).show();
-                    }
-                });
-*/
-            /*
-             * Finally, add the created button object to the created row object.
-             * After that add the created row to the existing table object.
-             */
-                panel.addView(itemQuantity);
-                panel.addView(itemName);
-                panel.addView(itemPrice);
-                panel.addView(itemImage);
-//                linearLayout.addView(panel, counter);
-//                linearLayout.setOnFocusChangeListener(fcl);
-
-            } while (true);
-        }
+        panel.addView(TvItemId);
+        panel.addView(EtItemQuantity);
+        panel.addView(TvItemName);
+        panel.addView(TvItemPrice);
+        panel.addView(IvItemImage);
     }
 }
