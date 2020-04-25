@@ -210,7 +210,6 @@
             android:onClick="onClickScrollLeft"
             android:scaleType="fitCenter"
             android:src="@drawable/icon_left"
-            android:visibility="invisible"
             tools:ignore="ContentDescription" />
 
         <HorizontalScrollView
@@ -248,7 +247,6 @@
             android:onClick="onClickScrollRight"
             android:scaleType="fitCenter"
             android:src="@drawable/icon_right"
-            android:visibility="invisible"
             tools:ignore="ContentDescription" />
     </LinearLayout>
 
