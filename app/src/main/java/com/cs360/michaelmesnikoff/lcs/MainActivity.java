@@ -55,6 +55,8 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Integer.*;
 
@@ -70,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
      * Create a Context instance variable.
      */
     Context context;
+
+    Helpers helpers;
 
     /*
      * Create and instantiate the variables used for utilizing the Shared Preference persistent data.
@@ -113,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
     protected ImageButton button_RateUs;
     protected Button login_button;
 
+    protected List<EditText> itemQuantities = new ArrayList<EditText>();
+
     /*
      * A logging string.
      */
@@ -139,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
          * Instantiate the context variable.
          */
         context = this;
+        helpers = new Helpers(context);
 
         /*
          * Set up the Action Bar to display the app's name and icon.
@@ -378,18 +385,19 @@ public class MainActivity extends AppCompatActivity {
                  * here are setting the various display parameters (text, size, input-type, etc).
                  */
                 EditText itemQuantity = new EditText(context);
+                //itemQuantities.set(intItemID, new EditText(context));
                 itemQuantity.setMinimumWidth(scrollerWidth);
-                itemQuantity.setWidth(dpToPx(200));
+                itemQuantity.setWidth(helpers.dpToPx(200));
                 itemQuantity.setPadding(0, 25, 0, 0);
                 itemQuantity.setHint(R.string.prompt_quantity);
                 itemQuantity.setPaintFlags(android.graphics.Paint.UNDERLINE_TEXT_FLAG);
                 itemQuantity.setTextSize(18);
                 itemQuantity.setInputType(InputType.TYPE_CLASS_NUMBER);
-                itemQuantity.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
+                itemQuantity.setFilters(new InputFilter[]{new InputFilter.LengthFilter(2)});
                 itemQuantity.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 itemQuantity.clearFocus();
                 //itemQuantity.addTextChangedListener(textWatcher);
-                itemQuantity.setOnFocusChangeListener(fcl);
+                //itemQuantity.setOnFocusChangeListener(fcl);
                 itemQuantity.setBackgroundResource(R.drawable.item_quantity_style);
 
                 /*
@@ -399,7 +407,7 @@ public class MainActivity extends AppCompatActivity {
                 itemName.setText(" ");
                 itemName.append(stringItemName);
                 itemName.setMinimumWidth(scrollerWidth);
-                itemName.setWidth(dpToPx(200));
+                itemName.setWidth(helpers.dpToPx(200));
                 itemName.setPadding(0, 25, 0, 0);
                 itemName.setBackgroundResource(R.drawable.item_name_style);
                 itemName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -412,7 +420,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView itemPrice = new TextView(context);
                 itemPrice.setText(stringItemPrice);
                 itemPrice.setMinimumWidth(scrollerWidth);
-                itemPrice.setWidth(dpToPx(200));
+                itemPrice.setWidth(helpers.dpToPx(200));
                 itemPrice.setPadding(0, 25, 0, 0);
                 itemPrice.setBackgroundResource(R.drawable.item_price_style);
                 itemPrice.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -426,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
                 String uri = "@drawable/" + stringItemImageFile;
                 int imageResource = getResources().getIdentifier(uri, null, getPackageName());
                 itemImage.setBackgroundColor(0xFAFAFA);
-                itemImage.setMaxWidth(dpToPx(200));
+                itemImage.setMaxWidth(helpers.dpToPx(200));
                 itemImage.setImageResource(imageResource);
 
                 /*
@@ -460,6 +468,7 @@ public class MainActivity extends AppCompatActivity {
                 panel.addView(itemPrice);
                 panel.addView(itemImage);
                 linearLayout.addView(panel, counter);
+                linearLayout.setOnFocusChangeListener(fcl);
 
             /*
              * Lastly, increment the counter used for the loop.
@@ -629,11 +638,13 @@ public class MainActivity extends AppCompatActivity {
      * These two methods respond to left/right arrow clicks to scroll the "items" view.
      */
     public void onClickScrollLeft(View view) {
-        hScrollView.smoothScrollBy(dpToPx(-200), 0);
+        hScrollView.clearFocus();
+        hScrollView.smoothScrollBy(helpers.dpToPx(-200), 0);
     }
 
     public void onClickScrollRight(View view) {
-        hScrollView.smoothScrollBy(dpToPx(200), 0);
+        hScrollView.clearFocus();
+        hScrollView.smoothScrollBy(helpers.dpToPx(200), 0);
     }
 
 
@@ -687,21 +698,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
         twitterAuthClient.onActivityResult(requestCode, responseCode, intent);
-    }
-
-
-
-    /*
-     * These methods convert to/from DPs/pixels for view element sizing.
-     */
-    public static int dpToPx(int dp)
-    {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
-
-    public static int pxToDp(int px)
-    {
-        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }
 
 
