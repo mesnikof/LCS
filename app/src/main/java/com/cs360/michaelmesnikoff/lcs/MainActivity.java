@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 TweetComposer.Builder builder = new TweetComposer.Builder(context)
                                         .text("just setting up my Twitter Kit.");
-                                        //.image(imageUri);
+                                //.image(imageUri);
                                 builder.show();
                             }
                             @Override
