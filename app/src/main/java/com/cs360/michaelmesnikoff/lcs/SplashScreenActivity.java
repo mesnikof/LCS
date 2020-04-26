@@ -67,7 +67,8 @@ public class SplashScreenActivity extends AppCompatActivity {
          * Clear out the Order List Shared Preferences string.
          *
          * First, create a Shared Preference instance for maintaining persistent data.
-         * Also create the variables and method to hold and access/update the data.
+         * Then clear the Order List data.  Nte: This only takes place on app "ground-zero"
+         * startuo, not on app resume.  This is a deliberate design choice.
          */
         SharedPreferences order_listPref = this.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE);
         String stringOrderList = order_listPref.getString(ORDER_LIST_KEY, null);
