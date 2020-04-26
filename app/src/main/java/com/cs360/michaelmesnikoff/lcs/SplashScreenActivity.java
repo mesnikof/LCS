@@ -10,6 +10,7 @@ package com.cs360.michaelmesnikoff.lcs;
  * First, import some needed libraries for thier internal methods.
  */
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,10 @@ import android.os.Bundle;
  * Now declare the class, just to make things work.
  */
 public class SplashScreenActivity extends AppCompatActivity {
+
+    protected static final String ORDER_STATUS_PREFS = "My_OrderStatus_Prefs";
+    protected static final String ORDER_LIST_KEY = "order_list_key";
+    SharedPreferences.Editor sharedPref_myEditor;
 
     /*
      * Declare a DBmanager instance to perform the first-time app use database
@@ -57,6 +62,18 @@ public class SplashScreenActivity extends AppCompatActivity {
         dbManager = new DBManager(SplashScreenActivity.this);
         dbManager.open();
         long initItemsReturn = dbManager.initializeDB();
+
+        /*
+         * Clear out the Order List Shared Preferences string.
+         *
+         * First, create a Shared Preference instance for maintaining persistent data.
+         * Also create the variables and method to hold and access/update the data.
+         */
+        SharedPreferences order_listPref = this.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE);
+        String stringOrderList = order_listPref.getString(ORDER_LIST_KEY, null);
+        sharedPref_myEditor = this.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE).edit();
+        sharedPref_myEditor.clear();
+        sharedPref_myEditor.commit();
 
         Thread myThread = new Thread() {
             @Override
