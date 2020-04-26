@@ -314,8 +314,6 @@ public class ItemPanel {
                     sharedPref_myEditor.putString(ORDER_LIST_KEY, stringOrderList);
                     sharedPref_myEditor.commit();
 
-                    Toast.makeText(context, "String: "+stringOrderList, Toast.LENGTH_LONG).show();
-
                     itemDialog.dismiss();
                     Toast.makeText(context, "Added..!!", Toast.LENGTH_SHORT).show();
                 }
