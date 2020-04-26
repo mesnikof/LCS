@@ -1,15 +1,20 @@
 package com.cs360.michaelmesnikoff.lcs;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static android.view.View.generateViewId;
 
@@ -47,18 +52,30 @@ public class ItemPanel {
     protected LinearLayout panel;
 
     /*
-     * The "Inner" ScrollView.
-     */
-    protected HorizontalScrollView hScrollView;
-
-    /*
-     * The various parts of the item.
+     * The various parts of the passed-in item.
      */
     protected TextView TvItemId;
     protected EditText EtItemQuantity;
     protected TextView TvItemName;
     protected TextView TvItemPrice;
     protected ImageView IvItemImage;
+
+    /*
+     * Instantiate a new class-global dialog object.
+     */
+    protected Dialog itemDialog;
+
+    /*
+     * Set up class-global instances of the data boxes in the dialog.
+     */
+    protected EditText itemDialog_EditText;
+    protected TextView itemDialog_Name;
+    protected TextView itemDialog_Price;
+    protected TextView itemDialog_Total;
+
+    private float globalPrice;
+
+
 
     /*
      * The class constructor.
@@ -80,7 +97,7 @@ public class ItemPanel {
 
         EtItemQuantity = new EditText(context);
         EtItemQuantity.setId(generateViewId());
-        EtItemQuantity.setWidth(helpers.dpToPx(200));
+        EtItemQuantity.setWidth(Helpers.dpToPx(200));
         EtItemQuantity.setPadding(0, 25, 0, 0);
         EtItemQuantity.setHint(R.string.prompt_quantity);
         EtItemQuantity.setPaintFlags(android.graphics.Paint.UNDERLINE_TEXT_FLAG);
@@ -90,13 +107,13 @@ public class ItemPanel {
         EtItemQuantity.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         EtItemQuantity.clearFocus();
         EtItemQuantity.setBackgroundResource(R.drawable.item_quantity_style);
-        //EtItemQuantity.addTextChangedListener(textWatcher);
+        EtItemQuantity.addTextChangedListener(textWatcher);
         //EtItemQuantity.setOnFocusChangeListener(fcl);
 
         TvItemName = new TextView(context);
         TvItemName.setId(generateViewId());
-        TvItemName.setMinimumWidth(helpers.dpToPx(200));
-        TvItemName.setWidth(helpers.dpToPx(200));
+        TvItemName.setMinimumWidth(Helpers.dpToPx(200));
+        TvItemName.setWidth(Helpers.dpToPx(200));
         TvItemName.setPadding(0, 25, 0, 0);
         TvItemName.setBackgroundResource(R.drawable.item_name_style);
         TvItemName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -105,8 +122,8 @@ public class ItemPanel {
 
         TvItemPrice = new TextView(context);
         TvItemPrice.setId(generateViewId());
-        TvItemPrice.setMinimumWidth(helpers.dpToPx(200));
-        TvItemPrice.setWidth(helpers.dpToPx(200));
+        TvItemPrice.setMinimumWidth(Helpers.dpToPx(200));
+        TvItemPrice.setWidth(Helpers.dpToPx(200));
         TvItemPrice.setPadding(0, 25, 0, 0);
         TvItemPrice.setBackgroundResource(R.drawable.item_price_style);
         TvItemPrice.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -114,8 +131,10 @@ public class ItemPanel {
         TvItemPrice.setTextSize(18);
 
         IvItemImage = new ImageView(context);
+        IvItemImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        IvItemImage.setMaxWidth(Helpers.dpToPx(200));
         IvItemImage.setBackgroundColor(0xFAFAFA);
-        IvItemImage.setMaxWidth(helpers.dpToPx(200));
+        IvItemImage.setMaxWidth(Helpers.dpToPx(200));
 
         panel.addView(TvItemId);
         panel.addView(EtItemQuantity);
@@ -123,4 +142,174 @@ public class ItemPanel {
         panel.addView(TvItemPrice);
         panel.addView(IvItemImage);
     }
+
+
+
+    /*
+     * This is the listener for changes to a quantity value on the Main Activity page.
+     * It shows a dialog allowing the user to accept or change the quantity, displays the
+     * total cost, and then allows the user to either discard the item, or add it to the
+     * shopping cart.
+     *
+     * The three overrides are required.  We ignore beforeTextChanged() and
+     * onTextChanged(), and only act upon afterTextChanged().
+     */
+    TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            // Required override placeholder.
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            // Required override placeholder.
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String strTotal;
+
+            /*
+             * Point the class-global dialog instance to the "item_dialog" layout.
+             */
+            itemDialog = new Dialog(context);
+            itemDialog.setContentView(R.layout.item_dialog);
+
+            /*
+             * Point the class-global instances to the item boxes.
+             */
+            itemDialog_EditText = itemDialog.findViewById(R.id.itemDialog_ET_Quantity);
+            itemDialog_Name = itemDialog.findViewById(R.id.itemDialog_TV_Name);
+            itemDialog_Price = itemDialog.findViewById(R.id.itemDialog_TV_Price);
+            itemDialog_Total = itemDialog.findViewById(R.id.itemDialog_TV_Total);
+
+            itemDialog_EditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(2)});
+            itemDialog_EditText.addTextChangedListener(dialogTextWatcher);
+
+            /*
+             * Create variables to hold the passed-in data.
+             */
+            Editable getEditable = EtItemQuantity.getText();
+            String strQuantity = getEditable.toString();
+            String strName = TvItemName.getText().toString();
+            String strID = TvItemId.getText().toString();
+            String strPrice = TvItemPrice.getText().toString();
+
+            /*
+             * Parse the data from the View instance that called this dialog.
+             */
+            if (editable.toString().equals("")) {
+                strTotal = "";
+            }
+            else {
+                int iiii = Integer.parseInt(strQuantity);
+                float ffff = Float.parseFloat(strPrice);
+                globalPrice = ffff;
+                float fTotal = iiii * ffff;
+                strTotal = String.format("%.2f", fTotal);
+            }
+
+            /*
+             * Now load the data into the dialog's data boxes.
+             */
+            itemDialog_EditText.setText(strQuantity);
+            itemDialog_Name.setText(strName);
+            itemDialog_Price.setText(strPrice);
+            itemDialog_Total.setText("$"+strTotal);
+
+            /*
+             * Set up a "Discard" button and listener.
+             *
+             * If "Discard" button is clicked, clear the item and close the custom dialog.
+             */
+            ImageButton dialogDiscardButton = itemDialog.findViewById(R.id.itemDialog_IB_Discard);
+            dialogDiscardButton.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ApplySharedPref")
+                @Override
+                public void onClick(View v) {
+                    EtItemQuantity.removeTextChangedListener(textWatcher);
+                    EtItemQuantity.setText("");
+                    EtItemQuantity.addTextChangedListener(textWatcher);
+                    itemDialog_EditText.setText("");
+                    itemDialog_Total.setText("0.00");
+                    itemDialog.dismiss();
+                    Toast.makeText(context, "Dismissed..!!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            /*
+             * Set up a "Add to Cart" button and listener.
+             *
+             * If "Discard" button is clicked, clear the item and close the custom dialog.
+             */
+            ImageButton dialogAddButton = itemDialog.findViewById(R.id.itemDialog_IB_AddToCart);
+            dialogAddButton.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ApplySharedPref")
+                @Override
+                public void onClick(View v) {
+                    itemDialog.dismiss();
+                    Toast.makeText(context, "Added..!!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            itemDialog.show();
+        }
+    };
+
+
+
+    /*
+     * This is the listener for changes to the quantity value in the item dialog page.
+     * It updates the total price when the quantity value s changed in the dialog.
+     *
+     * The three overrides are required.  We ignore beforeTextChanged() and
+     * onTextChanged(), and only act upon afterTextChanged().
+     */
+    TextWatcher dialogTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            // Required override placeholder.
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            // Required override placeholder.
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            /*
+             * Instantiate the class-global instances of dialog and the data boxes
+             * in the dialog.
+             */
+            //itemDialog = new Dialog(context);
+            String strTotal;
+
+            /*
+             * Point the class-global instances to the item boxes.
+             */
+            itemDialog_EditText = itemDialog.findViewById(R.id.itemDialog_ET_Quantity);
+            itemDialog_Name = itemDialog.findViewById(R.id.itemDialog_TV_Name);
+            itemDialog_Price = itemDialog.findViewById(R.id.itemDialog_TV_Price);
+            itemDialog_Total = itemDialog.findViewById(R.id.itemDialog_TV_Total);
+
+            /*
+             * Parse the data from the quantity instance that called this dialog.
+             */
+            if (editable.toString().equals("")) {
+                strTotal = "";
+            }
+            else {
+                int iiii = Integer.parseInt(editable.toString());
+                float fTotal = iiii * globalPrice;
+                strTotal = String.format("%.2f", fTotal);
+            }
+
+            /*
+             * Now load the data into the dialog's data boxes.
+             */
+            itemDialog_Total.setText("$"+strTotal);
+        }
+    };
+
 }
