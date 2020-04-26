@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
      */
     protected static final String TAG = "AndroidClarified";
 
+    private int scrollPos = 0;
+
     /*
          * This is the basic onCreate method.  For the Main Activity this sets up
          * the ActionBar, as well as setting up all the basic items on the Main Activity
@@ -306,9 +308,9 @@ public class MainActivity extends AppCompatActivity {
                 /*
                  * Set up a "Back" button and listener.
                  */
-                ImageButton dialogButton = dialog.findViewById(R.id.dialogImageButtonOK);
+                ImageButton dialogOkButton = dialog.findViewById(R.id.dialogImageButtonOK);
                 // If button is clicked, close the custom dialog.
-                dialogButton.setOnClickListener(new View.OnClickListener() {
+                dialogOkButton.setOnClickListener(new View.OnClickListener() {
                     @SuppressLint("ApplySharedPref")
                     @Override
                     public void onClick(View v) {
@@ -382,31 +384,14 @@ public class MainActivity extends AppCompatActivity {
 
                 itemsList.get(counter).TvItemId.setText(stringItemID);
                 itemsList.get(counter).TvItemName.setText(stringItemName);
-                itemsList.get(counter).TvItemPrice.setText(stringItemPrice);
+                itemsList.get(counter).TvItemPrice.setText("$"+stringItemPrice);
                 itemsList.get(counter).IvItemImage.setImageResource(imageResource);
 
                 /*
-                 * Now set the onClick tasks.  For these buttons we will just pass the info from the
-                 * selected item to the EditText items elsewhere in this view for acting on.
-                 * The "Toast" message is just for verification of activity purposes.
+                 * Finally, add the created button object to the created row object.
+                 * After that add the created row to the existing table object.
                  */
-/*                itemButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        etUsername.setText(stringUsername);
-                        etPassword.setText(stringPassword);
-                        etEmail.setText(stringEmail);
-                        etUserID.setText(stringUserID);
-                        etFavOrder.setText(stringFavOrder);
-                        Toast.makeText(context, "Selected", Toast.LENGTH_SHORT).show();
-                    }
-                });
-*/
-            /*
-             * Finally, add the created button object to the created row object.
-             * After that add the created row to the existing table object.
-             */
-            linearLayout.addView(itemsList.get(counter).panel, counter);
+                linearLayout.addView(itemsList.get(counter).panel, counter);
             } while (cursor.moveToNext());
 
             /*
@@ -572,12 +557,29 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onClickScrollLeft(View view) {
         hScrollView.clearFocus();
-        hScrollView.smoothScrollBy(helpers.dpToPx(-200), 0);
+        if (scrollPos < 200) {
+            scrollPos = 0;
+        }
+        else {
+            int scrollMod = scrollPos % 200;
+            scrollPos -= scrollMod;
+            scrollPos -= 200;
+        }
+        hScrollView.smoothScrollTo(helpers.dpToPx(scrollPos), 0);
     }
 
     public void onClickScrollRight(View view) {
         hScrollView.clearFocus();
-        hScrollView.smoothScrollBy(helpers.dpToPx(200), 0);
+        if (scrollPos > ((itemsList.size() - 1) * 200)) {
+            scrollPos = ((itemsList.size() - 1) * 200);
+            return;
+        }
+        else {
+            int scrollMod = scrollPos % 200;
+            scrollPos -= scrollMod;
+            scrollPos += 200;
+        }
+        hScrollView.smoothScrollTo(helpers.dpToPx(scrollPos), 0);
     }
 
 
@@ -632,28 +634,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
         twitterAuthClient.onActivityResult(requestCode, responseCode, intent);
     }
-
-
-
-    TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-            //here, after we introduced something in the EditText we get the string from it
-            String answerString = editable.toString();
-
-            //and now we make a Toast
-            //modify "yourActivity.this" with your activity name .this
-            Toast.makeText(MainActivity.this,"The string from EditText is: "+answerString,Toast.LENGTH_SHORT).show();
-        }
-    };
 
 
 
