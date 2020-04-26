@@ -65,14 +65,21 @@ tools available to allow the end-user to find the LCS location.
 
 <H3>**To Do:**</H3>
 
-Clean up all the "Toast" messages used for test purposes.
-
-Set up the Order Entry functionality for the user.
+Clean up all the "Toast" messages used for test purposes. (not required)
 
 Set up the simulated order fulfilment buttons and functionality for the admin.
 
 Set up the order tracking buttons and functionality for the user.
 
+Add the ability to recover lost username and/or password. (not required)
 
+Add the ability to add images to new items. (not required)
+
+Make it possible to edit items already in the shooping cart, rather than emptying
+the cart and starting over. (not required)
+
+Add better input data integrity checking (CC number length, data validity, etc.). (not required)
+
+Add more internal integrity checking (method value return checking, TRY/CATCH blocks, etc.) (not required)
 
 

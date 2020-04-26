@@ -107,15 +107,25 @@ public class MainActivity extends AppCompatActivity {
     protected ImageButton button_RateUs;
     protected Button login_button;
 
-    protected List<ItemPanel> itemsList = new ArrayList<ItemPanel>();
-    protected List<EditText> itemQuantities = new ArrayList<EditText>();
+    /*
+     * Pointers to various layout objects.  Declared static so they can be acted upon
+     * outside of MainActivity.java.
+     */
+    protected FloatingActionButton fab;
+    protected FloatingActionButton fab2;
+    protected FloatingActionButton fab3;
+    protected TextView fab2_label;
+    protected TextView fab3_label;
+
+    protected static List<ItemPanel> itemsList = new ArrayList<ItemPanel>();
+    protected static List<EditText> itemQuantities = new ArrayList<EditText>();
 
     /*
      * A logging string.
      */
     protected static final String TAG = "AndroidClarified";
 
-    private int scrollPos = 0;
+    protected static int scrollPos = 0;
 
     /*
          * This is the basic onCreate method.  For the Main Activity this sets up
@@ -386,12 +396,55 @@ public class MainActivity extends AppCompatActivity {
             dbManager.close();
         }
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        /*
+         * Point the class-global floating button objects at their view items.
+         */
+        fab = findViewById(R.id.fab_main);
+        fab2 = findViewById(R.id.fab_2);
+        fab3 = findViewById(R.id.fab_3);
+        fab2_label = findViewById(R.id.fab_2_label);
+        fab3_label = findViewById(R.id.fab_3_label);
+
+        /*
+         * Set up the onClick listener for the main floating button.
+         */
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
+                 * First, call the helper method to make the floating-sub-buttons visible.
+                 */
+                helpers.set_Visible(fab2, fab3, fab2_label, fab3_label);
                 Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+
+        /*
+         * Set up the onClick listener for the "Checkout" floating button.
+         */
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*
+                 * First, call the helper method to make the floating-sub-buttons invisible.
+                 */
+                helpers.set_Invisible(fab2, fab3, fab2_label, fab3_label);
+                Toast.makeText(MainActivity.this, "Checkout.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        /*
+         * Set up the onClick listener for the "View Cart" floating button.
+         */
+        fab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*
+                 * First, call the helper method to make the floating-sub-buttons invisible.
+                 */
+                helpers.set_Invisible(fab2, fab3, fab2_label, fab3_label);
+                Toast.makeText(MainActivity.this, "Checkout.", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -540,32 +593,15 @@ public class MainActivity extends AppCompatActivity {
 
     /*
      * These two methods respond to left/right arrow clicks to scroll the "items" view.
+     *
+     * The functionality is in the Helpers class.
      */
     public void onClickScrollLeft(View view) {
-        hScrollView.clearFocus();
-        if (scrollPos < 200) {
-            scrollPos = 0;
-        }
-        else {
-            int scrollMod = scrollPos % 200;
-            scrollPos -= scrollMod;
-            scrollPos -= 200;
-        }
-        hScrollView.smoothScrollTo(helpers.dpToPx(scrollPos), 0);
+        helpers.scrollLeft(hScrollView);
     }
 
     public void onClickScrollRight(View view) {
-        hScrollView.clearFocus();
-        if (scrollPos > ((itemsList.size() - 1) * 200)) {
-            scrollPos = ((itemsList.size() - 1) * 200);
-            return;
-        }
-        else {
-            int scrollMod = scrollPos % 200;
-            scrollPos -= scrollMod;
-            scrollPos += 200;
-        }
-        hScrollView.smoothScrollTo(helpers.dpToPx(scrollPos), 0);
+        helpers.scrollRight(hScrollView);
     }
 
 
