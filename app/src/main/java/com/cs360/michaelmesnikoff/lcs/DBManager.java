@@ -111,12 +111,12 @@ public class DBManager {
                 "item_name:Small Tea,item_price:1.99,item_image_file:small_tea",
                 "item_name:Medium Tea,item_price:2.49,item_image_file:medium_tea",
                 "item_name:Large Tea,item_price:2.99,item_image_file:large_tea",
-                "item_name:Cafe Latte,item_price:3.49",
-                "item_name:Cappucino,item_price:3.49",
-                "item_name:Bagel,item_price:1.00",
-                "item_name:Donut,item_price:1.00",
-                "item_name:Muffin,item_price:2.49",
-                "item_name:12 Munchkins,item_price:2.99"
+                "item_name:Cafe Latte,item_price:3.49,item_image_file:latte",
+                "item_name:Cappucino,item_price:3.49,item_image_file:cappuccino",
+                "item_name:Bagel,item_price:1.00,item_image_file:bagel",
+                "item_name:Donut,item_price:1.00,item_image_file:donut",
+                "item_name:Muffin,item_price:2.49,item_image_file:muffin",
+                "item_name:12 Munchkins,item_price:2.99,item_image_file:munchkins"
         };
 
         /*
