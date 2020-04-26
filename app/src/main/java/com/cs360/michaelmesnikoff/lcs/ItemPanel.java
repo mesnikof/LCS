@@ -1,14 +1,23 @@
 package com.cs360.michaelmesnikoff.lcs;
 
 import android.annotation.SuppressLint;
+
 import android.app.Dialog;
+
 import android.content.Context;
+import android.content.SharedPreferences;
+import static android.content.Context.MODE_PRIVATE;
+
 import android.graphics.Color;
+
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
+
 import android.view.View;
+import static android.view.View.generateViewId;
+
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,7 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.view.View.generateViewId;
 
 /**
  * Created by mp on 4/24/20.
@@ -72,7 +80,15 @@ public class ItemPanel {
     protected TextView itemDialog_Name;
     protected TextView itemDialog_Price;
     protected TextView itemDialog_Total;
+    protected TextView itemDialog_ID;
 
+    protected static final String ORDER_STATUS_PREFS = "My_OrderStatus_Prefs";
+    protected static final String ORDER_LIST_KEY = "order_list_key";
+    SharedPreferences.Editor sharedPref_myEditor;
+
+    /*
+     * A class-global float.
+     */
     private float globalPrice;
 
 
@@ -182,7 +198,12 @@ public class ItemPanel {
             itemDialog_Name = itemDialog.findViewById(R.id.itemDialog_TV_Name);
             itemDialog_Price = itemDialog.findViewById(R.id.itemDialog_TV_Price);
             itemDialog_Total = itemDialog.findViewById(R.id.itemDialog_TV_Total);
+            itemDialog_ID = itemDialog.findViewById(R.id.itemDialog_TV_ID);
 
+            /*
+             * Put a limit filter (max quantity 99, two digits) and set a listener for the
+             * Quantity EditText item in the dialog.
+             */
             itemDialog_EditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(2)});
             itemDialog_EditText.addTextChangedListener(dialogTextWatcher);
 
@@ -197,6 +218,8 @@ public class ItemPanel {
 
             /*
              * Parse the data from the View instance that called this dialog.
+             *
+             * Note: The variable names are simplistic as they are block-local.
              */
             if (editable.toString().equals("")) {
                 strTotal = "";
@@ -215,7 +238,8 @@ public class ItemPanel {
             itemDialog_EditText.setText(strQuantity);
             itemDialog_Name.setText(strName);
             itemDialog_Price.setText(strPrice);
-            itemDialog_Total.setText("$"+strTotal);
+            itemDialog_Total.setText(strTotal);
+            itemDialog_ID.setText(strID);
 
             /*
              * Set up a "Discard" button and listener.
@@ -227,9 +251,19 @@ public class ItemPanel {
                 @SuppressLint("ApplySharedPref")
                 @Override
                 public void onClick(View v) {
+                    /*
+                     * "Turn off" the listener temporarily to allow for the value to be reset to
+                     * "blank" because it was discarded.  After resetting the value turn the
+                     * listener back on.
+                     */
                     EtItemQuantity.removeTextChangedListener(textWatcher);
                     EtItemQuantity.setText("");
                     EtItemQuantity.addTextChangedListener(textWatcher);
+
+                    /*
+                     * Now reset the values in the dialog (just in case) and dismiss the dialog,
+                     * sending the user back to the Main Activity page.
+                     */
                     itemDialog_EditText.setText("");
                     itemDialog_Total.setText("0.00");
                     itemDialog.dismiss();
@@ -239,19 +273,57 @@ public class ItemPanel {
 
             /*
              * Set up a "Add to Cart" button and listener.
-             *
-             * If "Discard" button is clicked, clear the item and close the custom dialog.
              */
             ImageButton dialogAddButton = itemDialog.findViewById(R.id.itemDialog_IB_AddToCart);
             dialogAddButton.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("ApplySharedPref")
                 @Override
                 public void onClick(View v) {
+
+                    /*
+                     * Create a Shared Preference instance for maintaining persistent data.
+                     * Also create the variables and method to hold and access/update the data.
+                     */
+                    SharedPreferences order_listPref = context.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE);
+                    String stringOrderList = order_listPref.getString(ORDER_LIST_KEY, null);
+                    sharedPref_myEditor = context.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE).edit();
+
+                    /*
+                     * Set up the Order List JSON-like string.
+                     */
+                    String tmpString1 = itemDialog_ID.getText().toString();
+                    tmpString1 += ":";
+                    String tmpString2 = itemDialog_EditText.getText().toString();
+                    tmpString1 += tmpString2;
+
+                    /*
+                     * Complete the Order List string based on whether this is the first item, or
+                     * the second or greater.
+                     */
+                    if (stringOrderList != null) {
+                        stringOrderList += ",";
+                        stringOrderList += tmpString1;
+                    }
+                    else {
+                        stringOrderList = tmpString1;
+                    }
+
+                    /*
+                     * Write out the shared preference Order List.
+                     */
+                    sharedPref_myEditor.putString(ORDER_LIST_KEY, stringOrderList);
+                    sharedPref_myEditor.commit();
+
+                    Toast.makeText(context, "String: "+stringOrderList, Toast.LENGTH_LONG).show();
+
                     itemDialog.dismiss();
                     Toast.makeText(context, "Added..!!", Toast.LENGTH_SHORT).show();
                 }
             });
 
+            /*
+             * Now that all the setup is done, display the dialog.
+             */
             itemDialog.show();
         }
     };
@@ -308,7 +380,7 @@ public class ItemPanel {
             /*
              * Now load the data into the dialog's data boxes.
              */
-            itemDialog_Total.setText("$"+strTotal);
+            itemDialog_Total.setText(strTotal);
         }
     };
 
