@@ -198,9 +198,31 @@ public class DBManager {
     }
 
 
+    /*
+     * This is the method for fetching the entire datbase table.
+     */
     public Cursor fetch(String table_name) {
         String[] columns = new String[] {};
         Cursor cursor = database.query(table_name, columns, null, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+
+    /*
+     * This is the method for fetching a single row.
+     *
+     * String selection = "col-1 =? AND col-2=?";
+     * String[] selectionArgs = {"apple","mango"};
+     */
+    public Cursor row_fetch(String table_name, String column_name, String value) {
+        String[] columns = new String[] {};
+        String selection = column_name;
+        selection += " =?";
+        String[] selectionArgs = {value};
+        Cursor cursor = database.query(table_name, columns, selection, selectionArgs, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
