@@ -119,8 +119,8 @@
     <string name="label_price">Price</string>
     <string name="label_qty">Qty</string>
     <string name="label_total">Total</string>
-    <string name="label_item_spacer">-----------------------------</string>
-    <string name="label_short_spacer">------</string>
+    <string name="label_item_spacer">---------------------------</string>
+    <string name="label_short_spacer">-----</string>
 
     <string name="separator_line">-------------------------------------------------------------------------------------------------------------------------------------------------------------------</string>
     <string name="toast_database_no_data">USERS database returned no data.</string>
