@@ -70,15 +70,15 @@ public class ItemsFragment extends Fragment {
         /*
          * Create a series of variables, including several to represent layout items.
          */
-        button_Add = (Button) thisView.findViewById(R.id.button_Add);
-        button_Update = (Button) thisView.findViewById(R.id.button_Update);
-        button_Delete = (Button) thisView.findViewById(R.id.button_Delete);
-        button_Back = (Button) thisView.findViewById(R.id.button_Back);
-        button_Clear = (Button) thisView.findViewById(R.id.button_Clear);
+        button_Add = thisView.findViewById(R.id.button_Add);
+        button_Update = thisView.findViewById(R.id.button_Update);
+        button_Delete = thisView.findViewById(R.id.button_Delete);
+        button_Back = thisView.findViewById(R.id.button_Back);
+        button_Clear = thisView.findViewById(R.id.button_Clear);
 
-        final EditText etItemName = (EditText) thisView.findViewById(R.id.editText_username);
-        final EditText etItemPrice = (EditText) thisView.findViewById(R.id.editText_itemPrice);
-        final EditText etItemID = (EditText) thisView.findViewById(R.id.editText_itemID);
+        final EditText etItemName = thisView.findViewById(R.id.editText_username);
+        final EditText etItemPrice = thisView.findViewById(R.id.editText_itemPrice);
+        final EditText etItemID = thisView.findViewById(R.id.editText_itemID);
 
         int counter = 0;
 
@@ -93,7 +93,7 @@ public class ItemsFragment extends Fragment {
          * Create a TableLayout instance to represent the table on the view that contains
          * the items info for selection.
          */
-        TableLayout itemsTable = (TableLayout) thisView.findViewById(R.id.tableLayout_Items);
+        TableLayout itemsTable = thisView.findViewById(R.id.tableLayout_Items);
 
         /*
          * Iterate through the returned database item information.

@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
@@ -75,7 +76,10 @@ public class MainActivity extends AppCompatActivity {
     protected static final String LOGIN_EMAIL_KEY = "login_email_key";
     protected static final String LOGIN_TOKEN_KEY = "login_token_key";
     protected static final String LOGIN_SECRET_KEY = "login_secret_key";
+    protected static final String ORDER_STATUS_PREFS = "My_OrderStatus_Prefs";
+    protected static final String ORDER_LIST_KEY = "order_list_key";
     SharedPreferences.Editor sharedPref_myEditor;
+    SharedPreferences.Editor sharedPref_cartEditor;
 
     //protected TwitterLoginButton twitterLoginButton;
     protected TwitterAuthClient twitterAuthClient;
@@ -117,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
     protected TextView fab2_label;
     protected TextView fab3_label;
 
+    protected static List<TextView> cart_list_cells = new ArrayList<TextView>();
     protected static List<ItemPanel> itemsList = new ArrayList<ItemPanel>();
     protected static List<EditText> itemQuantities = new ArrayList<EditText>();
 
@@ -125,19 +130,31 @@ public class MainActivity extends AppCompatActivity {
      */
     protected static final String TAG = "AndroidClarified";
 
+    /*
+     * A class-global variable holding the current position of the horizontal items scroller.
+     */
     protected static int scrollPos = 0;
 
     /*
-         * This is the basic onCreate method.  For the Main Activity this sets up
-         * the ActionBar, as well as setting up all the basic items on the Main Activity
-         * Layout, such as the available items from the ITEMS database, the button
-         * listeners, etc.
-         */
+     * A FrameLayout instance for the shopping cart fragment
+     */
+    private FrameLayout cartFrag;
+
+
+    /*
+     * This is the basic onCreate method.  For the Main Activity this sets up
+     * the ActionBar, as well as setting up all the basic items on the Main Activity
+     * Layout, such as the available items from the ITEMS database, the button
+     * listeners, etc.
+     */
     @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        cartFrag = findViewById(R.id.cartFragLayout);
+        cartFrag.setVisibility(View.INVISIBLE);
 
         /*
          * An integer variable for later use.
@@ -207,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
 /*************************************************************************************************************/
 /*************************************************************************************************************/
 /*************************************************************************************************************/
@@ -236,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
 
 /*************************************************************************************************************/
 /*************************************************************************************************************/
@@ -320,6 +339,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
 /*************************************************************************************************************/
 /*************************************************************************************************************/
 /*************************************************************************************************************/
@@ -396,6 +416,13 @@ public class MainActivity extends AppCompatActivity {
             dbManager.close();
         }
 
+
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/*************************************************************************************************************/
+/* Setup the Floating Button section */
+
         /*
          * Point the class-global floating button objects at their view items.
          */
@@ -430,6 +457,32 @@ public class MainActivity extends AppCompatActivity {
                  * First, call the helper method to make the floating-sub-buttons invisible.
                  */
                 helpers.set_Invisible(fab2, fab3, fab2_label, fab3_label);
+
+                /*
+                 * Now create a Dialog instance pointing to the shopping cart dialog view
+                 * layout.
+                 *
+                 * Also create a Linear Layout instance pointing to the outer vertical linear
+                 * layout where the cart info will be displayed.
+                 */
+                final Dialog shoppingCartDialog2 = new Dialog(MainActivity.this);
+                shoppingCartDialog2.setContentView(R.layout.shopping_cart_dialog);
+
+                /*
+                 * Set up a "Back" button and listener.
+                 */
+                ImageButton dialogOkButton = shoppingCartDialog2.findViewById(R.id.imageButton_Cart_Back);
+                // If button is clicked, close the custom dialog.
+                dialogOkButton.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("ApplySharedPref")
+                    @Override
+                    public void onClick(View v) {
+                        shoppingCartDialog2.dismiss();
+                        Toast.makeText(getApplicationContext(), "Cart Dismissed..!!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                shoppingCartDialog2.show();
                 Toast.makeText(MainActivity.this, "Checkout.", Toast.LENGTH_LONG).show();
             }
         });
@@ -444,7 +497,22 @@ public class MainActivity extends AppCompatActivity {
                  * First, call the helper method to make the floating-sub-buttons invisible.
                  */
                 helpers.set_Invisible(fab2, fab3, fab2_label, fab3_label);
-                Toast.makeText(MainActivity.this, "Checkout.", Toast.LENGTH_LONG).show();
+
+                SharedPreferences order_listPref = context.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE);
+                String stringOrderList = order_listPref.getString(ORDER_LIST_KEY, null);
+                sharedPref_cartEditor = context.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE).edit();
+
+                /*
+                 * If the cart is empty, show a "Toast message" and exit the dialog back to the
+                 * Main Activity user page.
+                 */
+                if (stringOrderList == null) {
+                    Toast.makeText(getApplicationContext(), "Shopping Cart is empty.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                else {
+                    cartFrag.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

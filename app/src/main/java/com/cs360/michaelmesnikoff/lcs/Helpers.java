@@ -1,5 +1,6 @@
 package com.cs360.michaelmesnikoff.lcs;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.design.widget.FloatingActionButton;
@@ -97,5 +98,41 @@ public class Helpers extends MainActivity {
         fab2_label.setVisibility(View.INVISIBLE);
         fab3.setVisibility(View.INVISIBLE);
         fab3_label.setVisibility(View.INVISIBLE);
+    }
+
+
+
+    public void create_grid_cells(Dialog dialog) {
+        //Placeholder
+        /*
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView31));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView32));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView33));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView34));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView41));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView42));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView43));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView44));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView51));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView52));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView53));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView54));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView61));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView62));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView63));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView64));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView71));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView72));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView73));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView74));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView81));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView82));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView83));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView84));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView91));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView92));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView93));
+        cart_list_cells.add(dialog.<TextView>findViewById(R.id.textView94));
+        */
     }
 }

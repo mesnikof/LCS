@@ -332,4 +332,31 @@
             tools:ignore="InefficientWeight" />
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/main_container_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:id="@+id/cartFragLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            tools:ignore="ObsoleteLayoutParam">
+
+            <fragment
+                android:id="@+id/inputItemFragment"
+                android:name="com.cs360.michaelmesnikoff.lcs.CartFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </FrameLayout>
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>

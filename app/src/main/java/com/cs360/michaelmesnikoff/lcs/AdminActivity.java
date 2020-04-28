@@ -45,27 +45,29 @@ public class AdminActivity extends AppCompatActivity {
          * Set up the "Action Bar" with the LCS icon and label.
          */
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(R.mipmap.ic_launcher_round);
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setIcon(R.mipmap.ic_launcher_round);
+        }
 
         /*
          * Initialize the class variables with "pointers" to the matching layout object.
          */
-        button_InputItem = (Button) findViewById(R.id.button_InputItem);
-        button_InputUser = (Button) findViewById(R.id.button_InputUser);
-        button_Back = (Button) findViewById(R.id.button_Back);
+        button_InputItem = findViewById(R.id.button_InputItem);
+        button_InputUser = findViewById(R.id.button_InputUser);
+        button_Back = findViewById(R.id.button_Back);
 
-        itemFrag = (FrameLayout) findViewById(R.id.itemFragLayout);
-        userFrag = (FrameLayout) findViewById(R.id.userFragLayout);
-        blankFrag = (FrameLayout) findViewById(R.id.blankFragLayout);
+        itemFrag = findViewById(R.id.itemFragLayout);
+        userFrag = findViewById(R.id.userFragLayout);
+        blankFrag = findViewById(R.id.blankFragLayout);
 
         blankFrag.setVisibility(View.VISIBLE);
         itemFrag.setVisibility(View.INVISIBLE);
         userFrag.setVisibility(View.INVISIBLE);
 
         /*
-         * Create the botton listener methods.
-         * The User and Item bottons function by making the appropriate fragment visible, and
+         * Create the button listener methods.
+         * The User and Item buttons function by making the appropriate fragment visible, and
          * the other fragments invisible.  This is not the best method, but serves the purpose
          * for this task.
          * The Back button uses the finish() call to end this activity and go back to the previous

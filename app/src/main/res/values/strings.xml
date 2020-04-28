@@ -111,6 +111,16 @@
     <string name="label_submit">Floting Submit</string>
     <string name="label_view_cart">View Cart</string>
     <string name="label_checkout">Checkout</string>
+    <string name="label_empty_cart">Empty Cart</string>
+    <string name="label_go_back">Go Back</string>
+    <string name="label_checkout_and_pay">Checkout and Pay</string>
+    <string name="label_current_shopping_cart">Current Shopping Cart</string>
+    <string name="label_item">Item</string>
+    <string name="label_price">Price</string>
+    <string name="label_qty">Qty</string>
+    <string name="label_total">Total</string>
+    <string name="label_item_spacer">-----------------------------</string>
+    <string name="label_short_spacer">------</string>
 
     <string name="separator_line">-------------------------------------------------------------------------------------------------------------------------------------------------------------------</string>
     <string name="toast_database_no_data">USERS database returned no data.</string>

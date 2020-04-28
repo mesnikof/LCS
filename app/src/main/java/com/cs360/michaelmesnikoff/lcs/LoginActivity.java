@@ -559,6 +559,7 @@ public class LoginActivity extends AppCompatActivity {
      *
      * Returns: None
      */
+    @SuppressLint("SetTextI18n")
     public void LoginButton(ArrayList unames, ArrayList pwords, ArrayList emls) {
 
         /*
