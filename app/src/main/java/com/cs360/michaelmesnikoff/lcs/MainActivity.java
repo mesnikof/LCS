@@ -1,7 +1,6 @@
 package com.cs360.michaelmesnikoff.lcs;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -56,8 +55,6 @@ import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.app.PendingIntent.getActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -131,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
     protected TextView fab2_label;
     protected TextView fab3_label;
 
-    protected static List<TextView> cart_list_cells = new ArrayList<TextView>();
     protected static List<ItemPanel> itemsList = new ArrayList<ItemPanel>();
     protected static List<EditText> itemQuantities = new ArrayList<EditText>();
 
@@ -145,11 +141,6 @@ public class MainActivity extends AppCompatActivity {
      */
     protected static int scrollPos = 0;
 
-    /*
-     * A FrameLayout instance for the shopping cart fragment
-     */
-    private FrameLayout cartFrag;
-
 
     /*
      * This is the basic onCreate method.  For the Main Activity this sets up
@@ -162,9 +153,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        cartFrag = findViewById(R.id.cartFragLayout);
-        cartFrag.setVisibility(View.INVISIBLE);
 
         /*
          * An integer variable for later use.
@@ -731,7 +719,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         Context dialogContext = builder.getContext();
         LayoutInflater inflater = LayoutInflater.from(dialogContext);
-        View alertView = inflater.inflate(R.layout.cart_layout, null);
+        @SuppressLint("InflateParams") View alertView = inflater.inflate(R.layout.cart_dialog, null);
         builder.setView(alertView);
 
         TableLayout tl = alertView.findViewById(R.id.tableLayout_Cart_Items);
@@ -741,45 +729,12 @@ public class MainActivity extends AppCompatActivity {
         tr.setLayoutParams(trLp);
         tr.setId(View.generateViewId());
 
-        /*
-        TableLayout tl = new TableLayout(this);
-        TableLayout.LayoutParams tlLp = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT);
-        tl.setLayoutParams(tlLp);
-        tl.setId(View.generateViewId());
-
-        alertDialog.setView(tl);
-
-        // Set Custom Title
-        TextView title = new TextView(this);
-        // Title Properties
-        title.setText(R.string.label_current_shopping_cart);
-        title.setPadding(5, 5, 5, 10);
-        title.setGravity(Gravity.CENTER);
-        title.setTextColor(Color.BLACK);
-        title.setTextSize(20);
-        title.setTypeface(Typeface.DEFAULT_BOLD);
-        alertDialog.setCustomTitle(title);
-
-        // Set Message
-        TextView msg = new TextView(this);
-        // Message Properties
-        msg.setText("I am a Custom Dialog Box. \n Please Customize me.");
-        msg.setGravity(Gravity.CENTER_HORIZONTAL);
-        msg.setTextColor(Color.BLUE);
-        alertDialog.setView(msg);
-
-        TableRow trHeader = new TableRow(this);
-        TableRow.LayoutParams trLp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.WRAP_CONTENT);
-        trHeader.setLayoutParams(trLp);
-        trHeader.setId(View.generateViewId());
-        */
-
         // Set Message
         TextView newItem = new TextView(dialogContext);
         // Message Properties
         newItem.setId(View.generateViewId());
         //newItem.setWidth(Helpers.dpToPx(150));
-        newItem.setWidth(150);
+        newItem.setWidth(180);
         newItem.setTextColor(Color.BLACK);
         newItem.setTypeface(Typeface.DEFAULT_BOLD);
         newItem.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
