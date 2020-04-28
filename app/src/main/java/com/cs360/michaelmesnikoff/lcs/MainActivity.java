@@ -1,11 +1,15 @@
 package com.cs360.michaelmesnikoff.lcs;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,14 +22,18 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.text.TextUtils;
+import android.view.Window;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Button;
@@ -48,6 +56,8 @@ import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.app.PendingIntent.getActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -458,31 +468,6 @@ public class MainActivity extends AppCompatActivity {
                  */
                 helpers.set_Invisible(fab2, fab3, fab2_label, fab3_label);
 
-                /*
-                 * Now create a Dialog instance pointing to the shopping cart dialog view
-                 * layout.
-                 *
-                 * Also create a Linear Layout instance pointing to the outer vertical linear
-                 * layout where the cart info will be displayed.
-                 */
-                final Dialog shoppingCartDialog2 = new Dialog(MainActivity.this);
-                shoppingCartDialog2.setContentView(R.layout.shopping_cart_dialog);
-
-                /*
-                 * Set up a "Back" button and listener.
-                 */
-                ImageButton dialogOkButton = shoppingCartDialog2.findViewById(R.id.imageButton_Cart_Back);
-                // If button is clicked, close the custom dialog.
-                dialogOkButton.setOnClickListener(new View.OnClickListener() {
-                    @SuppressLint("ApplySharedPref")
-                    @Override
-                    public void onClick(View v) {
-                        shoppingCartDialog2.dismiss();
-                        Toast.makeText(getApplicationContext(), "Cart Dismissed..!!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                shoppingCartDialog2.show();
                 Toast.makeText(MainActivity.this, "Checkout.", Toast.LENGTH_LONG).show();
             }
         });
@@ -511,7 +496,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 else {
-                    cartFrag.setVisibility(View.VISIBLE);
+                    openDialog();
                 }
             }
         });
@@ -737,4 +722,160 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+
+
+
+    public void openDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        Context dialogContext = builder.getContext();
+        LayoutInflater inflater = LayoutInflater.from(dialogContext);
+        View alertView = inflater.inflate(R.layout.cart_layout, null);
+        builder.setView(alertView);
+
+        TableLayout tl = alertView.findViewById(R.id.tableLayout_Cart_Items);
+
+        TableRow tr = new TableRow(dialogContext);
+        TableRow.LayoutParams trLp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.WRAP_CONTENT);
+        tr.setLayoutParams(trLp);
+        tr.setId(View.generateViewId());
+
+        /*
+        TableLayout tl = new TableLayout(this);
+        TableLayout.LayoutParams tlLp = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT);
+        tl.setLayoutParams(tlLp);
+        tl.setId(View.generateViewId());
+
+        alertDialog.setView(tl);
+
+        // Set Custom Title
+        TextView title = new TextView(this);
+        // Title Properties
+        title.setText(R.string.label_current_shopping_cart);
+        title.setPadding(5, 5, 5, 10);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+        title.setTextSize(20);
+        title.setTypeface(Typeface.DEFAULT_BOLD);
+        alertDialog.setCustomTitle(title);
+
+        // Set Message
+        TextView msg = new TextView(this);
+        // Message Properties
+        msg.setText("I am a Custom Dialog Box. \n Please Customize me.");
+        msg.setGravity(Gravity.CENTER_HORIZONTAL);
+        msg.setTextColor(Color.BLUE);
+        alertDialog.setView(msg);
+
+        TableRow trHeader = new TableRow(this);
+        TableRow.LayoutParams trLp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.WRAP_CONTENT);
+        trHeader.setLayoutParams(trLp);
+        trHeader.setId(View.generateViewId());
+        */
+
+        // Set Message
+        TextView newItem = new TextView(dialogContext);
+        // Message Properties
+        newItem.setId(View.generateViewId());
+        //newItem.setWidth(Helpers.dpToPx(150));
+        newItem.setWidth(150);
+        newItem.setTextColor(Color.BLACK);
+        newItem.setTypeface(Typeface.DEFAULT_BOLD);
+        newItem.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        newItem.setText(R.string.label_item);
+
+        tr.addView(newItem);
+
+        // Set Message
+        TextView newPrice = new TextView(dialogContext);
+        // Message Properties
+        newPrice.setId(View.generateViewId());
+        newPrice.setId(View.generateViewId());
+        //newPrice.setWidth(Helpers.dpToPx(50));
+        newPrice.setWidth(50);
+        newPrice.setTextColor(Color.BLACK);
+        newPrice.setTypeface(Typeface.DEFAULT_BOLD);
+        newPrice.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        newPrice.setText(R.string.label_price);
+
+        tr.addView(newPrice);
+
+        // Set Message
+        EditText newQty = new EditText(dialogContext);
+        // Message Properties
+        newQty.setId(View.generateViewId());
+        //newQty.setWidth(Helpers.dpToPx(50));
+        newQty.setWidth(50);
+        newQty.setTextColor(Color.BLUE);
+        newQty.setTypeface(Typeface.DEFAULT_BOLD);
+        newQty.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        newQty.setText(R.string.label_qty);
+
+        tr.addView(newQty);
+
+        // Set Message
+        TextView newTotal = new TextView(dialogContext);
+        // Message Properties
+        newTotal.setId(View.generateViewId());
+        //newTotal.setWidth(Helpers.dpToPx(50));
+        newTotal.setWidth(50);
+        newTotal.setTextColor(Color.BLACK);
+        newTotal.setTypeface(Typeface.DEFAULT_BOLD);
+        newTotal.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        newTotal.setText(R.string.label_total);
+
+        tr.addView(newTotal);
+
+        /*
+        // Add the text boxes to the new row object.
+        trHeader.addView(newItem);
+        trHeader.addView(newPrice);
+        trHeader.addView(newQty);
+        trHeader.addView(newTotal);
+
+        // Add the new row to the dialog.
+        alertDialog.addContentView(trHeader, trLp);
+        */
+
+        tl.addView(tr);
+
+        builder.setCancelable(true);
+        AlertDialog cartDialog = builder.create();
+
+        // Set Button
+        // you can more buttons
+        cartDialog.setButton(AlertDialog.BUTTON_NEUTRAL,"OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Perform Action on Button
+            }
+        });
+
+        cartDialog.setButton(AlertDialog.BUTTON_NEGATIVE,"CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Perform Action on Button
+            }
+        });
+
+        cartDialog.show();
+
+        Rect displayRectangle = new Rect();
+        Window window = getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
+        cartDialog.getWindow().setLayout((int)(displayRectangle.width() * 0.95f), (int)(displayRectangle.height() * 0.95f));
+
+        // Set Properties for OK Button
+        final Button okBT = cartDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+        LinearLayout.LayoutParams neutralBtnLP = (LinearLayout.LayoutParams) okBT.getLayoutParams();
+        neutralBtnLP.gravity = Gravity.FILL_HORIZONTAL;
+        okBT.setPadding(50, 10, 10, 10);   // Set Position
+        okBT.setTextColor(Color.BLUE);
+        okBT.setLayoutParams(neutralBtnLP);
+
+        final Button cancelBT = cartDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+        LinearLayout.LayoutParams negBtnLP = (LinearLayout.LayoutParams) okBT.getLayoutParams();
+        negBtnLP.gravity = Gravity.FILL_HORIZONTAL;
+        cancelBT.setTextColor(Color.RED);
+        cancelBT.setLayoutParams(negBtnLP);
+    }
 }
