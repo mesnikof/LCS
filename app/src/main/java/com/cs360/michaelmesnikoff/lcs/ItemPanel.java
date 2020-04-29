@@ -181,6 +181,7 @@ public class ItemPanel {
             // Required override placeholder.
         }
 
+        @SuppressLint("DefaultLocale")
         @Override
         public void afterTextChanged(Editable editable) {
             String strTotal;
@@ -248,7 +249,7 @@ public class ItemPanel {
              */
             ImageButton dialogDiscardButton = itemDialog.findViewById(R.id.itemDialog_IB_Discard);
             dialogDiscardButton.setOnClickListener(new View.OnClickListener() {
-                @SuppressLint("ApplySharedPref")
+                @SuppressLint({"ApplySharedPref", "SetTextI18n"})
                 @Override
                 public void onClick(View v) {
                     /*
@@ -271,6 +272,7 @@ public class ItemPanel {
                 }
             });
 
+//////////
             /*
              * Set up a "Add to Cart" button and listener.
              */
@@ -279,39 +281,24 @@ public class ItemPanel {
                 @SuppressLint("ApplySharedPref")
                 @Override
                 public void onClick(View v) {
-
                     /*
                      * Create a Shared Preference instance for maintaining persistent data.
                      * Also create the variables and method to hold and access/update the data.
                      */
                     SharedPreferences order_listPref = context.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE);
-                    String stringOrderList = order_listPref.getString(ORDER_LIST_KEY, null);
                     sharedPref_myEditor = context.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE).edit();
 
                     /*
-                     * Set up the Order List JSON-like string.
+                     * Set up the Shared Preference key to be modified.
                      */
-                    String tmpString1 = itemDialog_ID.getText().toString();
-                    tmpString1 += ":";
-                    String tmpString2 = itemDialog_EditText.getText().toString();
-                    tmpString1 += tmpString2;
+                    String itemKey = "item_";
+                    itemKey += itemDialog_ID.getText().toString();
+                    itemKey += "_key";
 
                     /*
-                     * Complete the Order List string based on whether this is the first item, or
-                     * the second or greater.
+                     * Write out the shared preference quantity value for the selected item.
                      */
-                    if (stringOrderList != null) {
-                        stringOrderList += ",";
-                        stringOrderList += tmpString1;
-                    }
-                    else {
-                        stringOrderList = tmpString1;
-                    }
-
-                    /*
-                     * Write out the shared preference Order List.
-                     */
-                    sharedPref_myEditor.putString(ORDER_LIST_KEY, stringOrderList);
+                    sharedPref_myEditor.putString(itemKey, itemDialog_EditText.getText().toString());
                     sharedPref_myEditor.commit();
 
                     itemDialog.dismiss();
@@ -346,6 +333,7 @@ public class ItemPanel {
             // Required override placeholder.
         }
 
+        @SuppressLint("DefaultLocale")
         @Override
         public void afterTextChanged(Editable editable) {
             /*

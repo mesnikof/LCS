@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tableLayout_Cart_Items"
     android:layout_width="match_parent"
@@ -34,8 +33,10 @@
 
         <TextView
             android:id="@+id/textView_Cart_ItemHeader"
-            android:layout_width="180dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
+            android:paddingStart="5dp"
+            android:paddingEnd="0dp"
             android:layout_weight="1"
             android:text="@string/label_item"
             android:textColor="#000000"
@@ -43,7 +44,7 @@
 
         <TextView
             android:id="@+id/textView_Cart_PriceHeader"
-            android:layout_width="50dp"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/label_price"
@@ -53,7 +54,7 @@
 
         <TextView
             android:id="@+id/textView_Cart_QtyHeader"
-            android:layout_width="50dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/label_qty"
@@ -63,8 +64,10 @@
 
         <TextView
             android:id="@+id/textView_Cart_TotalHeader"
-            android:layout_width="50dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
             android:layout_weight="1"
             android:text="@string/label_total"
             android:textAlignment="center"
@@ -80,7 +83,7 @@
 
         <TextView
             android:id="@+id/textView_Cart_D1"
-            android:layout_width="180dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/label_item_spacer"
@@ -90,7 +93,7 @@
 
         <TextView
             android:id="@+id/textView_Cart_D2"
-            android:layout_width="50dp"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/label_short_spacer"
@@ -100,7 +103,7 @@
 
         <TextView
             android:id="@+id/textView_Cart_D3"
-            android:layout_width="50dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/label_short_spacer"
@@ -110,7 +113,9 @@
 
         <TextView
             android:id="@+id/textView_Cart_D4"
-            android:layout_width="50dp"
+            android:layout_width="35dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/label_short_spacer"

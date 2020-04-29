@@ -9,6 +9,8 @@ package com.cs360.michaelmesnikoff.lcs;
 /*
  * First, import some needed libraries for thier internal methods.
  */
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
@@ -19,7 +21,19 @@ import android.os.Bundle;
  * Now declare the class, just to make things work.
  */
 public class SplashScreenActivity extends AppCompatActivity {
+    /*
+     * Create a Context instance variable.
+     */
+    Context context;
 
+    /*
+     * Create an instane of the Helpers class.
+     */
+    Helpers helpers;
+
+    /*
+     * Create and instantiate the variables used for utilizing the Shared Preference persistent data.
+     */
     protected static final String ORDER_STATUS_PREFS = "My_OrderStatus_Prefs";
     protected static final String ORDER_LIST_KEY = "order_list_key";
     SharedPreferences.Editor sharedPref_myEditor;
@@ -37,10 +51,18 @@ public class SplashScreenActivity extends AppCompatActivity {
      * splash screen displays.  No comments are contained in the layout
      * file.
      */
+    @SuppressLint("ApplySharedPref")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        /*
+         * Set up to completely exit the app when the "Logoff" button is pressed.
+         */
+        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean("EXIT", false)) {
+            finish();
+        }
 
         /*
          * Set up the "Action Bar" (the band along the top of the screen)
@@ -53,11 +75,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
 
         /*
+         * Instantiate the Helpers class.
+         */
+        helpers = new Helpers(this);
+
+        /*
          * Run the first-time-app-use database initialization tasks.  This will run
          * each time the app is started, but won't actually do anything f the database
          * and records already exist.
-         *
-         * ToDo: Add error and exception testing.
          */
         dbManager = new DBManager(SplashScreenActivity.this);
         dbManager.open();
@@ -68,7 +93,9 @@ public class SplashScreenActivity extends AppCompatActivity {
          *
          * First, create a Shared Preference instance for maintaining persistent data.
          * Then clear the Order List data.  Nte: This only takes place on app "ground-zero"
-         * startuo, not on app resume.  This is a deliberate design choice.
+         * startup, not on app resume.  This is a deliberate design choice.
+         *
+         * Finally, initialize the shopping cart shared preference values.
          */
         SharedPreferences order_listPref = this.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE);
         String stringOrderList = order_listPref.getString(ORDER_LIST_KEY, null);

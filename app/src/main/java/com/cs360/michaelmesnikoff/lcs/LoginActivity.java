@@ -49,7 +49,6 @@ import java.util.ArrayList;
 
 
 public class LoginActivity extends AppCompatActivity {
-
     /*
      * Create DBManager and DBHelper instances to access the LCS database for username/password info.
      */
@@ -118,6 +117,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         /*
+         * Set up to completely exit the app when the "Logoff" button is pressed.
+         */
+        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean("EXIT", false)) {
+            finish();
+        }
+
+        /*
          * Setup the activity view from the login layout.
          */
         setContentView(R.layout.activity_login);
@@ -130,7 +136,6 @@ public class LoginActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setIcon(R.mipmap.ic_launcher_round);
         }
-
 
 /*************************************************************************************************************/
 /*************************************************************************************************************/
@@ -362,7 +367,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Placeholder
+        /*
+         * Run the shopping cart initialization tasks.
+         */
+        Helpers helpers = new Helpers(this);
+        helpers.initialize_Shopping_Cart(this);
+
     }
 
 

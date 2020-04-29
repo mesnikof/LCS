@@ -20,6 +20,7 @@ import android.content.Intent;
 
 import android.support.v7.app.ActionBar;
 
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,7 +30,6 @@ import android.view.Window;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -163,6 +163,10 @@ public class MainActivity extends AppCompatActivity {
          * Instantiate the context variable.
          */
         context = this;
+
+        /*
+         * Instantiate the Helpers class.
+         */
         helpers = new Helpers(context);
 
         /*
@@ -218,7 +222,11 @@ public class MainActivity extends AppCompatActivity {
         button_Logoff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("EXIT", true);
+                startActivity(intent);
+                //finish();
             }
         });
 
@@ -309,6 +317,7 @@ public class MainActivity extends AppCompatActivity {
                                 //.image(imageUri);
                                 builder.show();
                             }
+
                             @Override
                             public void failure(TwitterException e) {
                                 Toast.makeText(getApplicationContext(), "Twitter Login failed..!!", Toast.LENGTH_SHORT).show();
@@ -368,8 +377,7 @@ public class MainActivity extends AppCompatActivity {
          */
         if (cursor.getCount() == 0) {
             Toast.makeText(MainActivity.this, "ITEMS database returned no data.", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             /*
              * Iterate through the returned database item information.
              * Perform the operations as documented below.
@@ -471,20 +479,59 @@ public class MainActivity extends AppCompatActivity {
                  */
                 helpers.set_Invisible(fab2, fab3, fab2_label, fab3_label);
 
-                SharedPreferences order_listPref = context.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE);
-                String stringOrderList = order_listPref.getString(ORDER_LIST_KEY, null);
-                sharedPref_cartEditor = context.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE).edit();
+                /*
+                 * First, get the number of database items.
+                 */
+                int numberOfItems = helpers.getNumberOfEntries(context, DBHelper.ITEMS_TABLE_NAME);
+
+                /*
+                 * Now iterate through the Shared Preference list of items.  If they are all zero
+                 * then the cart is empty,  Show the user an appropriate "Toast" message stating
+                 * that and exit this method back to the Main user activity.  If any of the items
+                 * are "not" zero then continue on and show the cart.
+                 */
+
+                 /*
+                  * First, create the variables used to generate the "Key" for the shared preference.
+                  */
+                 String stringItemPreface = "item_";
+                 String stringItemSuffix = "_key";
+                 String itemKey;
+                 String stringFlag = "0";
+
+                 /*
+                  * Now run a loop to create one "key:0" pair for each available item.
+                  */
+                 for (int counter = 1; counter <= numberOfItems; counter++) {
+                    /*
+                     * Create a "key" string.
+                     */
+                    itemKey = stringItemPreface;
+                    itemKey += Integer.toString(counter);
+                    itemKey += stringItemSuffix;
+
+                    /*
+                     * Now check each value to see if there are any non-zero.
+                     * if there are, set a flag and exit the for loop.
+                     */
+                    SharedPreferences cart_ItemPref = getSharedPreferences(MainActivity.ORDER_STATUS_PREFS, MODE_PRIVATE);
+                    stringFlag = cart_ItemPref.getString(itemKey, "0");
+                    if (stringFlag != "0") {
+                        showCartDialog();
+                        break;
+                    }
+                }
 
                 /*
                  * If the cart is empty, show a "Toast message" and exit the dialog back to the
                  * Main Activity user page.
                  */
-                if (stringOrderList == null) {
+                if (stringFlag == "0") {
                     Toast.makeText(getApplicationContext(), "Shopping Cart is empty.", Toast.LENGTH_LONG).show();
                     return;
                 }
                 else {
-                    openDialog();
+                    showCartDialog();
                 }
             }
         });
@@ -714,7 +761,22 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void openDialog() {
+    @SuppressLint({"DefaultLocale", "CommitPrefEdits"})
+    public void showCartDialog() {
+        /*
+         * Access the LCS database to get the ITEMS table info.
+         */
+        dbManager = new DBManager(context);
+        dbManager.open_read();
+
+        /*
+         * Create a Shared Preference instance for accessing the persistent data.
+         * Also create the variables and method to hold and access the data.
+         */
+        SharedPreferences order_listPref = context.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE);
+        String stringOrderList;
+        String stringOrderQuantity;
+        int intQuantity;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         Context dialogContext = builder.getContext();
@@ -724,79 +786,164 @@ public class MainActivity extends AppCompatActivity {
 
         TableLayout tl = alertView.findViewById(R.id.tableLayout_Cart_Items);
 
-        TableRow tr = new TableRow(dialogContext);
-        TableRow.LayoutParams trLp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.WRAP_CONTENT);
-        tr.setLayoutParams(trLp);
-        tr.setId(View.generateViewId());
-
-        // Set Message
-        TextView newItem = new TextView(dialogContext);
-        // Message Properties
-        newItem.setId(View.generateViewId());
-        //newItem.setWidth(Helpers.dpToPx(150));
-        newItem.setWidth(180);
-        newItem.setTextColor(Color.BLACK);
-        newItem.setTypeface(Typeface.DEFAULT_BOLD);
-        newItem.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        newItem.setText(R.string.label_item);
-
-        tr.addView(newItem);
-
-        // Set Message
-        TextView newPrice = new TextView(dialogContext);
-        // Message Properties
-        newPrice.setId(View.generateViewId());
-        newPrice.setId(View.generateViewId());
-        //newPrice.setWidth(Helpers.dpToPx(50));
-        newPrice.setWidth(50);
-        newPrice.setTextColor(Color.BLACK);
-        newPrice.setTypeface(Typeface.DEFAULT_BOLD);
-        newPrice.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        newPrice.setText(R.string.label_price);
-
-        tr.addView(newPrice);
-
-        // Set Message
-        EditText newQty = new EditText(dialogContext);
-        // Message Properties
-        newQty.setId(View.generateViewId());
-        //newQty.setWidth(Helpers.dpToPx(50));
-        newQty.setWidth(50);
-        newQty.setTextColor(Color.BLUE);
-        newQty.setTypeface(Typeface.DEFAULT_BOLD);
-        newQty.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        newQty.setText(R.string.label_qty);
-
-        tr.addView(newQty);
-
-        // Set Message
-        TextView newTotal = new TextView(dialogContext);
-        // Message Properties
-        newTotal.setId(View.generateViewId());
-        //newTotal.setWidth(Helpers.dpToPx(50));
-        newTotal.setWidth(50);
-        newTotal.setTextColor(Color.BLACK);
-        newTotal.setTypeface(Typeface.DEFAULT_BOLD);
-        newTotal.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        newTotal.setText(R.string.label_total);
-
-        tr.addView(newTotal);
+        /*
+         * Create variables to hold the pointers to the instances of the table rows and data fields.
+         */
+        TableRow tr;
+        //TableRow.LayoutParams trLp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.WRAP_CONTENT);
+        TableRow.LayoutParams trLp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, Helpers.pxToDp(25));
+        TextView newItem;
+        TextView newPrice;
+        EditText newQty;
+        TextView newTotal;
 
         /*
-        // Add the text boxes to the new row object.
-        trHeader.addView(newItem);
-        trHeader.addView(newPrice);
-        trHeader.addView(newQty);
-        trHeader.addView(newTotal);
+         * Get the number of database items.
+         */
+        int numberOfItems = helpers.getNumberOfEntries(this.context, DBHelper.ITEMS_TABLE_NAME);
 
-        // Add the new row to the dialog.
-        alertDialog.addContentView(trHeader, trLp);
-        */
+        /*
+         * Create the variables used to generate the "Key" for the shared preference.
+         */
+            String stringItemPreface = "item_";
+            String stringItemSuffix = "_key";
+            String itemKey;
 
-        tl.addView(tr);
+        /*
+         * Now run a loop to retrieve one "key:0" pair for each available item.
+         */
+        for (int counter = 1; counter <= numberOfItems; counter++) {
+            /*
+             * First, get the quantity of items for each individual item.
+             *
+             * For that we first build up the key string.
+             */
+            itemKey = stringItemPreface;
+            itemKey += Integer.toString(counter);
+            itemKey += stringItemSuffix;
+            stringOrderQuantity = order_listPref.getString(itemKey, null);
+            intQuantity = Integer.parseInt(stringOrderQuantity);
 
+            /*
+             * if the quantity is not zero, create the table row and add it to the table.
+             */
+            if (intQuantity != 0) {
+                /*
+                 * Query the items database to get the name and price for each ordered item.
+                 */
+                Cursor cursor = dbManager.row_fetch(DBHelper.ITEMS_TABLE_NAME, DBHelper.COLUMN_ID, Integer.toString(counter));
+
+                /*
+                 * Now parse that data into strings as reguired for the shopping cart view.
+                 */
+                String stringItemName = cursor.getString(cursor.getColumnIndex("item_name"));
+                float floatItemPrice = cursor.getFloat(cursor.getColumnIndex("item_price"));
+                String stringItemPrice = String.format("%.2f", floatItemPrice);
+                float floatTotalPrice = floatItemPrice * intQuantity;
+                String stringTotalPrice = String.format("%.2f", floatTotalPrice);
+
+                /*
+                 * Now create new TableRow, the four items for the row, loaded with the data parsed
+                 * above, and finally add the row to the TableLayout.
+                 */
+                tr = new TableRow(dialogContext);
+                tr.setLayoutParams(trLp);
+                tr.setPadding(20, 0, 50, 0);
+                tr.setId(View.generateViewId());
+
+                /*
+                 * Set up the Item Name section.
+                 */
+                newItem = new TextView(dialogContext);
+                // Message Properties
+                newItem.setId(View.generateViewId());
+                newItem.setLayoutParams(new TableRow.LayoutParams(600, 90, 1));
+                newItem.setTextColor(Color.BLACK);
+                newItem.setTypeface(Typeface.DEFAULT_BOLD);
+                newItem.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                newItem.setPadding(Helpers.pxToDp(20), 0, 0, 0);
+                newItem.setText(stringItemName);
+
+                /*
+                 * Add the Item Name to the table rox.
+                 */
+                tr.addView(newItem);
+
+                /*
+                 * Set up the Item Price section.
+                 */
+                newPrice = new TextView(dialogContext);
+                // Message Properties
+                newPrice.setId(View.generateViewId());
+                newPrice.setLayoutParams(new TableRow.LayoutParams(250, 90, 1));
+                newPrice.setTextColor(Color.BLACK);
+                newPrice.setTypeface(Typeface.DEFAULT_BOLD);
+                newPrice.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                newPrice.setPadding(Helpers.pxToDp(30), 0, 0, 0);
+                newPrice.setText(stringItemPrice);
+
+                /*
+                 * Add the Item Price to the table rox.
+                 */
+                tr.addView(newPrice);
+
+                /*
+                 * Set up the Item Quantity section.
+                 */
+                newQty = new EditText(dialogContext);
+                // Message Properties
+                newQty.setId(View.generateViewId());
+                newQty.setLayoutParams(new TableRow.LayoutParams(250, 90, 1));
+                newQty.setTextSize(14f);
+                newQty.setTextColor(Color.BLUE);
+                newQty.setTypeface(Typeface.DEFAULT_BOLD);
+                newQty.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                newQty.setFilters(new InputFilter[]{new InputFilter.LengthFilter(2)});
+                newQty.setPadding(Helpers.pxToDp(120), 0, 0, 0);
+                newQty.setText(stringOrderQuantity);
+
+                /*
+                 * Add the Item Quantity to the table rox.
+                 */
+                tr.addView(newQty);
+
+                /*
+                 * Set up the Item Total Price section.
+                 */
+                newTotal = new TextView(dialogContext);
+                // Message Properties
+                newTotal.setId(View.generateViewId());
+                newTotal.setLayoutParams(new TableRow.LayoutParams(350, 90, 1));
+                newTotal.setTextColor(Color.BLACK);
+                newTotal.setTypeface(Typeface.DEFAULT_BOLD);
+                newTotal.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                newTotal.setPadding(0, 0, 10, 0);
+                newTotal.setText(stringTotalPrice);
+
+                /*
+                 * Add the Item Total Price to the table rox.
+                 */
+                tr.addView(newTotal);
+
+                /*
+                 * Add the new row to the table.
+                 */
+                tl.addView(tr);
+            }
+        }
+
+        /*
+         * Now actually build the dialog in preparation for displaying it.
+         */
         builder.setCancelable(true);
         AlertDialog cartDialog = builder.create();
+
+        /*
+         * Create a series of variables, including several to represent layout items.
+         */
+        //ImageButton button_Back = cartDialog.findViewById(R.id.imageButton_Cart_Back);
+        //ImageButton button_Checkout = cartDialog.findViewById(R.id.imageButton_Cart_Checkout);
+        //ImageButton button_Discard = cartDialog.findViewById(R.id.imageButton_Cart_Discard);
 
         // Set Button
         // you can more buttons
@@ -812,14 +959,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*
+         * Finally, display the dialog to the user.
+         */
         cartDialog.show();
 
+        /*
+         * It seems counter-intuitive, but here we set the size of the dialog.  It has to be
+         * performed AFTER the dialog is actually created and built.  For us, we are setting
+         * the size to 95% (.95) of the available window, just so there is a bit of a "border"
+         * showing, to highlight the fact that we are in a dialog.
+         */
         Rect displayRectangle = new Rect();
         Window window = getWindow();
         window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
         cartDialog.getWindow().setLayout((int)(displayRectangle.width() * 0.95f), (int)(displayRectangle.height() * 0.95f));
 
-        // Set Properties for OK Button
+        /*
+         * Now set up the properties for the buttons displayed on the dialog.
+         */
         final Button okBT = cartDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
         LinearLayout.LayoutParams neutralBtnLP = (LinearLayout.LayoutParams) okBT.getLayoutParams();
         neutralBtnLP.gravity = Gravity.FILL_HORIZONTAL;
@@ -834,3 +992,31 @@ public class MainActivity extends AppCompatActivity {
         cancelBT.setLayoutParams(negBtnLP);
     }
 }
+
+/*
+ * The following stuff is left here as a referenc for future modifications.
+ */
+
+/*
+int counter = 4;
+
+newItem.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+newPrice.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+newQty.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+newTotal.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+
+/*
+ * Now set the onClick tasks.  For these buttons we will just pass the info from the
+ * selected item to the EditText items elsewhere in this view for acting on.
+ */
+/*
+itemButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        etItemName.setText(stringItemName);
+        etItemPrice.setText(stringItemPrice);
+        etItemID.setText(stringItemID);
+        Toast.makeText(context, "Selected", Toast.LENGTH_SHORT).show();
+    }
+}
+*/
