@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout_ChkOutLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cs360.michaelmesnikoff.lcs.CheckoutActivity">
+
+    <TextView
+        android:id="@+id/textView_ChkOutUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="username"
+        android:textColor="#0000FF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_ChkOutEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:ems="21"
+        android:hint="email address"
+        android:inputType="textEmailAddress"
+        android:textColor="#0000FF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_ChkOutUsername" />
+
+    <EditText
+        android:id="@+id/editText_ChkOutCard"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:digits="0123456789"
+        android:ems="16"
+        android:hint="card number"
+        android:inputType="number"
+        android:maxLength="16"
+        android:text="1234123412341234"
+        android:textColor="#0000FF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_ChkOutEmail" />
+
+    <EditText
+        android:id="@+id/editText_ChkOutCvv"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:digits="0123456789"
+        android:ems="4"
+        android:hint="cvv"
+        android:inputType="number"
+        android:maxLength="4"
+        android:textColor="#0000FF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_ChkOutCard" />
+
+    <EditText
+        android:id="@+id/editText_ChkOutExpire"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:digits="0123456789/"
+        android:ems="10"
+        android:hint="mm/yy"
+        android:inputType="number"
+        android:maxLength="5"
+        android:textColor="#0000FF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_ChkOutCvv" />
+
+    <TextView
+        android:id="@+id/textView_ChkOutPriceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/label_chkout_total_price"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_ChkOutExpire" />
+
+    <TextView
+        android:id="@+id/textView_ChkOutPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:hint="text view"
+        android:textColor="#FF0000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/textView_ChkOutPriceLabel"
+        app:layout_constraintTop_toBottomOf="@+id/editText_ChkOutExpire" />
+
+    <TextView
+        android:id="@+id/textView_ChkOutInstructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="10dp"
+        android:paddingEnd="24dp"
+        android:paddingStart="24dp"
+        android:text="@string/label_chk_out_instruct"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_ChkOutPriceLabel" />
+
+    <ImageButton
+        android:id="@+id/imageButton_ChkOutOrder"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:background="#FAFAFA"
+        android:onClick="onClickOrder"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/order_now"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/imageButton_ChkOutBack"
+        android:layout_width="76dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:background="#FAFAFA"
+        android:onClick="onClickBack"
+        android:paddingStart="16dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:srcCompat="@drawable/go_back_icon"
+        tools:ignore="ContentDescription" />
+
+</android.support.constraint.ConstraintLayout>

@@ -21,18 +21,18 @@ public class DBHelper extends SQLiteOpenHelper {
      * Create the table columns for later.
      */
     protected static final String COLUMN_ID = "_id";
-    private static final String ID_INFO = " INTEGER PRIMARY KEY AUTOINCREMENT";
-    private static final String COLUMN_USERNAME = "username";
-    private static final String COLUMN_PASSWORD = "password";
-    private static final String COLUMN_EMAIL = "email";
-    private static final String COLUMN_FAV_ORDER = "fav_order";
-    private static final String COLUMN_CARD = "card";
-    private static final String COLUMN_EXPIRE = "expire";
-    private static final String COLUMN_CVV = "cvv";
-    private static final String COLUMN_ITEM_NAME = "item_name";
-    private static final String COLUMN_ITEM_PRICE = "item_price";
-    private static final String COLUMN_ITEM_IMAGE_FILE = "item_image_file";
-    private static final String COLUMN_ITEM_IMAGE = "item_image";
+    protected static final String ID_INFO = " INTEGER PRIMARY KEY AUTOINCREMENT";
+    protected static final String COLUMN_USERNAME = "username";
+    protected static final String COLUMN_PASSWORD = "password";
+    protected static final String COLUMN_EMAIL = "email";
+    protected static final String COLUMN_FAV_ORDER = "fav_order";
+    protected static final String COLUMN_CARD = "card";
+    protected static final String COLUMN_EXPIRE = "expire";
+    protected static final String COLUMN_CVV = "cvv";
+    protected static final String COLUMN_ITEM_NAME = "item_name";
+    protected static final String COLUMN_ITEM_PRICE = "item_price";
+    protected static final String COLUMN_ITEM_IMAGE_FILE = "item_image_file";
+    protected static final String COLUMN_ITEM_IMAGE = "item_image";
     private static final String TEXT_TYPE = " TEXT";
     private static final String UINT_TYPE = " UNSIGNED BIG INT";
     private static final String INT_TYPE = " INT";

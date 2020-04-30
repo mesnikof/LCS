@@ -24,7 +24,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreenActivity" android:noHistory="true">
+        <activity
+            android:name=".SplashScreenActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,6 +48,16 @@
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="com.cs360.michaelmesnikoff.lcs.AdminActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CheckoutActivity"
+            android:label="@string/checkout_page_label"
+            android:windowSoftInputMode="adjustNothing">
+            <intent-filter>
+                <action android:name="com.cs360.michaelmesnikoff.lcs.CheckoutActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -81,10 +93,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name="com.twitter.sdk.android.core.identity.OAuthActivity">
-        </activity>
+        <activity android:name="com.twitter.sdk.android.core.identity.OAuthActivity" />
     </application>
 
 </manifest>

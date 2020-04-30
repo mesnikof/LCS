@@ -223,7 +223,7 @@ public class ItemPanel {
              * Note: The variable names are simplistic as they are block-local.
              */
             if (editable.toString().equals("")) {
-                strTotal = "";
+                strTotal = "0";
             }
             else {
                 int iiii = Integer.parseInt(strQuantity);
@@ -243,6 +243,20 @@ public class ItemPanel {
             itemDialog_ID.setText(strID);
 
             /*
+             * Set up a "Back" button and listener.
+             *
+             * If the "Back" button is clicked, close the custom dialog.
+             */
+            ImageButton dialogBackButton = itemDialog.findViewById(R.id.imageButton_IB_Back);
+            dialogBackButton.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint({"ApplySharedPref", "SetTextI18n"})
+                @Override
+                public void onClick(View v) {
+                    itemDialog.dismiss();
+                }
+            });
+
+            /*
              * Set up a "Discard" button and listener.
              *
              * If "Discard" button is clicked, clear the item and close the custom dialog.
@@ -258,7 +272,7 @@ public class ItemPanel {
                      * listener back on.
                      */
                     EtItemQuantity.removeTextChangedListener(textWatcher);
-                    EtItemQuantity.setText("");
+                    EtItemQuantity.setText("0");
                     EtItemQuantity.addTextChangedListener(textWatcher);
 
                     /*
@@ -268,11 +282,30 @@ public class ItemPanel {
                     itemDialog_EditText.setText("");
                     itemDialog_Total.setText("0.00");
                     itemDialog.dismiss();
+
+                    /*
+                     * Clear the value from the Shared Preferences entry.
+                     */
+                    SharedPreferences order_listPref = context.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE);
+                    sharedPref_myEditor = context.getSharedPreferences(ORDER_STATUS_PREFS, MODE_PRIVATE).edit();
+
+                    /*
+                     * Set up the Shared Preference key to be modified.
+                     */
+                    String itemKey = "item_";
+                    itemKey += itemDialog_ID.getText().toString();
+                    itemKey += "_key";
+
+                    /*
+                     * Write out the zeroed shared preference.
+                     */
+                    sharedPref_myEditor.putString(itemKey, "0");
+                    sharedPref_myEditor.commit();
+
                     Toast.makeText(context, "Dismissed..!!", Toast.LENGTH_SHORT).show();
                 }
             });
 
-//////////
             /*
              * Set up a "Add to Cart" button and listener.
              */
@@ -297,8 +330,14 @@ public class ItemPanel {
 
                     /*
                      * Write out the shared preference quantity value for the selected item.
+                     * If it is "" (null), write out a "0" (the integer zero).
                      */
-                    sharedPref_myEditor.putString(itemKey, itemDialog_EditText.getText().toString());
+                    if (itemDialog_EditText.getText().toString() == "") {
+                        sharedPref_myEditor.putString(itemKey, "0");
+                    }
+                    else {
+                        sharedPref_myEditor.putString(itemKey, itemDialog_EditText.getText().toString());
+                    }
                     sharedPref_myEditor.commit();
 
                     itemDialog.dismiss();
@@ -355,7 +394,7 @@ public class ItemPanel {
              * Parse the data from the quantity instance that called this dialog.
              */
             if (editable.toString().equals("")) {
-                strTotal = "";
+                strTotal = "0";
             }
             else {
                 int iiii = Integer.parseInt(editable.toString());

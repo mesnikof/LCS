@@ -37,7 +37,7 @@
         android:clickable="true"
         android:contentDescription="@string/label_submit"
         android:focusable="true"
-        android:src="@drawable/checkout"
+        android:src="@drawable/dollar_sign_icon"
         android:visibility="invisible"
         app:backgroundTint="@android:color/holo_red_light"
         app:layout_constraintEnd_toEndOf="parent"

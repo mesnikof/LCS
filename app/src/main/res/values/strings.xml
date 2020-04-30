@@ -4,6 +4,14 @@
     <string name="main_page_label">LCS - Main Page</string>
     <string name="login_page_label">LCS - Login Page</string>
     <string name="admin_page_label">LCS - Admin Page</string>
+    <string name="checkout_page_label">LCS - Checkout Page</string>
+
+    <string name="input_user_fragment_label">LCS - Input User Fragment</string>
+    <string name="product_fragment_label">LCS - Input Product Fragment</string>
+    <string name="lcs_input_item_button_label">LCS - Input Item</string>
+    <string name="lcs_input_user_button_label">LCS - Input User</string>
+    <string name="lcs_input_item_label">LCS - Input Item</string>
+    <string name="lcs_input_user_label">LCS - Input User</string>
 
     <string name="hello_world">Hello World!</string>
     <string name="login_world">Hello Login&#8230;</string>
@@ -36,6 +44,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="input_item_frag">inputProductFragment</string>
     <string name="input_user_frag">inputUserFragment</string>
+    <string name="re_login">Re-Login</string>
+    <string name="input_user">Users</string>
+    <string name="input_item">Items</string>
+    <string name="add_item_button_label">Add Item</string>
+
     <string name="u_incorrect">Username not found</string>
     <string name="p_incorrect">Password not correct</string>
     <string name="u_p_correct">Username/Password correct</string>
@@ -43,16 +56,7 @@
     <string name="admin_selected">Admin Selected&#8230;</string>
     <string name="item_added">Item record added.</string>
     <string name="db_insert_error">Database insert failed, Record not added.</string>
-    <string name="re_login">Re-Login</string>
-    <string name="input_user">Users</string>
-    <string name="input_item">Items</string>
-    <string name="input_user_fragment_label">LCS - Input User Fragment</string>
-    <string name="product_fragment_label">LCS - Input Product Fragment</string>
-    <string name="lcs_input_item_button_label">LCS - Input Item</string>
-    <string name="lcs_input_user_button_label">LCS - Input User</string>
-    <string name="lcs_input_item_label">LCS - Input Item</string>
-    <string name="lcs_input_user_label">LCS - Input User</string>
-    <string name="add_item_button_label">Add Item</string>
+    <string name="toast_database_no_data">USERS database returned no data.</string>
 
     <string name="string_welcome_prefix">Welcome:</string>
     <string name="string_unknown_user">Unknown User</string>
@@ -123,9 +127,12 @@
     <string name="label_price">Price</string>
     <string name="label_qty">Qty</string>
     <string name="label_total">Total</string>
+    <string name="label_total_price">Total Price:  </string>
+    <string name="label_quantity">Quantity</string>
     <string name="label_item_spacer">-------------------------</string>
     <string name="label_short_spacer">-----</string>
-
     <string name="separator_line">-------------------------------------------------------------------------------------------------------------------------------------------------------------------</string>
-    <string name="toast_database_no_data">USERS database returned no data.</string>
+    <string name="label_chk_out_instruct">To use the stored credit card information enter the CVV for security purposes. Otherwise, enter all the information from a different credit card.</string>
+    <string name="label_chkout_total_price">This order, Total Price:</string>
+
 </resources>

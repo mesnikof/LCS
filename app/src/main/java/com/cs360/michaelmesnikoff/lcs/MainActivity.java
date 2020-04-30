@@ -141,6 +141,12 @@ public class MainActivity extends AppCompatActivity {
      */
     protected static int scrollPos = 0;
 
+    /*
+     * Global variables for the dialogs.
+     */
+    protected AlertDialog.Builder builder;
+    protected AlertDialog cartDialog;
+
 
     /*
      * This is the basic onCreate method.  For the Main Activity this sets up
@@ -377,7 +383,13 @@ public class MainActivity extends AppCompatActivity {
          */
         if (cursor.getCount() == 0) {
             Toast.makeText(MainActivity.this, "ITEMS database returned no data.", Toast.LENGTH_LONG).show();
-        } else {
+        }
+        else {
+            /*
+             * Clear the itemsList ArrayList, required if this is a re-entry into the Main activity.
+             */
+            itemsList.clear();
+
             /*
              * Iterate through the returned database item information.
              * Perform the operations as documented below.
@@ -391,7 +403,8 @@ public class MainActivity extends AppCompatActivity {
                 final String stringItemID = Integer.toString(intItemID);
                 final String stringItemName = cursor.getString(cursor.getColumnIndex("item_name"));
                 float floatItemPrice = cursor.getFloat(cursor.getColumnIndex("item_price"));
-                final String stringItemPrice = Float.toString(floatItemPrice);
+                @SuppressLint("DefaultLocale") final String stringItemPrice = String.format("%.2f", floatItemPrice);
+                //final String stringItemPrice = Float.toString(floatItemPrice);
                 String stringItemImageFile;
                 stringItemImageFile = cursor.getString(cursor.getColumnIndex("item_image_file"));
                 if (stringItemImageFile == null) {
@@ -448,8 +461,7 @@ public class MainActivity extends AppCompatActivity {
                  * First, call the helper method to make the floating-sub-buttons visible.
                  */
                 helpers.set_Visible(fab2, fab3, fab2_label, fab3_label);
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -464,7 +476,13 @@ public class MainActivity extends AppCompatActivity {
                  */
                 helpers.set_Invisible(fab2, fab3, fab2_label, fab3_label);
 
-                Toast.makeText(MainActivity.this, "Checkout.", Toast.LENGTH_LONG).show();
+                /*
+                 Generate the Intent, then go to the Checkout Activity.
+                 */
+                Intent intent = new Intent("com.cs360.michaelmesnikoff.lcs.CheckoutActivity");
+                startActivity(intent);
+
+                //Toast.makeText(MainActivity.this, "Checkout.", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -648,7 +666,7 @@ public class MainActivity extends AppCompatActivity {
          */
         alertDialogBuilder.setPositiveButton("Email Us", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface arg0, int arg1) {
+            public void onClick(DialogInterface dialog, int which) {
                 // Email placeholder
                 button_ContactUs.callOnClick();
                 Toast.makeText(MainActivity.this, "You clicked over Email Us", Toast.LENGTH_SHORT).show();
@@ -673,8 +691,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*
+         * Now display the About Us dialog.
+         */
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+
+        /*
+         * Set up some display parameters for the dialog buttons.  Per Android requirements this
+         * must be done here, AFTER the dialog is created and displayed.
+         */
+        final Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        LinearLayout.LayoutParams positiveButtonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+        positiveButtonLL.weight = 1;
+        positiveButtonLL.gravity = Gravity.END;
+        positiveButton.setLayoutParams(positiveButtonLL);
+
+        final Button negativeButton = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+        LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
+        negativeButtonLL.weight = 1;
+        negativeButtonLL.gravity = Gravity.FILL_HORIZONTAL;
+        negativeButton.setLayoutParams(negativeButtonLL);
+
+        final Button neutralButton = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+        LinearLayout.LayoutParams neutralButtonLL = (LinearLayout.LayoutParams) neutralButton.getLayoutParams();
+        neutralButtonLL.weight = 1;
+        neutralButtonLL.gravity = Gravity.START;
+        neutralButton.setLayoutParams(neutralButtonLL);
     }
 
 
@@ -761,7 +804,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    @SuppressLint({"DefaultLocale", "CommitPrefEdits"})
+    @SuppressLint({"DefaultLocale", "CommitPrefEdits", "SetTextI18n"})
     public void showCartDialog() {
         /*
          * Access the LCS database to get the ITEMS table info.
@@ -778,12 +821,30 @@ public class MainActivity extends AppCompatActivity {
         String stringOrderQuantity;
         int intQuantity;
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        /*
+         * A float for the "grand total" price.  Initialized to zero;
+         */
+        float floatGrandTotal = 0;
+
+        /*
+         * Instantiate the new Alert Dialog.
+         */
+        builder = new AlertDialog.Builder(this);
         Context dialogContext = builder.getContext();
         LayoutInflater inflater = LayoutInflater.from(dialogContext);
         @SuppressLint("InflateParams") View alertView = inflater.inflate(R.layout.cart_dialog, null);
         builder.setView(alertView);
 
+        /*
+         * Create a series of variables, including several to represent layout items.
+         */
+        ImageButton button_Back = alertView.findViewById(R.id.imageButton_Cart_Back);
+        ImageButton button_Checkout = alertView.findViewById(R.id.imageButton_Cart_Checkout);
+        ImageButton button_Discard = alertView.findViewById(R.id.imageButton_Cart_Discard);
+
+        /*
+         * Point a TableLayout instance to the table layout in the specified layout xml file.
+         */
         TableLayout tl = alertView.findViewById(R.id.tableLayout_Cart_Items);
 
         /*
@@ -822,7 +883,12 @@ public class MainActivity extends AppCompatActivity {
             itemKey += Integer.toString(counter);
             itemKey += stringItemSuffix;
             stringOrderQuantity = order_listPref.getString(itemKey, null);
-            intQuantity = Integer.parseInt(stringOrderQuantity);
+            if (stringOrderQuantity.equals("")) {
+                intQuantity = 0;
+            }
+            else {
+                intQuantity = Integer.parseInt(stringOrderQuantity);
+            }
 
             /*
              * if the quantity is not zero, create the table row and add it to the table.
@@ -840,6 +906,7 @@ public class MainActivity extends AppCompatActivity {
                 float floatItemPrice = cursor.getFloat(cursor.getColumnIndex("item_price"));
                 String stringItemPrice = String.format("%.2f", floatItemPrice);
                 float floatTotalPrice = floatItemPrice * intQuantity;
+                floatGrandTotal += floatTotalPrice;
                 String stringTotalPrice = String.format("%.2f", floatTotalPrice);
 
                 /*
@@ -865,7 +932,7 @@ public class MainActivity extends AppCompatActivity {
                 newItem.setText(stringItemName);
 
                 /*
-                 * Add the Item Name to the table rox.
+                 * Add the Item Name to the table row.
                  */
                 tr.addView(newItem);
 
@@ -883,7 +950,7 @@ public class MainActivity extends AppCompatActivity {
                 newPrice.setText(stringItemPrice);
 
                 /*
-                 * Add the Item Price to the table rox.
+                 * Add the Item Price to the table row.
                  */
                 tr.addView(newPrice);
 
@@ -903,7 +970,7 @@ public class MainActivity extends AppCompatActivity {
                 newQty.setText(stringOrderQuantity);
 
                 /*
-                 * Add the Item Quantity to the table rox.
+                 * Add the Item Quantity to the table row.
                  */
                 tr.addView(newQty);
 
@@ -921,7 +988,7 @@ public class MainActivity extends AppCompatActivity {
                 newTotal.setText(stringTotalPrice);
 
                 /*
-                 * Add the Item Total Price to the table rox.
+                 * Add the Item Total Price to the table row.
                  */
                 tr.addView(newTotal);
 
@@ -931,33 +998,120 @@ public class MainActivity extends AppCompatActivity {
                 tl.addView(tr);
             }
         }
+        /*
+         * After the final table row put a final row in with the grand total.
+         *
+         * First create new TableRow and the two items for the row
+         */
+        tr = new TableRow(dialogContext);
+        tr.setLayoutParams(trLp);
+        tr.setPadding(20, 0, 50, 0);
+        tr.setId(View.generateViewId());
+
+        /*
+         * Now generate the two TextView fields.
+         */
+        newItem = new TextView(dialogContext);
+        // Message Properties
+        newItem.setId(View.generateViewId());
+        int totalId = newItem.getId();
+        newItem.setLayoutParams(new TableRow.LayoutParams(600, 90, 1));
+        newItem.setTextColor(Color.BLACK);
+        newItem.setTypeface(Typeface.DEFAULT_BOLD);
+        newItem.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        newItem.setPadding(Helpers.pxToDp(20), 0, 0, 0);
+        newItem.setText(R.string.label_total_price);
+
+        /*
+         * Add the label to the table row.  Then set the row to span 3 columns.
+         */
+        tr.addView(newItem);
+        trLp.span = 3;
+
+        /*
+         * Set up the Item Total Price section.
+         */
+        newTotal = new TextView(dialogContext);
+        // Message Properties
+        newTotal.setId(View.generateViewId());
+        newTotal.setLayoutParams(new TableRow.LayoutParams(350, 90, 1));
+        newTotal.setTextColor(Color.BLACK);
+        newTotal.setTypeface(Typeface.DEFAULT_BOLD);
+        newTotal.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        newTotal.setPadding(0, 0, 10, 0);
+        String stringTotalPrice = String.format("%.2f", floatGrandTotal);
+        newTotal.setText(stringTotalPrice);
+
+        /*
+         * Add the Item Total Price to the table rox.
+         */
+        tr.addView(newTotal);
+
+        /*
+         * Add the new row to the table.
+         */
+        tl.addView(tr, trLp);
 
         /*
          * Now actually build the dialog in preparation for displaying it.
          */
         builder.setCancelable(true);
-        AlertDialog cartDialog = builder.create();
+        final AlertDialog cartDialog = builder.create();
 
         /*
-         * Create a series of variables, including several to represent layout items.
+         * Setup the buttons.
          */
-        //ImageButton button_Back = cartDialog.findViewById(R.id.imageButton_Cart_Back);
-        //ImageButton button_Checkout = cartDialog.findViewById(R.id.imageButton_Cart_Checkout);
-        //ImageButton button_Discard = cartDialog.findViewById(R.id.imageButton_Cart_Discard);
+        button_Back.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                cartDialog.dismiss();
+                cartDialog.cancel();
+                return;
+                //Toast.makeText(getApplicationContext(), "Shopping Cart Dismissed..!!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        // Set Button
-        // you can more buttons
-        cartDialog.setButton(AlertDialog.BUTTON_NEUTRAL,"OK", new DialogInterface.OnClickListener() {
+        button_Discard.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                /*
+                 * Here we discard the entire shopping cart by resetting the Shared Preference
+                 * order data to all zeros, and then simply restarting the Main Activity.
+                 * This rebuilds the order entry panels, which causes them to be reset to zero
+                 * as well.  Not the cleanest method, but effective.
+                 */
+                helpers.initialize_Shopping_Cart(context);
+                Intent intent = new Intent("com.cs360.michaelmesnikoff.lcs.MainActivity");
+                startActivity(intent);
+                //Toast.makeText(getApplicationContext(), "Shopping Cart Dismissed..!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        button_Checkout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent("com.cs360.michaelmesnikoff.lcs.CheckoutActivity");
+                startActivity(intent);
+                //Toast.makeText(getApplicationContext(), "Shopping Cart Dismissed..!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        cartDialog.setButton(AlertDialog.BUTTON_POSITIVE,"Positive", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Placeholder
+            }
+        });
+
+        /*
+        cartDialog.setButton(AlertDialog.BUTTON_NEUTRAL,"Neutral", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // Perform Action on Button
             }
         });
 
-        cartDialog.setButton(AlertDialog.BUTTON_NEGATIVE,"CANCEL", new DialogInterface.OnClickListener() {
+        cartDialog.setButton(AlertDialog.BUTTON_NEGATIVE,"Negative ", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // Perform Action on Button
             }
         });
+        */
 
         /*
          * Finally, display the dialog to the user.
@@ -978,18 +1132,21 @@ public class MainActivity extends AppCompatActivity {
         /*
          * Now set up the properties for the buttons displayed on the dialog.
          */
-        final Button okBT = cartDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+        final Button okBT = cartDialog.getButton(AlertDialog.BUTTON_POSITIVE);
         LinearLayout.LayoutParams neutralBtnLP = (LinearLayout.LayoutParams) okBT.getLayoutParams();
         neutralBtnLP.gravity = Gravity.FILL_HORIZONTAL;
-        okBT.setPadding(50, 10, 10, 10);   // Set Position
-        okBT.setTextColor(Color.BLUE);
+        okBT.setPadding(0, 0, 0, 0);   // Set Position
+        okBT.setTextColor(Color.WHITE);
+        okBT.setTextSize(1);
         okBT.setLayoutParams(neutralBtnLP);
 
+        /*
         final Button cancelBT = cartDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         LinearLayout.LayoutParams negBtnLP = (LinearLayout.LayoutParams) okBT.getLayoutParams();
         negBtnLP.gravity = Gravity.FILL_HORIZONTAL;
         cancelBT.setTextColor(Color.RED);
         cancelBT.setLayoutParams(negBtnLP);
+        */
     }
 }
 

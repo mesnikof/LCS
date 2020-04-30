@@ -61,6 +61,9 @@ public class LoginActivity extends AppCompatActivity {
     ArrayList<String> usernames = new ArrayList<String>();
     ArrayList<String> passwords = new ArrayList<String>();
     ArrayList<String> emails = new ArrayList<String>();
+    ArrayList<String> cards = new ArrayList<String>();
+    ArrayList<String> cvvs = new ArrayList<String>();
+    ArrayList<String> expires = new ArrayList<String>();
 
     /*
      * Create a series of variables for use later dealing with the shared preferences.
@@ -169,6 +172,9 @@ public class LoginActivity extends AppCompatActivity {
             usernames.add(cursor.getString(cursor.getColumnIndex("username")));
             passwords.add(cursor.getString(cursor.getColumnIndex("password")));
             emails.add(cursor.getString(cursor.getColumnIndex("email")));
+            cards.add(cursor.getString(cursor.getColumnIndex("card")));
+            cvvs.add(cursor.getString(cursor.getColumnIndex("cvv")));
+            expires.add(cursor.getString(cursor.getColumnIndex("expire")));
 
             /*
              * The textDisplaySring is for test purposes only.  This is left in for future
@@ -181,6 +187,7 @@ public class LoginActivity extends AppCompatActivity {
             textDisplayString.concat(cursor.getString(cursor.getColumnIndex("email")));
             textDisplayString.concat("\n");
         } while (cursor.moveToNext());
+
         /*
          * The textDisplaySring is for test purposes only.  Left in for future testing.
          */
@@ -372,7 +379,6 @@ public class LoginActivity extends AppCompatActivity {
          */
         Helpers helpers = new Helpers(this);
         helpers.initialize_Shopping_Cart(this);
-
     }
 
 

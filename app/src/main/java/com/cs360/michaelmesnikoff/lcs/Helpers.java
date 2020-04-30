@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
@@ -207,5 +208,11 @@ public class Helpers extends MainActivity {
          * Now return the number of entries.
          */
         return numberOfItems;
+    }
+
+
+
+    public final static boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }
