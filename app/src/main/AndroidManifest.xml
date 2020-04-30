@@ -72,6 +72,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AdminStatusActivity"
+            android:label="LCS - Admin Status Page"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="com.cs360.michaelmesnikoff.lcs.AdminStatusActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

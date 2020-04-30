@@ -1,20 +1,19 @@
 package com.cs360.michaelmesnikoff.lcs;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CheckoutActivity extends AppCompatActivity {
     /*
@@ -339,10 +338,10 @@ public class CheckoutActivity extends AppCompatActivity {
              * an appropriate "Toast" message (generic for all fields in this case) and send the
              * user back to try again.
              */
-            if ( (etEmail.getText().toString().equals("")) ||
+            if ((etEmail.getText().toString().equals("")) ||
                     (etCard.getText().toString().equals("")) ||
                     (etCvv.getText().toString().equals("")) ||
-                    (etExpire.getText().toString().equals("")) ) {
+                    (etExpire.getText().toString().equals(""))) {
                 Toast.makeText(CheckoutActivity.this, "All fields ust be filled, please try again.", Toast.LENGTH_LONG).show();
                 return;
             }
@@ -352,11 +351,11 @@ public class CheckoutActivity extends AppCompatActivity {
              */
             int tmpInt1;
             int tmpInt2;
-            if ( (((tmpInt1 = etCard.getText().toString().length()) == 16) &&
-                  ((tmpInt2 = etCvv.getText().toString().length()) != 3)) ||
-                  (((tmpInt1 = etCard.getText().toString().length()) == 15) &&
-                  ((tmpInt2 = etCvv.getText().toString().length()) != 4)) ||
-                  ((tmpInt1 = etCard.getText().toString().length()) < 15) ) {
+            if ((((tmpInt1 = etCard.getText().toString().length()) == 16) &&
+                    ((tmpInt2 = etCvv.getText().toString().length()) != 3)) ||
+                    (((tmpInt1 = etCard.getText().toString().length()) == 15) &&
+                            ((tmpInt2 = etCvv.getText().toString().length()) != 4)) ||
+                    ((tmpInt1 = etCard.getText().toString().length()) < 15)) {
                 /*
                  * Something in either the card or cvv field is invalid.  Show an appropriate "Toast"
                  * message and return the user to try again.
@@ -391,14 +390,16 @@ public class CheckoutActivity extends AppCompatActivity {
              * this project.
              */
             String tmpStr = etExpire.getText().toString();
-            if ( !tmpStr.matches("\\d{2}/\\d{2}") ) {
+            //if ( !tmpStr.matches("^\\d{2}/\\d{2}$") ) {
+            boolean bTest = helpers.validateCardExpiryDate(tmpStr);
+            if (!bTest) {
                 /*
                  * Once again, if there is an invalidity here show a useful "Toast" message to the
                  * user and send them back to try again.
                  */
+                Toast.makeText(CheckoutActivity.this, "Expiration Date is invalid, please try again.", Toast.LENGTH_LONG).show();
+                return;
             }
-            Toast.makeText(CheckoutActivity.this, "Expiration Date is invalid, please try again.", Toast.LENGTH_LONG).show();
-            return;
         }
         /*
          * If we have made it this far all is well.  Process the order and let the user know what
@@ -427,6 +428,48 @@ public class CheckoutActivity extends AppCompatActivity {
 
 
     private int processOrder() {
-        return 1;
+        /*
+         * This is where we would actually perform the order tasks.  Sending something to the
+         * barristas to have them prepare the items, debiting the credit card and and makig the
+         * bank deposit, etc.  As we are not doing any of those things, all we do here is
+         * generate an order number for tracking purposes, and start the process-tracking steps.
+         */
+
+        String stringStatus;
+
+        /*
+         * First generate the timestamp that will be used as the order number.
+         */
+        Date timeStamp = new Date();
+        stringStatus = timeStamp.toString();
+
+        /*
+         * Now create the Shared Preference tools to store the various status info that is passed
+         * back and forth between the LCS staff and the user.
+         */
+        SharedPreferences order_statusPref = getSharedPreferences(MainActivity.ORDER_STATUS_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor order_StatusEditor = getSharedPreferences(MainActivity.ORDER_STATUS_PREFS, MODE_PRIVATE).edit();
+
+        /*
+         * Now, assuming the "preliminary" steps with processing the order are complete, write
+         * out the status so the user can see what is happening.
+         */
+        order_StatusEditor.putString("666", "Received");
+        order_StatusEditor.commit();
+
+        /*
+         * In a real-world app thee would be other stuff that might fail, as such there will be an
+         * if/else block here, but the "else" will never be reached at this point.
+         *
+         * Assuming everything passed, return the timestamp string as proof.
+         *
+         * For our purposes we will use a hardcoded int for ease of testing.
+         */
+        if (true) {
+            return 666;
+            //return timeStamp;
+        } else {
+            return 0;
+        }
     }
 }

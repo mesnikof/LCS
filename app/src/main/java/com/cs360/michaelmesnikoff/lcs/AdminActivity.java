@@ -146,4 +146,10 @@ public class AdminActivity extends AppCompatActivity {
         Toast.makeText(AdminActivity.this, "Back", Toast.LENGTH_SHORT).show();
     }
 
+
+    public void onUpdateStatusClick(View view) {
+        // Start the admin status update activity.
+        Intent intent = new Intent("com.cs360.michaelmesnikoff.lcs.AdminStatusActivity");
+        startActivity(intent);
+   }
 }

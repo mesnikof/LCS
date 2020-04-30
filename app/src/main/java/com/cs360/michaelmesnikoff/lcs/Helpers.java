@@ -212,7 +212,12 @@ public class Helpers extends MainActivity {
 
 
 
-    public final static boolean isValidEmail(CharSequence target) {
+    public boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
-}
+
+
+
+    public boolean validateCardExpiryDate(String expiryDate) {
+        return expiryDate.matches("(?:0[1-9]|1[0-2])/[0-9]{2}");
+    }}

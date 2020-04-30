@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     protected static final String LOGIN_SECRET_KEY = "login_secret_key";
     protected static final String ORDER_STATUS_PREFS = "My_OrderStatus_Prefs";
     protected static final String ORDER_LIST_KEY = "order_list_key";
+    protected static final String ORDER_STATUS_KEY = "order_status_key";
     SharedPreferences.Editor sharedPref_myEditor;
     SharedPreferences.Editor sharedPref_cartEditor;
 
